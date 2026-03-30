@@ -16,27 +16,27 @@
 body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden}
 
 /* NAV */
-.nav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:calc(var(--nav-h) + var(--safe-b));background:rgba(8,12,16,0.97);backdrop-filter:blur(20px);border-top:1px solid var(--bdr);display:flex;align-items:flex-start;padding-top:6px}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:200;height:calc(var(--nav-h) + var(--safe-b));background:rgba(8,12,16,0.97);backdrop-filter:blur(20px);border-top:1px solid var(--bdr);display:flex;align-items:flex-start;padding-top:6px}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;background:none;border:none;color:var(--muted);font-family:'Barlow',sans-serif;font-size:9px;font-weight:500;letter-spacing:0.04em;cursor:pointer;transition:color 0.2s;text-transform:uppercase}
 .nav-btn.active{color:var(--acc)}
 .nav-btn svg{width:22px;height:22px}
 
 /* SCREENS */
-.screen{display:none;padding:16px 16px calc(var(--nav-h) + var(--safe-b) + 16px);min-height:100dvh}
+.screen{display:none;position:fixed;inset:0;z-index:10;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch}
 .screen.active{display:block}
+#s-home{z-index:5;display:flex;flex-direction:column}
+#s-board,#s-stats,#s-cmp{padding:0 16px calc(var(--nav-h) + var(--safe-b) + 16px);padding-top:0}
 
 /* HOME SCREEN */
-#s-home{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:20px;padding-top:80px}
 .home-logo{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
 .home-title{font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:800;text-transform:uppercase;line-height:1;text-align:center}
 .home-sub{font-size:13px;color:var(--muted);letter-spacing:0.04em;text-align:center;margin-top:4px}
 .home-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:400px;margin-top:16px}
-.home-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:16px;padding:20px 16px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;overflow:hidden}
+.home-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:16px;padding:24px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;overflow:hidden}
 .home-card:active{background:var(--bg3)}
 .home-card.full{grid-column:1/-1}
-.home-card-icon{font-size:28px;line-height:1}
-.home-card-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:0.04em}
-.home-card-desc{font-size:11px;color:var(--muted);line-height:1.4}
+.home-card-title{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;text-transform:uppercase;letter-spacing:0.04em}
+.home-card-desc{font-size:13px;color:var(--muted);line-height:1.4}
 .home-card-accent{position:absolute;bottom:0;left:0;right:0;height:3px}
 
 /* SCREEN HEADERS */
@@ -117,7 +117,7 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-
 <body>
 
 <!-- HOME -->
-<div class="screen active" id="s-home">
+<div class="screen active" id="s-home" style="display:flex;flex-direction:column;justify-content:center;align-items:center;gap:20px;padding:80px 24px 40px;">
   <div class="home-logo">Tots al Blitz!</div>
   <div>
     <div class="home-title">NFL Draft<br>2026</div>
@@ -125,19 +125,19 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-
   </div>
   <div class="home-cards">
     <div class="home-card" onclick="goScreen('board')">
-      <div class="home-card-icon">📋</div>
+      
       <div class="home-card-title">Big Board</div>
       <div class="home-card-desc">100 jugadors ordenats per rank</div>
       <div class="home-card-accent" style="background:linear-gradient(90deg,#00d4a0,#00ff88)"></div>
     </div>
     <div class="home-card" onclick="goScreen('stats')">
-      <div class="home-card-icon">📊</div>
+      
       <div class="home-card-title">Estadístiques</div>
       <div class="home-card-desc">Ranking per posició i categoria</div>
       <div class="home-card-accent" style="background:linear-gradient(90deg,#5bb8ff,#c87cff)"></div>
     </div>
     <div class="home-card full" onclick="goScreen('cmp')">
-      <div class="home-card-icon">⚡</div>
+      
       <div class="home-card-title">Comparativa</div>
       <div class="home-card-desc">Compara dos jugadors cara a cara amb taula de stats i spider chart</div>
       <div class="home-card-accent" style="background:linear-gradient(90deg,#ff4a6e,#ff9a00,#ffd700)"></div>
@@ -191,11 +191,8 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-
 </div>
 
 <!-- BOTTOM NAV -->
-<nav class="nav">
-  <button class="nav-btn active" id="nav-home" onclick="goScreen('home')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
-    Inici
-  </button>
+<nav class="nav" style="display:none">
+
   <button class="nav-btn" id="nav-board" onclick="goScreen('board')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
     Big Board
@@ -219,106 +216,106 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-
 
 <script>
 const bigBoard = [
-  {r:1,n:'Caleb Downs',p:'S',u:'Ohio State Buckeyes',ht:'5-11',wt:'206',ras:9.35},
-  {r:2,n:'Arvell Reese',p:'LB',u:'Ohio State Buckeyes',ht:'6-4',wt:'241',ras:9.78},
-  {r:3,n:'Rueben Bain',p:'EDGE',u:'Miami Hurricanes',ht:'6-2',wt:'263'},
-  {r:4,n:'David Bailey',p:'EDGE',u:'Texas Tech Red Raiders',ht:'6-3',wt:'251',ras:9.41},
-  {r:5,n:'Jeremiyah Love',p:'RB',u:'Notre Dame Fighting Irish',ht:'6-0',wt:'212',ras:9.61},
-  {r:6,n:'Sonny Styles',p:'LB',u:'Ohio State Buckeyes',ht:'6-5',wt:'244',ras:9.99},
-  {r:7,n:'Francis Mauigoa',p:'OT',u:'Miami Hurricanes',ht:'6-5',wt:'329'},
-  {r:8,n:'Fernando Mendoza',p:'QB',u:'Indiana Hoosiers',ht:'6-5',wt:'236',ras:7.84},
-  {r:9,n:'Jordyn Tyson',p:'WR',u:'Arizona State Sun Devils',ht:'6-2',wt:'203'},
-  {r:10,n:'Carnell Tate',p:'WR',u:'Ohio State Buckeyes',ht:'6-2',wt:'192',ras:6.21},
-  {r:11,n:'Mansoor Delane',p:'CB',u:'LSU Tigers',ht:'6-0',wt:'187'},
-  {r:12,n:'Spencer Fano',p:'OT',u:'Utah Utes',ht:'6-5',wt:'311',ras:9.76},
-  {r:13,n:'Monroe Freeling',p:'OT',u:'Georgia Bulldogs',ht:'6-7',wt:'315',ras:9.99},
-  {r:14,n:'Makai Lemon',p:'WR',u:'USC Trojans',ht:'5-11',wt:'192'},
-  {r:15,n:'Jermod McCoy',p:'CB',u:'Tennessee Volunteers',ht:'6-1',wt:'188'},
-  {r:16,n:'Kenyon Sadiq',p:'TE',u:'Oregon Ducks',ht:'6-3',wt:'241',ras:9.58},
-  {r:17,n:'Olaivavega Ioane',p:'IOL',u:'Penn State Nittany Lions',ht:'6-4',wt:'320'},
-  {r:18,n:'Dillon Thieneman',p:'S',u:'Oregon Ducks',ht:'6-0',wt:'201',ras:9.67},
-  {r:19,n:'Keldric Faulk',p:'EDGE',u:'Auburn Tigers',ht:'6-6',wt:'276'},
-  {r:20,n:'Akheem Mesidor',p:'EDGE',u:'Miami Hurricanes',ht:'6-3',wt:'259'},
-  {r:21,n:'Kadyn Proctor',p:'OT',u:'Alabama Crimson Tide',ht:'6-6',wt:'352',ras:9.28},
-  {r:22,n:'Caleb Lomu',p:'OT',u:'Utah Utes',ht:'6-6',wt:'313',ras:9.88},
-  {r:23,n:'Avieon Terrell',p:'CB',u:'Clemson Tigers',ht:'5-11',wt:'186'},
-  {r:24,n:'Peter Woods',p:'DL',u:'Clemson Tigers',ht:'6-2',wt:'298'},
-  {r:25,n:'Emmanuel McNeil-Warren',p:'S',u:'Toledo Rockets',ht:'6-3',wt:'201'},
-  {r:26,n:'Omar Cooper Jr.',p:'WR',u:'Indiana Hoosiers',ht:'6-0',wt:'199'},
-  {r:27,n:'C.J. Allen',p:'LB',u:'Georgia Bulldogs',ht:'6-1',wt:'230'},
-  {r:28,n:'T.J. Parker',p:'EDGE',u:'Clemson Tigers',ht:'6-3',wt:'263'},
-  {r:29,n:'Denzel Boston',p:'WR',u:'Washington Huskies',ht:'6-3',wt:'212'},
-  {r:30,n:'Kevin Concepcion',p:'WR',u:'Texas A&M Aggies',ht:'5-11',wt:'196'},
-  {r:31,n:'Blake Miller',p:'OT',u:'Clemson Tigers',ht:'6-7',wt:'317',ras:9.94},
-  {r:32,n:'Kayden McDonald',p:'DL',u:'Ohio State Buckeyes',ht:'6-2',wt:'326'},
-  {r:33,n:'Caleb Banks',p:'DL',u:'Florida Gators',ht:'6-6',wt:'327'},
-  {r:34,n:'Cashius Howell',p:'EDGE',u:'Texas A&M Aggies',ht:'6-2',wt:'253'},
-  {r:35,n:'Anthony Hill Jr.',p:'LB',u:'Texas Longhorns',ht:'6-2',wt:'238',ras:8.89},
-  {r:36,n:'Colton Hood',p:'CB',u:'Tennessee Volunteers',ht:'5-11',wt:'193'},
-  {r:37,n:'Zion Young',p:'EDGE',u:'Missouri Tigers',ht:'6-6',wt:'262'},
-  {r:38,n:'Max Iheanachor',p:'OT',u:'Arizona State Sun Devils',ht:'6-6',wt:'321'},
-  {r:39,n:'Brandon Cisse',p:'CB',u:'South Carolina Gamecocks',ht:'6-0',wt:'189'},
-  {r:40,n:'Ty Simpson',p:'QB',u:'Alabama Crimson Tide',ht:'6-1',wt:'211'},
-  {r:41,n:'Lee Hunter',p:'DL',u:'Texas Tech Red Raiders',ht:'6-3',wt:'318'},
-  {r:42,n:'Emmanuel Pregnon',p:'IOL',u:'Oregon Ducks',ht:'6-4',wt:'314'},
-  {r:43,n:'Jacob Rodriguez',p:'LB',u:'Texas Tech Red Raiders',ht:'6-1',wt:'231',ras:9.12},
-  {r:44,n:'Chris Johnson',p:'CB',u:'San Diego State Aztecs',ht:'6-0',wt:'193'},
-  {r:45,n:'Chase Bisontis',p:'IOL',u:'Texas A&M Aggies',ht:'6-5',wt:'315'},
-  {r:46,n:'Malachi Lawrence',p:'EDGE',u:'UCF Knights',ht:'6-4',wt:'253',ras:9.21},
-  {r:47,n:'Christen Miller',p:'DL',u:'Georgia Bulldogs',ht:'6-4',wt:'321'},
-  {r:48,n:'R Mason Thomas',p:'EDGE',u:'Oklahoma Sooners',ht:'6-2',wt:'241'},
-  {r:49,n:'Jadarian Price',p:'RB',u:'Notre Dame Fighting Irish',ht:'5-10',wt:'203'},
-  {r:50,n:'Chris Bell',p:'WR',u:'Louisville Cardinals',ht:'6-2',wt:'222'},
-  {r:51,n:'Chris Brazzell',p:'WR',u:'Tennessee Volunteers',ht:'6-4',wt:'198'},
-  {r:52,n:'Jake Golday',p:'LB',u:'Cincinnati Bearcats',ht:'6-4',wt:'239'},
-  {r:53,n:'D\'angelo Ponds',p:'CB',u:'Indiana Hoosiers',ht:'5-8',wt:'182'},
-  {r:54,n:'Gabe Jacas',p:'EDGE',u:'Illinois Fighting Illini',ht:'6-3',wt:'260'},
-  {r:55,n:'Eli Stowers',p:'TE',u:'Vanderbilt Commodores',ht:'6-4',wt:'239'},
-  {r:56,n:'Germie Bernard',p:'WR',u:'Alabama Crimson Tide',ht:'6-1',wt:'206'},
-  {r:57,n:'A.J. Haulcy',p:'S',u:'LSU Tigers',ht:'5-11',wt:'215'},
-  {r:58,n:'Derrick Moore',p:'EDGE',u:'Michigan Wolverines',ht:'6-4',wt:'255'},
-  {r:59,n:'Gennings Dunker',p:'OT',u:'Iowa Hawkeyes',ht:'6-5',wt:'319'},
-  {r:60,n:'Josiah Trotter',p:'LB',u:'Missouri Tigers',ht:'6-2',wt:'237'},
-  {r:61,n:'Keionte Scott',p:'CB',u:'Miami Hurricanes',ht:'5-11',wt:'193'},
-  {r:62,n:'Keith Abney II',p:'CB',u:'Arizona State Sun Devils',ht:'5-10',wt:'187'},
-  {r:63,n:'Zachariah Branch',p:'WR',u:'Georgia Bulldogs',ht:'5-8',wt:'177'},
-  {r:64,n:'Malachi Fields',p:'WR',u:'Notre Dame Fighting Irish',ht:'6-4',wt:'218'},
-  {r:65,n:'Mike Washington Jr.',p:'RB',u:'Arkansas Razorbacks',ht:'6-1',wt:'223',ras:10.0},
-  {r:66,n:'Treydan Stukes',p:'CB',u:'Arizona Wildcats',ht:'6-0',wt:'190'},
-  {r:67,n:'Dani Dennis-Sutton',p:'EDGE',u:'Penn State Nittany Lions',ht:'6-5',wt:'256',ras:9.93},
-  {r:68,n:'Domonique Orange',p:'DL',u:'Iowa State Cyclones',ht:'6-2',wt:'322'},
-  {r:69,n:'Caleb Tiernan',p:'OT',u:'Northwestern Wildcats',ht:'6-7',wt:'323'},
-  {r:70,n:'Antonio Williams',p:'WR',u:'Clemson Tigers',ht:'5-11',wt:'187'},
-  {r:71,n:'Keylan Rutledge',p:'IOL',u:'Georgia Tech Yellow Jackets',ht:'6-3',wt:'316'},
-  {r:72,n:'Connor Lew',p:'IOL',u:'Auburn Tigers',ht:'6-3',wt:'310'},
-  {r:73,n:'Kamari Ramsey',p:'S',u:'USC Trojans',ht:'6-0',wt:'202'},
-  {r:74,n:'Sam Hecht',p:'IOL',u:'Kansas State Wildcats',ht:'6-4',wt:'303'},
-  {r:75,n:'Garrett Nussmeier',p:'QB',u:'LSU Tigers',ht:'6-1',wt:'203'},
-  {r:76,n:'Gracen Halton',p:'DL',u:'Oklahoma Sooners',ht:'6-2',wt:'293'},
-  {r:77,n:'Max Klare',p:'TE',u:'Ohio State Buckeyes',ht:'6-4',wt:'246'},
-  {r:78,n:'Elijah Sarratt',p:'WR',u:'Indiana Hoosiers',ht:'6-2',wt:'210'},
-  {r:79,n:'Kyle Louis',p:'LB',u:'Pittsburgh Panthers',ht:'6-0',wt:'220'},
-  {r:80,n:'Davison Igbinosun',p:'CB',u:'Ohio State Buckeyes',ht:'6-2',wt:'189'},
-  {r:81,n:'Genesis Smith',p:'S',u:'Arizona Wildcats',ht:'6-2',wt:'202'},
-  {r:82,n:'Romello Height',p:'EDGE',u:'Texas Tech Red Raiders',ht:'6-3',wt:'239'},
-  {r:83,n:'Zakee Wheatley',p:'S',u:'Penn State Nittany Lions',ht:'6-3',wt:'203'},
-  {r:84,n:'Ted Hurst',p:'WR',u:'Georgia State Panthers',ht:'6-4',wt:'206'},
-  {r:85,n:'Joshua Josephs',p:'EDGE',u:'Tennessee Volunteers',ht:'6-3',wt:'242'},
-  {r:86,n:'Darrell Jackson Jr.',p:'DL',u:'Florida State Seminoles',ht:'6-5',wt:'315'},
-  {r:87,n:'Bryce Lance',p:'WR',u:'North Dakota State Bison',ht:'6-3',wt:'204'},
-  {r:88,n:'Skyler Bell',p:'WR',u:'UConn Huskies',ht:'5-11',wt:'192'},
-  {r:89,n:'Jalon Kilgore',p:'S',u:'South Carolina Gamecocks',ht:'6-1',wt:'210',ras:9.97},
-  {r:90,n:'Julian Neal',p:'CB',u:'Arkansas Razorbacks',ht:'6-1',wt:'203'},
-  {r:91,n:'Jonah Coleman',p:'RB',u:'Washington Huskies',ht:'5-8',wt:'220'},
-  {r:92,n:'Deion Burks',p:'WR',u:'Oklahoma Sooners',ht:'5-10',wt:'180'},
-  {r:93,n:'Bud Clark',p:'S',u:'TCU Horned Frogs',ht:'6-1',wt:'188'},
-  {r:94,n:'Jaishawn Barham',p:'LB',u:'Michigan Wolverines',ht:'6-3',wt:'240'},
-  {r:95,n:'Chandler Rivers',p:'CB',u:'Duke Blue Devils',ht:'5-9',wt:'185'},
-  {r:96,n:'L.T. Overton',p:'EDGE',u:'Alabama Crimson Tide',ht:'6-3',wt:'274'},
-  {r:97,n:'Devin Moore',p:'CB',u:'Florida Gators',ht:'6-3',wt:'198'},
-  {r:98,n:'Keyron Crawford',p:'EDGE',u:'Auburn Tigers',ht:'6-4',wt:'253'},
-  {r:99,n:'Malik Muhammad',p:'CB',u:'Texas Longhorns',ht:'6-0',wt:'182'},
-  {r:100,n:'Drew Allar',p:'QB',u:'Penn State Nittany Lions',ht:'6-5',wt:'228'}
+  {r:1,n:'Caleb Downs',p:'S',u:'Ohio State Buckeyes',ht:'5-11',wt:'206',ras:9.35,desc:'Peça de escacs defensiva versàtil amb instint elit; genera jugades en tots els nivells del camp.'},
+  {r:2,n:'Arvell Reese',p:'LB',u:'Ohio State Buckeyes',ht:'6-4',wt:'241',ras:9.78,desc:'Jugador complet per a les tres situacions que frena la corsa i amenaça el passador amb atletisme d\'elit.'},
+  {r:3,n:'Rueben Bain',p:'EDGE',u:'Miami Hurricanes',ht:'6-2',wt:'263',desc:'Passrushador demolidor amb motor incansable i explosivitat d\'elit malgrat tenir uns braços historicament curts.'},
+  {r:4,n:'David Bailey',p:'EDGE',u:'Texas Tech Red Raiders',ht:'6-3',wt:'251',ras:9.41,desc:'El millor passrushador pur de la classe — explosiu, productiu i amb unes físiques al nivell de Von Miller.'},
+  {r:5,n:'Jeremiyah Love',p:'RB',u:'Notre Dame Fighting Irish',ht:'6-0',wt:'212',ras:9.61,desc:'Running back per a totes les situacions amb velocitat de 4.36, visió d\'elit i constant perill en la recepció.'},
+  {r:6,n:'Sonny Styles',p:'LB',u:'Ohio State Buckeyes',ht:'6-5',wt:'244',ras:9.99,desc:'Rendiment historic al combine (10/10 RAS); la seva combinació de mida i velocitat pot ancorar qualsevol defensa una dècada.'},
+  {r:7,n:'Olaivavega Ioane',p:'IOL',u:'Penn State Nittany Lions',ht:'6-4',wt:'320',desc:'Guard amb atletisme inusual per la seva mida; el millor lineman interior de la classe.'},
+  {r:8,n:'Fernando Mendoza',p:'QB',u:'Indiana Hoosiers',ht:'6-5',wt:'236',ras:7.84,desc:'Guanyador del Heisman amb consistència i precisió d\'elit als tres nivells; prototip de franquícia a la NFL.'},
+  {r:9,n:'Francis Mauigoa',p:'OT',u:'Miami Hurricanes',ht:'6-5',wt:'329',desc:'Tackle dret amb sostre d\'All-Pro; bloquejador de corsa dominant que podria acabar jugant de guard.'},
+  {r:10,n:'Jordyn Tyson',p:'WR',u:'Arizona State Sun Devils',ht:'6-2',wt:'203',desc:'Receptor exterior de gran cos amb capacitat de separació d\'elit; projecció de WR1 malgrat l\'historial de lesions.'},
+  {r:11,n:'Carnell Tate',p:'WR',u:'Ohio State Buckeyes',ht:'6-2',wt:'192',ras:6.21,desc:'Receptor de rutes precisament tècniques amb mans excel·lents; el més complet de la classe tècnicament.'},
+  {r:12,n:'Mansoor Delane',p:'CB',u:'LSU Tigers',ht:'6-0',wt:'187',desc:'El cornerback més fiable de la classe — fluid, llest i instintiu tant en cobertura home a home com en zona.'},
+  {r:13,n:'Spencer Fano',p:'OT',u:'Utah Utes',ht:'6-5',wt:'311',ras:9.76,desc:'Llisca pels exercicis amb agilitat lateral d\'elit; inici immediat com a tackle dret amb opció de guard.'},
+  {r:14,n:'Monroe Freeling',p:'OT',u:'Georgia Bulldogs',ht:'6-7',wt:'315',ras:9.99,desc:'Combine historic (9.99 RAS) amb mida prototípica i fluïdesa; el tackle esquerre del futur.'},
+  {r:15,n:'Makai Lemon',p:'WR',u:'USC Trojans',ht:'5-11',wt:'192',desc:'Receptor slot explosiu amb projecció d\'Amon-Ra St. Brown — elit en separació i guany posterior a la recepció.'},
+  {r:16,n:'Jermod McCoy',p:'CB',u:'Tennessee Volunteers',ht:'6-1',wt:'188',desc:'Talent de nivell estrella que torna d\'un trencament de LCA; habilitat amb la pilota i mida el projecten com a CB1.'},
+  {r:17,n:'Kenyon Sadiq',p:'TE',u:'Oregon Ducks',ht:'6-3',wt:'241',ras:9.58,desc:'El TE més ràpid al combine des del 2003 (4.39); malson de matchup que bloqueja i corre rutes igualment bé.'},
+  {r:18,n:'Dillon Thieneman',p:'S',u:'Oregon Ducks',ht:'6-0',wt:'201',ras:9.67,desc:'Safety defensiu d\'elit que juga en qualsevol posició — llegeix el passador tan bé com tanca la distància.'},
+  {r:19,n:'Keldric Faulk',p:'EDGE',u:'Auburn Tigers',ht:'6-6',wt:'276',desc:'Jove (21 anys) amb potencial sense explotar — longitud i atletisme rars al EDGE amb molt marge de millora.'},
+  {r:20,n:'Akheem Mesidor',p:'EDGE',u:'Miami Hurricanes',ht:'6-3',wt:'259',desc:'Passrushador acabat amb motor constant; l\'EDGE més productiu de la classe.'},
+  {r:21,n:'Kadyn Proctor',p:'OT',u:'Alabama Crimson Tide',ht:'6-6',wt:'352',ras:9.28,desc:'Tackle massiu amb atletisme sorprenent (9.28 RAS) per la seva mida; en desenvolupament però amb sostre d\'elit.'},
+  {r:22,n:'Caleb Lomu',p:'OT',u:'Utah Utes',ht:'6-6',wt:'313',ras:9.88,desc:'Tackle de peus ràpids amb mobilitat d\'elit (9.88 RAS) que va mostrar moviments de tackle esquerre al combine.'},
+  {r:23,n:'Avieon Terrell',p:'CB',u:'Clemson Tigers',ht:'5-11',wt:'186',desc:'Cornerback agressiu i físic que excel·leix en zona i va liderar l\'equip en TFL des de la posició de CB.'},
+  {r:24,n:'Peter Woods',p:'DL',u:'Clemson Tigers',ht:'6-2',wt:'298',desc:'Defensor de corsa d\'elit amb potencial de passrush; talent de primera ronda amb mesures del combine que van decebre.'},
+  {r:25,n:'Emmanuel McNeil-Warren',p:'S',u:'Toledo Rockets',ht:'6-3',wt:'201',desc:'Safety imposant amb fisicitat i versatilitat notables; producció de nivell mig que es transmet bé a la NFL.'},
+  {r:26,n:'Omar Cooper Jr.',p:'WR',u:'Indiana Hoosiers',ht:'6-0',wt:'199',desc:'Receptor slot d\'alt volum que excel·leix en el joc curt; la velocitat al combine (4.42) avala la cinta.'},
+  {r:27,n:'C.J. Allen',p:'LB',u:'Georgia Bulldogs',ht:'6-1',wt:'230',desc:'Linebacker instintiu amb velocitat de processament d\'elit; va liderar la defensa de Georgia amb tacleig constant.'},
+  {r:28,n:'T.J. Parker',p:'EDGE',u:'Clemson Tigers',ht:'6-3',wt:'263',desc:'Passrushador amb curvatura i tècnica d\'elit; rendiment consistent que guanya amb el joc de mans.'},
+  {r:29,n:'Denzel Boston',p:'WR',u:'Washington Huskies',ht:'6-3',wt:'212',desc:'Receptor d\'alçada i mans d\'elit amb guany posterior; el millor bloquejador entre WRs de la classe.'},
+  {r:30,n:'Kevin Concepcion',p:'WR',u:'Texas A&M Aggies',ht:'5-11',wt:'196',desc:'Monstre de guany posterior amb capacitat de deep threat; un dels receptors més perillosos amb la pilota.'},
+  {r:31,n:'Blake Miller',p:'OT',u:'Clemson Tigers',ht:'6-7',wt:'317',ras:9.94,desc:'Titular veterà de quatre anys amb un sorprenent 9.94 RAS; acabador d\'elit amb tècnica preparada per la NFL.'},
+  {r:32,n:'Kayden McDonald',p:'DL',u:'Ohio State Buckeyes',ht:'6-2',wt:'326',desc:'Disruptor interior amb atletisme inusual per la seva mida; projecció de 3-tech en múltiples esquemes defensius.'},
+  {r:33,n:'Caleb Banks',p:'DL',u:'Florida Gators',ht:'6-6',wt:'327',desc:'Envergadura d\'elit (la més llarga entre DTs des del 1999); mostra limitada per lesió però potencial immens.'},
+  {r:34,n:'Cashius Howell',p:'EDGE',u:'Texas A&M Aggies',ht:'6-2',wt:'253',desc:'Defensor de l\'any de la SEC amb producció d\'elit; supera uns braços historicament curts amb tècnica refinada.'},
+  {r:35,n:'Anthony Hill Jr.',p:'LB',u:'Texas Longhorns',ht:'6-2',wt:'238',ras:8.89,desc:'Linebacker atlètic amb bon combine (8.89 RAS) i producció sòlida en tots els aspectes a Texas.'},
+  {r:36,n:'Colton Hood',p:'CB',u:'Tennessee Volunteers',ht:'5-11',wt:'193',desc:'Cornerback físic amb atletisme d\'elit (40.5 vert, 4.44) i bona habilitat amb la pilota a la cinta.'},
+  {r:37,n:'Zion Young',p:'EDGE',u:'Missouri Tigers',ht:'6-6',wt:'262',desc:'Passrushador llarg i disruptiu amb longitud inusual i bona producció; molt marge de millora amb més repeticions.'},
+  {r:38,n:'Max Iheanachor',p:'OT',u:'Arizona State Sun Devils',ht:'6-6',wt:'321',desc:'Talent tardà amb atletisme d\'elit; un dels tackles amb més sostre en una classe profunda d\'OTs.'},
+  {r:39,n:'Brandon Cisse',p:'CB',u:'South Carolina Gamecocks',ht:'6-0',wt:'189',desc:'Cornerback físic que no tem el tacleig; nivell de competència alt amb producció de pilota que ho avala.'},
+  {r:40,n:'Ty Simpson',p:'QB',u:'Alabama Crimson Tide',ht:'6-1',wt:'211',desc:'QB dual threat que eleva el joc de corsa i competeix en cada jugada; ha de netejar la presa de decisions.'},
+  {r:41,n:'Lee Hunter',p:'DL',u:'Texas Tech Red Raiders',ht:'6-3',wt:'318',desc:'Nose tackle pur que engol bloqueigs i controla la línia de joc; defensor de corsa d\'elit.'},
+  {r:42,n:'Emmanuel Pregnon',p:'IOL',u:'Oregon Ducks',ht:'6-4',wt:'314',desc:'Guard atlètic amb 15 titularitats; bones mesures al combine que el projecten en esquemes de zone blocking.'},
+  {r:43,n:'Jacob Rodriguez',p:'LB',u:'Texas Tech Red Raiders',ht:'6-1',wt:'231',ras:9.12,desc:'Líder en tacles entre linebackers amb 128; agilitat d\'elit al combine per a un debut immediat a la NFL.'},
+  {r:44,n:'Chris Johnson',p:'CB',u:'San Diego State Aztecs',ht:'6-0',wt:'193',desc:'Atleta d\'elit al combine amb quatre INTs; CB de nivell mig que pot contribuir immediatament.'},
+  {r:45,n:'Chase Bisontis',p:'IOL',u:'Texas A&M Aggies',ht:'6-5',wt:'315',desc:'Lineman interior gran i fort amb cos per ancorar com a guard o center de potència a la NFL.'},
+  {r:46,n:'Malachi Lawrence',p:'EDGE',u:'UCF Knights',ht:'6-4',wt:'253',ras:9.21,desc:'Guanyador del combine (9.21 RAS); producció i atletisme avalen una selecció en les primeres rondes.'},
+  {r:47,n:'Christen Miller',p:'DL',u:'Georgia Bulldogs',ht:'6-4',wt:'321',desc:'Lineman interior corpulent amb bones mesures del pipeline defensiu profund de Georgia.'},
+  {r:48,n:'R Mason Thomas',p:'EDGE',u:'Oklahoma Sooners',ht:'6-2',wt:'241',desc:'Passrushador de reacció ràpida que guanya amb explosivitat i joc de mans; producció esperançadora en mostra reduïda.'},
+  {r:49,n:'Jadarian Price',p:'RB',u:'Notre Dame Fighting Irish',ht:'5-10',wt:'203',desc:'Running back complementari potent a Notre Dame; corre dur entre tackles amb bon equilibri sota el contacte.'},
+  {r:50,n:'Chris Bell',p:'WR',u:'Louisville Cardinals',ht:'6-2',wt:'222',desc:'Receptor gran i físic que guanya en disputa de pilota; projecta com a objectiu de possessió fiable a la NFL.'},
+  {r:51,n:'Chris Brazzell',p:'WR',u:'Tennessee Volunteers',ht:'6-4',wt:'198',desc:'Amenaça vertical alt amb velocitat d\'elit (4.37); va promediar 16.4 yards per recepció com a primera opció a Tennessee.'},
+  {r:52,n:'Jake Golday',p:'LB',u:'Cincinnati Bearcats',ht:'6-4',wt:'239',desc:'Linebacker de gran envergadura amb combine impressionant (4.62, 39 vert); combinació mida-atletisme d\'elit.'},
+  {r:53,n:'D\'angelo Ponds',p:'CB',u:'Indiana Hoosiers',ht:'5-8',wt:'182',desc:'Cornerback slot de petita estatura amb atletisme d\'elit (43.5 vert) i 11 passes defensades; juga molt per sobre la seva mida.'},
+  {r:54,n:'Gabe Jacas',p:'EDGE',u:'Illinois Fighting Illini',ht:'6-3',wt:'260',desc:'Doble dígit de sacks a la Big Ten; motor constant i alt coeficient de futbol el projecten bé a la NFL.'},
+  {r:55,n:'Eli Stowers',p:'TE',u:'Vanderbilt Commodores',ht:'6-4',wt:'239',desc:'Saltador rècord al combine (45.5 vert — rècord de TEs); atleta inusual a la posició.'},
+  {r:56,n:'Germie Bernard',p:'WR',u:'Alabama Crimson Tide',ht:'6-1',wt:'206',desc:'Receptor polivalent que excel·leix en joc curt amb la pilota a les mans; bon combine avala la cinta.'},
+  {r:57,n:'A.J. Haulcy',p:'S',u:'LSU Tigers',ht:'5-11',wt:'215',desc:'Safety físic amb excel·lent tacleig i instint de cobertura; líder en tacles a la secundaria de LSU.'},
+  {r:58,n:'Derrick Moore',p:'EDGE',u:'Michigan Wolverines',ht:'6-4',wt:'255',desc:'Doble dígit de sacks a la Big Ten amb longitud impressionant; projecta com a titular eventual al EDGE.'},
+  {r:59,n:'Gennings Dunker',p:'OT',u:'Iowa Hawkeyes',ht:'6-5',wt:'319',desc:'Tackle experimentat amb tècnica preparada per la NFL després de quatre anys de titular a Iowa.'},
+  {r:60,n:'Josiah Trotter',p:'LB',u:'Missouri Tigers',ht:'6-2',wt:'237',desc:'Linebacker de caràcter dur que tanca forats amb força; projecta com a parador de corsa fiable.'},
+  {r:61,n:'Keionte Scott',p:'CB',u:'Miami Hurricanes',ht:'5-11',wt:'193',desc:'Cornerback versàtil que va pressionar el passador efectivament (5 sacks); pot jugar en múltiples rols.'},
+  {r:62,n:'Keith Abney II',p:'CB',u:'Arizona State Sun Devils',ht:'5-10',wt:'187',desc:'Líder de la classe en PBUs amb 12; cornerback slot de reacció ràpida amb producció de pilota impressionant.'},
+  {r:63,n:'Zachariah Branch',p:'WR',u:'Georgia Bulldogs',ht:'5-8',wt:'177',desc:'Receptor slot explosiu amb agilitat d\'elit; 4.35 en el 40 i 81 recepcions a Georgia el 2025.'},
+  {r:64,n:'Malachi Fields',p:'WR',u:'Notre Dame Fighting Irish',ht:'6-4',wt:'218',desc:'Amenaça vertical alt que va promediar 17.5 yards per recepció; especialista en zona roja amb perill de gran jugada.'},
+  {r:65,n:'Mike Washington Jr.',p:'RB',u:'Arkansas Razorbacks',ht:'6-1',wt:'223',ras:10.0,desc:'RAS perfecte de 10.00 — el RB més ràpid del combine (4.33) amb temporada de 1.000 yards; RB3 de la classe.'},
+  {r:66,n:'Treydan Stukes',p:'CB',u:'Arizona Wildcats',ht:'6-0',wt:'190',desc:'Quatre INTs i un 4.33 en el 40; el cornerback més versàtil de la classe amb instint de jugades impressionant.'},
+  {r:67,n:'Dani Dennis-Sutton',p:'EDGE',u:'Penn State Nittany Lions',ht:'6-5',wt:'256',ras:9.93,desc:'El millor EDGE al combine (9.93 RAS); llarg i explosiu amb un arsenal de passrush refinat.'},
+  {r:68,n:'Domonique Orange',p:'DL',u:'Iowa State Cyclones',ht:'6-2',wt:'322',desc:'Presència interior massiva que obstrueix les vies de corsa; en desenvolupament com a passrushador però efectiu a la línia.'},
+  {r:69,n:'Caleb Tiernan',p:'OT',u:'Northwestern Wildcats',ht:'6-7',wt:'323',desc:'El tackle més alt de la classe amb 6 peus 7; titular experimentat amb mida i tècnica preparades per la NFL.'},
+  {r:70,n:'Antonio Williams',p:'WR',u:'Clemson Tigers',ht:'5-11',wt:'187',desc:'Receptor slot ràpid amb agilitat d\'elit (4.41, 39.5 vert); genera guany posterior en cada contacte.'},
+  {r:71,n:'Keylan Rutledge',p:'IOL',u:'Georgia Tech Yellow Jackets',ht:'6-3',wt:'316',desc:'Guard atlètic amb bon combine; 13 titularitats a Georgia Tech i projecció en esquemes de zone blocking.'},
+  {r:72,n:'Connor Lew',p:'IOL',u:'Auburn Tigers',ht:'6-3',wt:'310',desc:'Center/guard de gran potencial que va trencar el LCA però va mostrar capacitat de titular abans de la lesió.'},
+  {r:73,n:'Kamari Ramsey',p:'S',u:'USC Trojans',ht:'6-0',wt:'202',desc:'Safety atlètic de USC que projecta millor com a free safety de radi ample en un esquema de single-high.'},
+  {r:74,n:'Sam Hecht',p:'IOL',u:'Kansas State Wildcats',ht:'6-4',wt:'303',desc:'Lineman interior sòlid i fiable de Kansas State; tècnica correcta malgrat un atletisme al combine limitat.'},
+  {r:75,n:'Garrett Nussmeier',p:'QB',u:'LSU Tigers',ht:'6-1',wt:'203',desc:'Competidor encès que pot fer totes les llançades; mostra reduïda el 2025 però talent de braç alt a LSU.'},
+  {r:76,n:'Gracen Halton',p:'DL',u:'Oklahoma Sooners',ht:'6-2',wt:'293',desc:'Passrushador interior explosiu amb velocitat inusual (4.82) per la seva mida; va destellar com a passrushador.'},
+  {r:77,n:'Max Klare',p:'TE',u:'Ohio State Buckeyes',ht:'6-4',wt:'246',desc:'TE versàtil d\'Ohio State que excel·leix com a bloquejador; prou atlètic per ser una amenaça real en recepció.'},
+  {r:78,n:'Elijah Sarratt',p:'WR',u:'Indiana Hoosiers',ht:'6-2',wt:'210',desc:'Va liderar Indiana en TDs de recepció amb 15; corredor de rutes fluid amb gran connexió amb Mendoza.'},
+  {r:79,n:'Kyle Louis',p:'LB',u:'Pittsburgh Panthers',ht:'6-0',wt:'220',desc:'Linebacker d\'elit al combine (4.53, 39.5 vert, 6.97 tres cons) que produeix tant en tacleig com en pressió.'},
+  {r:80,n:'Davison Igbinosun',p:'CB',u:'Ohio State Buckeyes',ht:'6-2',wt:'189',desc:'Cornerback llarg i físic amb mida d\'elit que excel·leix en cobertura press; projecció de CB de banda exterior.'},
+  {r:81,n:'Genesis Smith',p:'S',u:'Arizona Wildcats',ht:'6-2',wt:'202',desc:'Líder de la classe en PBUs entre safeties amb 8; jugador instintiu que projecta com a free safety caçador.'},
+  {r:82,n:'Romello Height',p:'EDGE',u:'Texas Tech Red Raiders',ht:'6-3',wt:'239',desc:'Doble dígit de sacks i bon combine; saltador tardà que podria superar la seva posició al draft.'},
+  {r:83,n:'Zakee Wheatley',p:'S',u:'Penn State Nittany Lions',ht:'6-3',wt:'203',desc:'Safety de longitud inusual; projecta com a box safety que pot fer matchup amb tight ends.'},
+  {r:84,n:'Ted Hurst',p:'WR',u:'Georgia State Panthers',ht:'6-4',wt:'206',desc:'Més de 1.000 yards a Georgia State amb mida d\'elit; objectiu de gran costura amb sostre.'},
+  {r:85,n:'Joshua Josephs',p:'EDGE',u:'Tennessee Volunteers',ht:'6-3',wt:'242',desc:'Passrushador treballador amb bona producció; motor alt i instint el projecten com a contribuïdor en profunditat.'},
+  {r:86,n:'Darrell Jackson Jr.',p:'DL',u:'Florida State Seminoles',ht:'6-5',wt:'315',desc:'Lineman interior massiu amb longitud d\'elit; potencial parador de corsa que necessita desenvolupar el passrush.'},
+  {r:87,n:'Bryce Lance',p:'WR',u:'North Dakota State Bison',ht:'6-3',wt:'204',desc:'Fenomen de FCS amb atletisme d\'elit (4.34, 41.5 vert); ha de demostrar-se a nivell superior.'},
+  {r:88,n:'Skyler Bell',p:'WR',u:'UConn Huskies',ht:'5-11',wt:'192',desc:'Va liderar tots els WRs en recepcions (101) amb bon combine; objectiu d\'alt volum i fiable que produeix constantment.'},
+  {r:89,n:'Jalon Kilgore',p:'S',u:'South Carolina Gamecocks',ht:'6-1',wt:'210',ras:9.97,desc:'El millor safety al combine (9.97 RAS); va liderar la seva posició en PBUs amb 10 i projecta com a caçador.'},
+  {r:90,n:'Julian Neal',p:'CB',u:'Arkansas Razorbacks',ht:'6-1',wt:'203',desc:'Cornerback llarg i físic amb bon combine (4.49, 40 vert); projecció de CB de banda exterior.'},
+  {r:91,n:'Jonah Coleman',p:'RB',u:'Washington Huskies',ht:'5-8',wt:'220',desc:'Corredor potent en espai curt que va liderar l\'equip en TDs; corre dur i projecta com a especialista en curta distància.'},
+  {r:92,n:'Deion Burks',p:'WR',u:'Oklahoma Sooners',ht:'5-10',wt:'180',desc:'El WR més ràpid de la classe (4.30) amb atletisme d\'elit; arma polivalent que pot jugar a totes les posicions.'},
+  {r:93,n:'Bud Clark',p:'S',u:'TCU Horned Frogs',ht:'6-1',wt:'188',desc:'Quatre INTs i set PBUs; jugador instintiu que sempre apareix prop de la pilota a TCU.'},
+  {r:94,n:'Jaishawn Barham',p:'LB',u:'Michigan Wolverines',ht:'6-3',wt:'240',desc:'Linebacker gran i atlètic amb quatre sacks en acció limitada a Michigan; gran sostre amb més desenvolupament.'},
+  {r:95,n:'Chandler Rivers',p:'CB',u:'Duke Blue Devils',ht:'5-9',wt:'185',desc:'Cornerback petit però molt productiu que va liderar Duke en passes defensades; instint i caràcter competitiu d\'elit.'},
+  {r:96,n:'L.T. Overton',p:'EDGE',u:'Alabama Crimson Tide',ht:'6-3',wt:'274',desc:'Presència física al EDGE d\'Alabama; bon defensor de corsa que necessita desenvolupar les seves accions de passrush.'},
+  {r:97,n:'Devin Moore',p:'CB',u:'Florida Gators',ht:'6-3',wt:'198',desc:'Cornerback alt i llarg amb mida de prototip; en desenvolupament però les mesures d\'elit li donen gran sostre.'},
+  {r:98,n:'Keyron Crawford',p:'EDGE',u:'Auburn Tigers',ht:'6-4',wt:'253',desc:'Passrushador llarg i atlètic amb sostre; necessita desenvolupar el seu arsenal de passrush per arribar al seu potencial.'},
+  {r:99,n:'Malik Muhammad',p:'CB',u:'Texas Longhorns',ht:'6-0',wt:'182',desc:'Cornerback físic de Texas amb bon instint; projecta com a cornerback slot a nivell professional.'},
+  {r:100,n:'Drew Allar',p:'QB',u:'Penn State Nittany Lions',ht:'6-5',wt:'228',desc:'Mida prototípica amb potencial de titular; mostra limitada el 2025 per lesió però va destellar traits reals de NFL.'}
 ];const playerStats = {
   'Fernando Mendoza': ['3.535','41','72%'],
   'Ty Simpson': ['3.567','28','64.5%'],
@@ -576,6 +573,22 @@ const FBS_RECORDS_NEW = {
 };
 
 // ── HELPERS ───────────────────────────────────────────────────────────────
+
+// Smart short name: handles Jr., II, III, Sr.
+function shortName(fullName) {
+  const parts = fullName.trim().split(' ');
+  const suffixes = ['Jr.','Jr','Sr.','Sr','II','III','IV'];
+  // If last part is a suffix, use last-1 + suffix
+  if(parts.length >= 3 && suffixes.includes(parts[parts.length-1])) {
+    return parts[parts.length-2]+' '+parts[parts.length-1];
+  }
+  if(parts.length >= 2) {
+    // Check for duplicate surnames (handled at data level)
+    return parts[parts.length-1];
+  }
+  return fullName;
+}
+
 const POS_COLORS = {QB:'#00d4a0',RB:'#ff9a00',WR:'#c87cff',TE:'#ff7a4a',OT:'#5bb8ff',IOL:'#5bb8ff',EDGE:'#ff4a6e',DL:'#ff6b35',LB:'#ffd700',CB:'#00cfff',S:'#a8ff6e'};
 const POS_FULL = {QB:'Quarterback',RB:'Running Back',WR:'Wide Receiver',TE:'Tight End',OT:'Offensive Tackle',IOL:'Interior O-Line',EDGE:'Edge Rusher',DL:'Defensive Lineman',LB:'Linebacker',CB:'Cornerback',S:'Safety'};
 const POSITIONS = ['QB','RB','WR','TE','OT','IOL','EDGE','DL','LB','CB','S'];
@@ -612,6 +625,8 @@ function goScreen(s) {
   document.getElementById('s-'+s).classList.add('active');
   const nb = document.getElementById('nav-'+s);
   if(nb) nb.classList.add('active');
+  // Hide nav on home, show on all others
+  document.querySelector('.nav').style.display = s==='home' ? 'none' : 'flex';
   if(s==='stats' && !statsInited){initStats();statsInited=true;}
   if(s==='cmp' && !cmpInited){initCmp();cmpInited=true;}
 }
@@ -649,13 +664,21 @@ function renderBoard(){
   }).join('');
 }
 
+let sheetChart=null;
 function openSheet(idx){
   const p=bigBoard[idx];
   const col=POS_COLORS[p.p]||'#888';
   const defs=POS_STATS_DEF[p.p]||[];
   const vals=getStatValues(p.n,p.p);
   const statsHTML=defs.map((d,i)=>`<div class="s-stat"><span class="s-sv" style="color:${col}">${vals[i]!=null?vals[i]:'—'}</span><span class="s-sl">${d.l}</span></div>`).join('');
-  const parts=p.n.split(' ');
+  // Smart name split for sheet header
+  const nameParts=p.n.trim().split(' ');
+  const suffixes=['Jr.','Jr','Sr.','Sr','II','III','IV'];
+  const hasSuffix=suffixes.includes(nameParts[nameParts.length-1]);
+  const lastName=hasSuffix?nameParts.slice(-2).join(' '):nameParts[nameParts.length-1];
+  const firstPart=hasSuffix?nameParts.slice(0,-2).join(' '):nameParts.slice(0,-1).join(' ');
+  const parts=[firstPart||lastName, firstPart?lastName:''];
+  const descHTML=p.desc?`<div style="font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:14px;padding:10px 12px;background:rgba(255,255,255,0.04);border-radius:8px;border-left:2px solid ${col}">${p.desc}</div>`:'';
   document.getElementById('sheet-body').innerHTML=`
     <div class="s-ptag" style="color:${col}">${POS_FULL[p.p]||p.p}</div>
     <div class="s-name">${parts[0]}<br>${parts.slice(1).join(' ')}</div>
@@ -664,12 +687,52 @@ function openSheet(idx){
       <div class="bdg"><span style="color:var(--acc);font-weight:800">#${p.r}</span><span style="color:var(--muted);font-size:11px">Big board</span></div>
       <div class="bdg bdg-ras"><span style="color:${rasCol(p.ras)};font-weight:800">${p.ras!=null?p.ras.toFixed(2):'—'}</span><span style="color:var(--muted);font-size:11px">RAS</span></div>
     </div>
-    <div class="s-stats">${statsHTML}</div>`;
+    <div class="s-stats">${statsHTML}</div>
+    ${descHTML}
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Spider Chart</div>
+    <canvas id="sheet-spider" height="240" style="margin-bottom:4px"></canvas>
+    <div style="font-size:9px;color:var(--muted);text-align:center;margin-bottom:16px">% del rècord FBS single season</div>`;
   document.getElementById('sheet-ov').classList.add('open');
   document.getElementById('player-sheet').classList.add('open');
   document.body.style.overflow='hidden';
+  // Draw spider after DOM paint
+  requestAnimationFrame(()=>requestAnimationFrame(()=>drawSheetSpider(p,col,defs,vals)));
+}
+
+function drawSheetSpider(p,col,defs,vals){
+  const canvas=document.getElementById('sheet-spider');
+  if(!canvas)return;
+  if(sheetChart){sheetChart.destroy();sheetChart=null;}
+  const rec=FBS_RECORDS_NEW[p.p]||{};
+  const maxes=defs.map(d=>rec[d.k]||1);
+  const pcts=vals.map((v,i)=>{const n=parseFloat(v);return(!isNaN(n)&&maxes[i])?Math.min(100,Math.round(n/maxes[i]*100)):0;});
+  sheetChart=new Chart(canvas.getContext('2d'),{
+    type:'radar',
+    data:{
+      labels:defs.map(d=>d.l),
+      datasets:[{label:p.n,data:pcts,backgroundColor:col+'33',borderColor:col,borderWidth:2,pointBackgroundColor:col,pointRadius:4}]
+    },
+          options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      animation:{duration:200,easing:'easeOutQuart'},
+      events:[],
+      plugins:{
+        legend:{display:false},
+        tooltip:{enabled:false}
+      },
+      scales:{r:{
+        min:0,max:100,
+        ticks:{display:true,stepSize:25,color:'rgba(255,255,255,0.25)',font:{size:9},backdropColor:'transparent',callback:function(v){return v+'%';}},
+        grid:{color:'rgba(255,255,255,0.07)'},
+        angleLines:{color:'rgba(255,255,255,0.07)'},
+        pointLabels:{color:'rgba(255,255,255,0.65)',font:{size:10,family:'Barlow,sans-serif'}}
+      }}
+    }
+  });
 }
 function closeSheet(){
+  if(sheetChart){sheetChart.destroy();sheetChart=null;}
   document.getElementById('sheet-ov').classList.remove('open');
   document.getElementById('player-sheet').classList.remove('open');
   document.body.style.overflow='';
@@ -727,7 +790,7 @@ function renderStatBars(pos,catIdx){
   const max=rows[0].v||1;
   document.getElementById('stats-bars').innerHTML=rows.map(r=>{
     const pct=Math.round(r.v/max*100);
-    const last=r.name.split(' ').slice(-1)[0];
+    const last=shortName(r.name);
     return`<div class="rk-row"><div class="rk-lbl">#${r.rank} ${last}</div><div class="rk-bw"><div class="rk-b" style="width:${pct}%;background:${col}">${r.v}</div></div></div>`;
   }).join('');
 }
@@ -842,11 +905,11 @@ function renderCmp(){
     <div class="cmp-section">
       <div class="cmp-stitle">Estadístiques</div>
       <table class="cmp-table">
-        <thead><tr><th></th><th style="color:${col1}">${p1.n.split(' ').slice(-1)[0]}</th><th style="color:${col2}">${p2.n.split(' ').slice(-1)[0]}</th></tr></thead>
+        <thead><tr><th></th><th style="color:${col1}">${shortName(p1.n)}</th><th style="color:${col2}">${shortName(p2.n)}</th></tr></thead>
         <tbody>${tableRows}</tbody>
       </table>
     </div>
-    ${physRows?`<div class="cmp-section"><div class="cmp-stitle">Físic & Combine</div><table class="cmp-table"><thead><tr><th></th><th style="color:${col1}">${p1.n.split(' ').slice(-1)[0]}</th><th style="color:${col2}">${p2.n.split(' ').slice(-1)[0]}</th></tr></thead><tbody>${physRows}</tbody></table></div>`:''}
+    ${physRows?`<div class="cmp-section"><div class="cmp-stitle">Físic & Combine</div><table class="cmp-table"><thead><tr><th></th><th style="color:${col1}">${shortName(p1.n)}</th><th style="color:${col2}">${shortName(p2.n)}</th></tr></thead><tbody>${physRows}</tbody></table></div>`:''}
     <div class="cmp-section">
       <div class="cmp-stitle">Spider Chart — % del rècord FBS</div>
       <canvas id="cmp-spider" height="280"></canvas>
@@ -854,7 +917,7 @@ function renderCmp(){
     </div>`;
 
   // Render spider
-  setTimeout(()=>{
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
     const canvas=document.getElementById('cmp-spider');
     if(!canvas)return;
     if(cmpChart){cmpChart.destroy();cmpChart=null;}
@@ -868,18 +931,24 @@ function renderCmp(){
         ]
       },
       options:{
-        responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{display:false}},
-        scales:{r:{
-          min:0,max:100,
-          ticks:{display:true,stepSize:25,color:'rgba(255,255,255,0.3)',font:{size:9},backdropColor:'transparent',callback:v=>v+'%'},
-          grid:{color:'rgba(255,255,255,0.08)'},
-          angleLines:{color:'rgba(255,255,255,0.08)'},
-          pointLabels:{color:'rgba(255,255,255,0.65)',font:{size:10,family:'Barlow,sans-serif'}}
-        }}
-      }
+      responsive:true,
+      maintainAspectRatio:false,
+      animation:{duration:200,easing:'easeOutQuart'},
+      events:[],
+      plugins:{
+        legend:{display:false},
+        tooltip:{enabled:false}
+      },
+      scales:{r:{
+        min:0,max:100,
+        ticks:{display:true,stepSize:25,color:'rgba(255,255,255,0.25)',font:{size:9},backdropColor:'transparent',callback:function(v){return v+'%';}},
+        grid:{color:'rgba(255,255,255,0.07)'},
+        angleLines:{color:'rgba(255,255,255,0.07)'},
+        pointLabels:{color:'rgba(255,255,255,0.65)',font:{size:10,family:'Barlow,sans-serif'}}
+      }}
+    }
     });
-  },50);
+  }));
 }
 
 // ── PWA ───────────────────────────────────────────────────────────────────
