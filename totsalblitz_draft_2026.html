@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#080c10">
+<title>Tots al Blitz! — Draft 2026</title>
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#080c10;--bg2:#0f1520;--bg3:#161e2c;--bdr:rgba(255,255,255,0.08);--text:#e8edf3;--muted:rgba(255,255,255,0.4);--acc:#00d4a0;--nav-h:60px;--safe-b:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden}
+
+/* NAV */
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:calc(var(--nav-h) + var(--safe-b));background:rgba(8,12,16,0.97);backdrop-filter:blur(20px);border-top:1px solid var(--bdr);display:flex;align-items:flex-start;padding-top:6px}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;background:none;border:none;color:var(--muted);font-family:'Barlow',sans-serif;font-size:9px;font-weight:500;letter-spacing:0.04em;cursor:pointer;transition:color 0.2s;text-transform:uppercase}
+.nav-btn.active{color:var(--acc)}
+.nav-btn svg{width:22px;height:22px}
+
+/* SCREENS */
+.screen{display:none;padding:16px 16px calc(var(--nav-h) + var(--safe-b) + 16px);min-height:100dvh}
+.screen.active{display:block}
+
+/* HOME SCREEN */
+#s-home{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:20px;padding-top:80px}
+.home-logo{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
+.home-title{font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:800;text-transform:uppercase;line-height:1;text-align:center}
+.home-sub{font-size:13px;color:var(--muted);letter-spacing:0.04em;text-align:center;margin-top:4px}
+.home-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:400px;margin-top:16px}
+.home-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:16px;padding:20px 16px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;overflow:hidden}
+.home-card:active{background:var(--bg3)}
+.home-card.full{grid-column:1/-1}
+.home-card-icon{font-size:28px;line-height:1}
+.home-card-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:0.04em}
+.home-card-desc{font-size:11px;color:var(--muted);line-height:1.4}
+.home-card-accent{position:absolute;bottom:0;left:0;right:0;height:3px}
+
+/* SCREEN HEADERS */
+.sh{padding:52px 0 16px;display:flex;align-items:flex-end;justify-content:space-between}
+.sh-title{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;text-transform:uppercase;line-height:1}
+.sh-sub{font-size:11px;color:var(--muted);letter-spacing:0.06em}
+
+/* SEARCH & FILTERS */
+.search-wrap{position:relative;margin-bottom:10px}
+.search-wrap input{width:100%;background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;color:var(--text);padding:10px 14px 10px 38px;font-size:14px;font-family:'Barlow',sans-serif;outline:none}
+.search-wrap input:focus{border-color:var(--acc)}
+.search-wrap input::placeholder{color:var(--muted)}
+.si{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);width:16px;height:16px;pointer-events:none}
+.filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;margin-bottom:4px}
+.filters::-webkit-scrollbar{display:none}
+.fc{flex-shrink:0;background:var(--bg2);border:1px solid var(--bdr);color:var(--muted);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;letter-spacing:0.05em;transition:all 0.15s}
+.fc.on{background:var(--acc);border-color:var(--acc);color:#051a12}
+
+/* BIG BOARD */
+.pr{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;cursor:pointer;transition:background 0.12s;margin-bottom:4px}
+.pr:active{background:var(--bg3)}
+.pr-rank{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;min-width:28px;text-align:center;line-height:1}
+.pr-info{flex:1;min-width:0}
+.pr-name{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pr-uni{font-size:11px;color:var(--muted);margin-top:1px}
+.pr-pos{font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px;flex-shrink:0}
+.pr-ras{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;min-width:36px;text-align:right;flex-shrink:0}
+
+/* SHEET */
+.sh-ov{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px)}
+.sh-ov.open{display:block}
+.sheet{position:fixed;bottom:0;left:0;right:0;z-index:201;background:var(--bg2);border-radius:20px 20px 0 0;border-top:1px solid var(--bdr);padding:20px 20px calc(var(--safe-b)+24px);transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0,0.08,1);max-height:92dvh;overflow-y:auto}
+.sheet.open{transform:translateY(0)}
+.s-handle{width:36px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin:0 auto 18px}
+.s-ptag{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:4px}
+.s-name{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;line-height:1.05;margin-bottom:2px}
+.s-meta{font-size:12px;color:var(--muted);margin-bottom:14px}
+.s-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:14px}
+.s-stat{background:var(--bg3);border-radius:8px;padding:10px 4px;text-align:center;border:1px solid var(--bdr)}
+.s-sv{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;display:block;line-height:1}
+.s-sl{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:3px;display:block}
+.s-bdg{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.bdg{padding:5px 12px;border-radius:7px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px;background:rgba(0,212,160,0.1);border:1px solid rgba(0,212,160,0.25)}
+.bdg-ras{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12)}
+
+/* STATS SCREEN */
+.sel{width:100%;background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;color:var(--text);padding:10px 14px;font-size:14px;font-family:'Barlow',sans-serif;outline:none;appearance:none;margin-bottom:12px}
+.stat-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;margin-bottom:14px}
+.stat-tabs::-webkit-scrollbar{display:none}
+.stab{flex-shrink:0;padding:5px 12px;border-radius:20px;background:var(--bg2);border:1px solid var(--bdr);color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;transition:all 0.15s}
+.stab.on{background:var(--acc);border-color:var(--acc);color:#051a12}
+.rk-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:12px}
+.rk-lbl{min-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px;color:var(--muted)}
+.rk-bw{flex:1;background:var(--bg3);border-radius:4px;height:22px;overflow:hidden}
+.rk-b{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:7px;font-size:10px;font-weight:700;color:#051a12;min-width:32px}
+
+/* COMPARATIVA SCREEN */
+.cmp-selectors{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.cmp-sel-wrap{flex:1;min-width:140px}
+.cmp-lbl{font-size:10px;color:var(--muted);margin-bottom:5px;letter-spacing:0.06em;text-transform:uppercase}
+.cmp-table{width:100%;border-collapse:collapse;margin-top:8px}
+.cmp-table th{font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);padding:6px 8px;text-align:center;border-bottom:1px solid var(--bdr)}
+.cmp-table th:first-child{text-align:left}
+.cmp-table td{padding:9px 8px;text-align:center;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.cmp-table td:first-child{text-align:left;font-size:11px;color:var(--muted);font-weight:500;letter-spacing:0.04em}
+.cmp-table .best{font-weight:800}
+.cmp-section{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:14px;margin-bottom:12px}
+.cmp-stitle{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.cmp-warn{background:rgba(255,154,0,0.1);border:1px solid rgba(255,154,0,0.3);border-radius:8px;padding:10px 14px;font-size:12px;color:#ff9a00;margin-bottom:12px;display:none}
+
+/* POS COLORS */
+.c-QB{color:#00d4a0}.c-RB{color:#ff9a00}.c-WR{color:#c87cff}.c-TE{color:#ff7a4a}
+.c-OT,.c-IOL{color:#5bb8ff}.c-EDGE{color:#ff4a6e}.c-DL{color:#ff6b35}
+.c-LB{color:#ffd700}.c-CB{color:#00cfff}.c-S{color:#a8ff6e}
+.ras-hi{color:#00d4a0}.ras-md{color:#ffd700}.ras-lo{color:#ff9a00}.ras-bd{color:#ff4a6e}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div class="screen active" id="s-home">
+  <div class="home-logo">Tots al Blitz!</div>
+  <div>
+    <div class="home-title">NFL Draft<br>2026</div>
+    <div class="home-sub">Pittsburgh · Abril 23–25</div>
+  </div>
+  <div class="home-cards">
+    <div class="home-card" onclick="goScreen('board')">
+      <div class="home-card-icon">📋</div>
+      <div class="home-card-title">Big Board</div>
+      <div class="home-card-desc">100 jugadors ordenats per rank</div>
+      <div class="home-card-accent" style="background:linear-gradient(90deg,#00d4a0,#00ff88)"></div>
+    </div>
+    <div class="home-card" onclick="goScreen('stats')">
+      <div class="home-card-icon">📊</div>
+      <div class="home-card-title">Estadístiques</div>
+      <div class="home-card-desc">Ranking per posició i categoria</div>
+      <div class="home-card-accent" style="background:linear-gradient(90deg,#5bb8ff,#c87cff)"></div>
+    </div>
+    <div class="home-card full" onclick="goScreen('cmp')">
+      <div class="home-card-icon">⚡</div>
+      <div class="home-card-title">Comparativa</div>
+      <div class="home-card-desc">Compara dos jugadors cara a cara amb taula de stats i spider chart</div>
+      <div class="home-card-accent" style="background:linear-gradient(90deg,#ff4a6e,#ff9a00,#ffd700)"></div>
+    </div>
+  </div>
+</div>
+
+<!-- BIG BOARD -->
+<div class="screen" id="s-board">
+  <div class="sh">
+    <div><div class="sh-title">Big Board</div><div class="sh-sub">NFL Draft 2026 · Tots al Blitz!</div></div>
+    <div class="sh-sub" id="bb-count" style="color:var(--acc);font-weight:600"></div>
+  </div>
+  <div class="search-wrap">
+    <svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="bb-search" placeholder="Cerca jugador…">
+  </div>
+  <div class="filters" id="bb-filters"></div>
+  <div id="bb-list"></div>
+</div>
+
+<!-- ESTADÍSTIQUES -->
+<div class="screen" id="s-stats">
+  <div class="sh"><div class="sh-title">Estadístiques</div></div>
+  <select class="sel" id="stats-pos" onchange="onStatsPosChange()"></select>
+  <div class="stat-tabs" id="stats-cats"></div>
+  <div id="stats-bars"></div>
+</div>
+
+<!-- COMPARATIVA -->
+<div class="screen" id="s-cmp">
+  <div class="sh"><div class="sh-title">Comparativa</div></div>
+  <div class="cmp-selectors">
+    <div class="cmp-sel-wrap">
+      <div class="cmp-lbl">Posició</div>
+      <select class="sel" id="cmp-pos" onchange="onCmpPosChange()" style="margin-bottom:0"></select>
+    </div>
+  </div>
+  <div class="cmp-selectors" style="margin-top:8px">
+    <div class="cmp-sel-wrap">
+      <div class="cmp-lbl">Jugador 1</div>
+      <select class="sel" id="cmp-p1" onchange="renderCmp()" style="margin-bottom:0"></select>
+    </div>
+    <div class="cmp-sel-wrap">
+      <div class="cmp-lbl">Jugador 2</div>
+      <select class="sel" id="cmp-p2" onchange="renderCmp()" style="margin-bottom:0"></select>
+    </div>
+  </div>
+  <div class="cmp-warn" id="cmp-warn">Selecciona dos jugadors de la mateixa posició per comparar bé les stats.</div>
+  <div id="cmp-content" style="margin-top:14px"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="nav">
+  <button class="nav-btn active" id="nav-home" onclick="goScreen('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+    Inici
+  </button>
+  <button class="nav-btn" id="nav-board" onclick="goScreen('board')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+    Big Board
+  </button>
+  <button class="nav-btn" id="nav-stats" onclick="goScreen('stats')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+    Stats
+  </button>
+  <button class="nav-btn" id="nav-cmp" onclick="goScreen('cmp')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="12" r="7"/><circle cx="15" cy="12" r="7"/></svg>
+    Comparativa
+  </button>
+</nav>
+
+<!-- PLAYER SHEET -->
+<div class="sh-ov" id="sheet-ov" onclick="closeSheet()"></div>
+<div class="sheet" id="player-sheet">
+  <div class="s-handle"></div>
+  <div id="sheet-body"></div>
+</div>
+
+<script>
+const bigBoard = [
+  {r:1,n:'Caleb Downs',p:'S',u:'Ohio State Buckeyes',ht:'5-11',wt:'206',ras:9.35},
+  {r:2,n:'Arvell Reese',p:'LB',u:'Ohio State Buckeyes',ht:'6-4',wt:'241',ras:9.78},
+  {r:3,n:'Rueben Bain',p:'EDGE',u:'Miami Hurricanes',ht:'6-2',wt:'263'},
+  {r:4,n:'David Bailey',p:'EDGE',u:'Texas Tech Red Raiders',ht:'6-3',wt:'251',ras:9.41},
+  {r:5,n:'Jeremiyah Love',p:'RB',u:'Notre Dame Fighting Irish',ht:'6-0',wt:'212',ras:9.61},
+  {r:6,n:'Sonny Styles',p:'LB',u:'Ohio State Buckeyes',ht:'6-5',wt:'244',ras:9.99},
+  {r:7,n:'Francis Mauigoa',p:'OT',u:'Miami Hurricanes',ht:'6-5',wt:'329'},
+  {r:8,n:'Fernando Mendoza',p:'QB',u:'Indiana Hoosiers',ht:'6-5',wt:'236',ras:7.84},
+  {r:9,n:'Jordyn Tyson',p:'WR',u:'Arizona State Sun Devils',ht:'6-2',wt:'203'},
+  {r:10,n:'Carnell Tate',p:'WR',u:'Ohio State Buckeyes',ht:'6-2',wt:'192',ras:6.21},
+  {r:11,n:'Mansoor Delane',p:'CB',u:'LSU Tigers',ht:'6-0',wt:'187'},
+  {r:12,n:'Spencer Fano',p:'OT',u:'Utah Utes',ht:'6-5',wt:'311',ras:9.76},
+  {r:13,n:'Monroe Freeling',p:'OT',u:'Georgia Bulldogs',ht:'6-7',wt:'315',ras:9.99},
+  {r:14,n:'Makai Lemon',p:'WR',u:'USC Trojans',ht:'5-11',wt:'192'},
+  {r:15,n:'Jermod McCoy',p:'CB',u:'Tennessee Volunteers',ht:'6-1',wt:'188'},
+  {r:16,n:'Kenyon Sadiq',p:'TE',u:'Oregon Ducks',ht:'6-3',wt:'241',ras:9.58},
+  {r:17,n:'Olaivavega Ioane',p:'IOL',u:'Penn State Nittany Lions',ht:'6-4',wt:'320'},
+  {r:18,n:'Dillon Thieneman',p:'S',u:'Oregon Ducks',ht:'6-0',wt:'201',ras:9.67},
+  {r:19,n:'Keldric Faulk',p:'EDGE',u:'Auburn Tigers',ht:'6-6',wt:'276'},
+  {r:20,n:'Akheem Mesidor',p:'EDGE',u:'Miami Hurricanes',ht:'6-3',wt:'259'},
+  {r:21,n:'Kadyn Proctor',p:'OT',u:'Alabama Crimson Tide',ht:'6-6',wt:'352',ras:9.28},
+  {r:22,n:'Caleb Lomu',p:'OT',u:'Utah Utes',ht:'6-6',wt:'313',ras:9.88},
+  {r:23,n:'Avieon Terrell',p:'CB',u:'Clemson Tigers',ht:'5-11',wt:'186'},
+  {r:24,n:'Peter Woods',p:'DL',u:'Clemson Tigers',ht:'6-2',wt:'298'},
+  {r:25,n:'Emmanuel McNeil-Warren',p:'S',u:'Toledo Rockets',ht:'6-3',wt:'201'},
+  {r:26,n:'Omar Cooper Jr.',p:'WR',u:'Indiana Hoosiers',ht:'6-0',wt:'199'},
+  {r:27,n:'C.J. Allen',p:'LB',u:'Georgia Bulldogs',ht:'6-1',wt:'230'},
+  {r:28,n:'T.J. Parker',p:'EDGE',u:'Clemson Tigers',ht:'6-3',wt:'263'},
+  {r:29,n:'Denzel Boston',p:'WR',u:'Washington Huskies',ht:'6-3',wt:'212'},
+  {r:30,n:'Kevin Concepcion',p:'WR',u:'Texas A&M Aggies',ht:'5-11',wt:'196'},
+  {r:31,n:'Blake Miller',p:'OT',u:'Clemson Tigers',ht:'6-7',wt:'317',ras:9.94},
+  {r:32,n:'Kayden McDonald',p:'DL',u:'Ohio State Buckeyes',ht:'6-2',wt:'326'},
+  {r:33,n:'Caleb Banks',p:'DL',u:'Florida Gators',ht:'6-6',wt:'327'},
+  {r:34,n:'Cashius Howell',p:'EDGE',u:'Texas A&M Aggies',ht:'6-2',wt:'253'},
+  {r:35,n:'Anthony Hill Jr.',p:'LB',u:'Texas Longhorns',ht:'6-2',wt:'238',ras:8.89},
+  {r:36,n:'Colton Hood',p:'CB',u:'Tennessee Volunteers',ht:'5-11',wt:'193'},
+  {r:37,n:'Zion Young',p:'EDGE',u:'Missouri Tigers',ht:'6-6',wt:'262'},
+  {r:38,n:'Max Iheanachor',p:'OT',u:'Arizona State Sun Devils',ht:'6-6',wt:'321'},
+  {r:39,n:'Brandon Cisse',p:'CB',u:'South Carolina Gamecocks',ht:'6-0',wt:'189'},
+  {r:40,n:'Ty Simpson',p:'QB',u:'Alabama Crimson Tide',ht:'6-1',wt:'211'},
+  {r:41,n:'Lee Hunter',p:'DL',u:'Texas Tech Red Raiders',ht:'6-3',wt:'318'},
+  {r:42,n:'Emmanuel Pregnon',p:'IOL',u:'Oregon Ducks',ht:'6-4',wt:'314'},
+  {r:43,n:'Jacob Rodriguez',p:'LB',u:'Texas Tech Red Raiders',ht:'6-1',wt:'231',ras:9.12},
+  {r:44,n:'Chris Johnson',p:'CB',u:'San Diego State Aztecs',ht:'6-0',wt:'193'},
+  {r:45,n:'Chase Bisontis',p:'IOL',u:'Texas A&M Aggies',ht:'6-5',wt:'315'},
+  {r:46,n:'Malachi Lawrence',p:'EDGE',u:'UCF Knights',ht:'6-4',wt:'253',ras:9.21},
+  {r:47,n:'Christen Miller',p:'DL',u:'Georgia Bulldogs',ht:'6-4',wt:'321'},
+  {r:48,n:'R Mason Thomas',p:'EDGE',u:'Oklahoma Sooners',ht:'6-2',wt:'241'},
+  {r:49,n:'Jadarian Price',p:'RB',u:'Notre Dame Fighting Irish',ht:'5-10',wt:'203'},
+  {r:50,n:'Chris Bell',p:'WR',u:'Louisville Cardinals',ht:'6-2',wt:'222'},
+  {r:51,n:'Chris Brazzell',p:'WR',u:'Tennessee Volunteers',ht:'6-4',wt:'198'},
+  {r:52,n:'Jake Golday',p:'LB',u:'Cincinnati Bearcats',ht:'6-4',wt:'239'},
+  {r:53,n:'D\'angelo Ponds',p:'CB',u:'Indiana Hoosiers',ht:'5-8',wt:'182'},
+  {r:54,n:'Gabe Jacas',p:'EDGE',u:'Illinois Fighting Illini',ht:'6-3',wt:'260'},
+  {r:55,n:'Eli Stowers',p:'TE',u:'Vanderbilt Commodores',ht:'6-4',wt:'239'},
+  {r:56,n:'Germie Bernard',p:'WR',u:'Alabama Crimson Tide',ht:'6-1',wt:'206'},
+  {r:57,n:'A.J. Haulcy',p:'S',u:'LSU Tigers',ht:'5-11',wt:'215'},
+  {r:58,n:'Derrick Moore',p:'EDGE',u:'Michigan Wolverines',ht:'6-4',wt:'255'},
+  {r:59,n:'Gennings Dunker',p:'OT',u:'Iowa Hawkeyes',ht:'6-5',wt:'319'},
+  {r:60,n:'Josiah Trotter',p:'LB',u:'Missouri Tigers',ht:'6-2',wt:'237'},
+  {r:61,n:'Keionte Scott',p:'CB',u:'Miami Hurricanes',ht:'5-11',wt:'193'},
+  {r:62,n:'Keith Abney II',p:'CB',u:'Arizona State Sun Devils',ht:'5-10',wt:'187'},
+  {r:63,n:'Zachariah Branch',p:'WR',u:'Georgia Bulldogs',ht:'5-8',wt:'177'},
+  {r:64,n:'Malachi Fields',p:'WR',u:'Notre Dame Fighting Irish',ht:'6-4',wt:'218'},
+  {r:65,n:'Mike Washington Jr.',p:'RB',u:'Arkansas Razorbacks',ht:'6-1',wt:'223',ras:10.0},
+  {r:66,n:'Treydan Stukes',p:'CB',u:'Arizona Wildcats',ht:'6-0',wt:'190'},
+  {r:67,n:'Dani Dennis-Sutton',p:'EDGE',u:'Penn State Nittany Lions',ht:'6-5',wt:'256',ras:9.93},
+  {r:68,n:'Domonique Orange',p:'DL',u:'Iowa State Cyclones',ht:'6-2',wt:'322'},
+  {r:69,n:'Caleb Tiernan',p:'OT',u:'Northwestern Wildcats',ht:'6-7',wt:'323'},
+  {r:70,n:'Antonio Williams',p:'WR',u:'Clemson Tigers',ht:'5-11',wt:'187'},
+  {r:71,n:'Keylan Rutledge',p:'IOL',u:'Georgia Tech Yellow Jackets',ht:'6-3',wt:'316'},
+  {r:72,n:'Connor Lew',p:'IOL',u:'Auburn Tigers',ht:'6-3',wt:'310'},
+  {r:73,n:'Kamari Ramsey',p:'S',u:'USC Trojans',ht:'6-0',wt:'202'},
+  {r:74,n:'Sam Hecht',p:'IOL',u:'Kansas State Wildcats',ht:'6-4',wt:'303'},
+  {r:75,n:'Garrett Nussmeier',p:'QB',u:'LSU Tigers',ht:'6-1',wt:'203'},
+  {r:76,n:'Gracen Halton',p:'DL',u:'Oklahoma Sooners',ht:'6-2',wt:'293'},
+  {r:77,n:'Max Klare',p:'TE',u:'Ohio State Buckeyes',ht:'6-4',wt:'246'},
+  {r:78,n:'Elijah Sarratt',p:'WR',u:'Indiana Hoosiers',ht:'6-2',wt:'210'},
+  {r:79,n:'Kyle Louis',p:'LB',u:'Pittsburgh Panthers',ht:'6-0',wt:'220'},
+  {r:80,n:'Davison Igbinosun',p:'CB',u:'Ohio State Buckeyes',ht:'6-2',wt:'189'},
+  {r:81,n:'Genesis Smith',p:'S',u:'Arizona Wildcats',ht:'6-2',wt:'202'},
+  {r:82,n:'Romello Height',p:'EDGE',u:'Texas Tech Red Raiders',ht:'6-3',wt:'239'},
+  {r:83,n:'Zakee Wheatley',p:'S',u:'Penn State Nittany Lions',ht:'6-3',wt:'203'},
+  {r:84,n:'Ted Hurst',p:'WR',u:'Georgia State Panthers',ht:'6-4',wt:'206'},
+  {r:85,n:'Joshua Josephs',p:'EDGE',u:'Tennessee Volunteers',ht:'6-3',wt:'242'},
+  {r:86,n:'Darrell Jackson Jr.',p:'DL',u:'Florida State Seminoles',ht:'6-5',wt:'315'},
+  {r:87,n:'Bryce Lance',p:'WR',u:'North Dakota State Bison',ht:'6-3',wt:'204'},
+  {r:88,n:'Skyler Bell',p:'WR',u:'UConn Huskies',ht:'5-11',wt:'192'},
+  {r:89,n:'Jalon Kilgore',p:'S',u:'South Carolina Gamecocks',ht:'6-1',wt:'210',ras:9.97},
+  {r:90,n:'Julian Neal',p:'CB',u:'Arkansas Razorbacks',ht:'6-1',wt:'203'},
+  {r:91,n:'Jonah Coleman',p:'RB',u:'Washington Huskies',ht:'5-8',wt:'220'},
+  {r:92,n:'Deion Burks',p:'WR',u:'Oklahoma Sooners',ht:'5-10',wt:'180'},
+  {r:93,n:'Bud Clark',p:'S',u:'TCU Horned Frogs',ht:'6-1',wt:'188'},
+  {r:94,n:'Jaishawn Barham',p:'LB',u:'Michigan Wolverines',ht:'6-3',wt:'240'},
+  {r:95,n:'Chandler Rivers',p:'CB',u:'Duke Blue Devils',ht:'5-9',wt:'185'},
+  {r:96,n:'L.T. Overton',p:'EDGE',u:'Alabama Crimson Tide',ht:'6-3',wt:'274'},
+  {r:97,n:'Devin Moore',p:'CB',u:'Florida Gators',ht:'6-3',wt:'198'},
+  {r:98,n:'Keyron Crawford',p:'EDGE',u:'Auburn Tigers',ht:'6-4',wt:'253'},
+  {r:99,n:'Malik Muhammad',p:'CB',u:'Texas Longhorns',ht:'6-0',wt:'182'},
+  {r:100,n:'Drew Allar',p:'QB',u:'Penn State Nittany Lions',ht:'6-5',wt:'228'}
+];const playerStats = {
+  'Fernando Mendoza': ['3.535','41','72%'],
+  'Ty Simpson': ['3.567','28','64.5%'],
+  'Garrett Nussmeier': ['1.927','12','67.4%'],
+  'Drew Allar': ['1.100','8','64.8%'],
+  'Jeremiyah Love': ['1.372','18','6.9'],
+  'Jadarian Price': ['674','11','6.0'],
+  'Mike Washington Jr.': ['1.070','8','6.4'],
+  'Jonah Coleman': ['758','15','4.9'],
+  'Carnell Tate': ['875','9','51'],
+  'Jordyn Tyson': ['711','8','61'],
+  'Makai Lemon': ['1.156','11','79'],
+  'Omar Cooper Jr.': ['937','13','69'],
+  'Denzel Boston': ['881','11','62'],
+  'Kevin Concepcion': ['919','9','61'],
+  'Germie Bernard': ['862','7','64'],
+  'Zachariah Branch': ['811','6','81'],
+  'Malachi Fields': ['630','5','36'],
+  'Elijah Sarratt': ['830','15','65'],
+  'Antonio Williams': ['604','4','55'],
+  'Chris Bell': ['917','6','72'],
+  'Chris Brazzell': ['1.017','9','62'],
+  'Ted Hurst': ['1.004','6','71'],
+  'Skyler Bell': ['1.278','13','101'],
+  'Deion Burks': ['620','4','57'],
+  'Bryce Lance': ['—','—','—'],
+  'Kenyon Sadiq': ['560','8','51'],
+  'Eli Stowers': ['769','4','62'],
+  'Max Klare': ['448','2','43'],
+  'Francis Mauigoa': ['16','—','—'],
+  'Spencer Fano': ['12','—','—'],
+  'Monroe Freeling': ['14','—','—'],
+  'Kadyn Proctor': ['15','—','—'],
+  'Caleb Lomu': ['12','—','—'],
+  'Blake Miller': ['13','—','—'],
+  'Max Iheanachor': ['12','—','—'],
+  'Gennings Dunker': ['13','—','—'],
+  'Caleb Tiernan': ['13','—','—'],
+  'Olaivavega Ioane': ['11','—','—'],
+  'Emmanuel Pregnon': ['15','—','—'],
+  'Chase Bisontis': ['13','—','—'],
+  'Keylan Rutledge': ['13','—','—'],
+  'Connor Lew': ['7','—','—'],
+  'Sam Hecht': ['12','—','—'],
+  'Rueben Bain': ['54','9.5','—'],
+  'David Bailey': ['52','14.5','3'],
+  'Keldric Faulk': ['29','2.0','4'],
+  'Akheem Mesidor': ['63','12.5','0'],
+  'T.J. Parker': ['37','5.0','1'],
+  'Cashius Howell': ['31','11.5','6'],
+  'Zion Young': ['42','6.5','2'],
+  'Malachi Lawrence': ['28','7.0','3'],
+  'R Mason Thomas': ['26','6.5','1'],
+  'Gabe Jacas': ['43','11.0','1'],
+  'Derrick Moore': ['30','10.0','3'],
+  'Dani Dennis-Sutton': ['42','8.5','3'],
+  'Romello Height': ['38','10.0','1'],
+  'Joshua Josephs': ['33','4.0','3'],
+  'L.T. Overton': ['42','4.0','1'],
+  'Keyron Crawford': ['36','5.0','0'],
+  'Peter Woods': ['30','2.0','1'],
+  'Kayden McDonald': ['65','3.0','1'],
+  'Caleb Banks': ['6','0.0','0'],
+  'Lee Hunter': ['41','2.5','0'],
+  'Christen Miller': ['23','1.5','0'],
+  'Domonique Orange': ['18','0.0','1'],
+  'Darrell Jackson Jr.': ['45','1.0','0'],
+  'Gracen Halton': ['33','3.5','2'],
+  'Arvell Reese': ['69','6.5','2'],
+  'Sonny Styles': ['82','1.0','3'],
+  'C.J. Allen': ['88','3.5','4'],
+  'Anthony Hill Jr.': ['69','4.0','1'],
+  'Jacob Rodriguez': ['128','1.0','6'],
+  'Jake Golday': ['105','3.5','3'],
+  'Kyle Louis': ['81','3.0','3'],
+  'Josiah Trotter': ['84','2.0','1'],
+  'Jaishawn Barham': ['32','4.0','3'],
+  'Mansoor Delane': ['45','11','2'],
+  'Jermod McCoy': ['44','9','4'],
+  'Avieon Terrell': ['48','9','0'],
+  'Colton Hood': ['50','8','1'],
+  'Brandon Cisse': ['27','5','1'],
+  'Chris Johnson': ['49','9','4'],
+  'D\'angelo Ponds': ['61','11','2'],
+  'Keionte Scott': ['64','5','2'],
+  'Keith Abney II': ['44','12','2'],
+  'Treydan Stukes': ['52','6','4'],
+  'Davison Igbinosun': ['53','8','2'],
+  'Julian Neal': ['55','10','2'],
+  'Chandler Rivers': ['59','8','2'],
+  'Devin Moore': ['35','4','2'],
+  'Malik Muhammad': ['30','4','2'],
+  'Caleb Downs': ['68','2','2'],
+  'Dillon Thieneman': ['96','2','5'],
+  'Emmanuel McNeil-Warren': ['77','2','5'],
+  'A.J. Haulcy': ['88','3','4'],
+  'Kamari Ramsey': ['27','0','2'],
+  'Genesis Smith': ['77','1','8'],
+  'Zakee Wheatley': ['74','1','1'],
+  'Jalon Kilgore': ['54','2','10'],
+  'Bud Clark': ['56','4','7']
+};const extStats = {
+  // QB: pass yds, TDs, comp%, INTs, att, yds/att, rush yds, rush TD, rating
+  'Fernando Mendoza':    {passYds:3535,passTD:41,comp:72.0,passINT:6,att:491,ypAtt:7.2,rushYds:253,rushTD:3,rating:182.9,ht:'6-5',wt:236,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Ty Simpson':          {passYds:3567,passTD:28,comp:64.5,passINT:5,att:310,ypAtt:7.4,rushYds:312,rushTD:6,rating:145.2,ht:'6-1',wt:211,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Garrett Nussmeier':   {passYds:1927,passTD:12,comp:67.4,passINT:5,att:161,ypAtt:7.1,rushYds:48,rushTD:0,rating:133.8,ht:'6-1',wt:203,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Drew Allar':          {passYds:1100,passTD:8,comp:64.8,passINT:3,att:80,ypAtt:7.3,rushYds:22,rushTD:0,rating:135.7,ht:'6-5',wt:228,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  // RB: rush yds, rush TD, ypc, att, rec yds, rec TD, rec, fortyYd
+  'Jeremiyah Love':      {rushYds:1372,rushTD:18,ypc:6.9,rushAtt:199,recYds:280,recTD:3,rec:27,ht:'6-0',wt:212,fortyYd:4.36,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Jadarian Price':      {rushYds:674,rushTD:11,ypc:6.0,rushAtt:112,recYds:87,recTD:2,rec:12,ht:'5-10',wt:203,fortyYd:4.49,vertical:35.0,broad:124,bench:null,threeCone:null,shuttle:null},
+  'Mike Washington Jr.': {rushYds:1070,rushTD:8,ypc:6.4,rushAtt:167,recYds:226,recTD:1,rec:22,ht:'6-1',wt:223,fortyYd:4.33,vertical:39.0,broad:128,bench:null,threeCone:null,shuttle:null},
+  'Jonah Coleman':       {rushYds:758,rushTD:15,ypc:4.9,rushAtt:155,recYds:354,recTD:2,rec:36,ht:'5-8',wt:220,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  // WR: rec yds, rec TD, rec, ypr, targets, fortyYd
+  'Carnell Tate':        {recYds:875,recTD:9,rec:51,ypr:17.2,tgts:72,rushYds:16,ht:'6-2',wt:192,fortyYd:4.53,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Jordyn Tyson':        {recYds:711,recTD:8,rec:61,ypr:11.7,tgts:null,rushYds:4,ht:'6-2',wt:203,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Makai Lemon':         {recYds:1156,recTD:11,rec:79,ypr:14.6,tgts:null,rushYds:4,ht:'5-11',wt:192,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Omar Cooper Jr.':     {recYds:937,recTD:13,rec:69,ypr:13.6,tgts:null,rushYds:74,ht:'6-0',wt:199,fortyYd:4.42,vertical:37.0,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Denzel Boston':       {recYds:881,recTD:11,rec:62,ypr:14.2,tgts:null,rushYds:0,ht:'6-3',wt:212,fortyYd:null,vertical:35.0,broad:null,bench:null,threeCone:null,shuttle:4.28},
+  'Kevin Concepcion':    {recYds:919,recTD:9,rec:61,ypr:15.1,tgts:null,rushYds:75,ht:'5-11',wt:196,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Germie Bernard':      {recYds:862,recTD:7,rec:64,ypr:13.5,tgts:null,rushYds:101,ht:'6-1',wt:206,fortyYd:4.48,vertical:32.5,broad:125,bench:null,threeCone:null,shuttle:4.31},
+  'Zachariah Branch':    {recYds:811,recTD:6,rec:81,ypr:10.0,tgts:null,rushYds:7,ht:'5-8',wt:177,fortyYd:4.35,vertical:38.0,broad:125,bench:null,threeCone:null,shuttle:null},
+  'Malachi Fields':      {recYds:630,recTD:5,rec:36,ypr:17.5,tgts:null,rushYds:0,ht:'6-4',wt:218,fortyYd:4.61,vertical:38.0,broad:124,bench:null,threeCone:null,shuttle:4.35},
+  'Elijah Sarratt':      {recYds:830,recTD:15,rec:65,ypr:12.8,tgts:null,rushYds:0,ht:'6-2',wt:210,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Antonio Williams':    {recYds:604,recTD:4,rec:55,ypr:11.0,tgts:null,rushYds:78,ht:'5-11',wt:187,fortyYd:4.41,vertical:39.5,broad:124,bench:null,threeCone:7.0,shuttle:null},
+  'Chris Bell':          {recYds:917,recTD:6,rec:72,ypr:12.7,tgts:null,rushYds:0,ht:'6-2',wt:222,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Chris Brazzell':      {recYds:1017,recTD:9,rec:62,ypr:16.4,tgts:null,rushYds:0,ht:'6-4',wt:198,fortyYd:4.37,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Ted Hurst':           {recYds:1004,recTD:6,rec:71,ypr:14.1,tgts:null,rushYds:0,ht:'6-4',wt:206,fortyYd:4.42,vertical:36.5,broad:135,bench:null,threeCone:null,shuttle:null},
+  'Skyler Bell':         {recYds:1278,recTD:13,rec:101,ypr:12.7,tgts:null,rushYds:0,ht:'5-11',wt:192,fortyYd:4.40,vertical:41.0,broad:133,bench:null,threeCone:null,shuttle:null},
+  'Deion Burks':         {recYds:620,recTD:4,rec:57,ypr:10.9,tgts:null,rushYds:-1,ht:'5-10',wt:180,fortyYd:4.30,vertical:42.5,broad:131,bench:null,threeCone:null,shuttle:null},
+  'Bryce Lance':         {recYds:null,recTD:null,rec:null,ypr:null,tgts:null,rushYds:null,ht:'6-3',wt:204,fortyYd:4.34,vertical:41.5,broad:133,bench:null,threeCone:null,shuttle:4.15},
+  // TE: rec yds, rec TD, rec, ypr, fortyYd
+  'Kenyon Sadiq':        {recYds:560,recTD:8,rec:51,ypr:11.0,tgts:null,rushYds:6,ht:'6-3',wt:241,fortyYd:4.39,vertical:43.5,broad:133,bench:null,threeCone:null,shuttle:null},
+  'Eli Stowers':         {recYds:769,recTD:4,rec:62,ypr:12.4,tgts:null,rushYds:2,ht:'6-4',wt:239,fortyYd:4.51,vertical:45.5,broad:135,bench:null,threeCone:null,shuttle:null},
+  'Max Klare':           {recYds:448,recTD:2,rec:43,ypr:10.4,tgts:null,rushYds:0,ht:'6-4',wt:246,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  // OT/IOL: games, fortyYd, vertical, broad, bench, arm length
+  'Francis Mauigoa':     {games:16,ht:'6-5',wt:329,fortyYd:null,vertical:null,broad:null,bench:null,arm:33.25,threeCone:null,shuttle:null},
+  'Spencer Fano':        {games:12,ht:'6-5',wt:311,fortyYd:4.91,vertical:32.0,broad:111,bench:null,arm:32.125,threeCone:null,shuttle:null},
+  'Monroe Freeling':     {games:14,ht:'6-7',wt:315,fortyYd:4.93,vertical:33.5,broad:115,bench:null,arm:34.75,threeCone:null,shuttle:null},
+  'Kadyn Proctor':       {games:15,ht:'6-6',wt:352,fortyYd:5.21,vertical:32.5,broad:109,bench:25,arm:33.375,threeCone:null,shuttle:null},
+  'Caleb Lomu':          {games:12,ht:'6-6',wt:313,fortyYd:4.99,vertical:32.5,broad:113,bench:null,arm:33.375,threeCone:null,shuttle:null},
+  'Blake Miller':        {games:13,ht:'6-7',wt:317,fortyYd:5.04,vertical:32.0,broad:113,bench:32,arm:34.25,threeCone:null,shuttle:null},
+  'Max Iheanachor':      {games:12,ht:'6-6',wt:321,fortyYd:4.91,vertical:30.5,broad:115,bench:25,arm:33.875,threeCone:null,shuttle:null},
+  'Gennings Dunker':     {games:13,ht:'6-5',wt:319,fortyYd:5.18,vertical:32.5,broad:108,bench:null,arm:33.5,threeCone:null,shuttle:null},
+  'Caleb Tiernan':       {games:13,ht:'6-7',wt:323,fortyYd:null,vertical:35.5,broad:111,bench:null,arm:32.25,threeCone:null,shuttle:null},
+  'Olaivavega Ioane':    {games:11,ht:'6-4',wt:320,fortyYd:null,vertical:31.5,broad:104,bench:null,arm:32.75,threeCone:null,shuttle:null},
+  'Emmanuel Pregnon':    {games:15,ht:'6-4',wt:314,fortyYd:5.21,vertical:35.0,broad:111,bench:null,arm:33.625,threeCone:null,shuttle:null},
+  'Chase Bisontis':      {games:13,ht:'6-5',wt:315,fortyYd:5.02,vertical:32.0,broad:105,bench:29,arm:31.75,threeCone:null,shuttle:null},
+  'Keylan Rutledge':     {games:13,ht:'6-3',wt:316,fortyYd:5.05,vertical:32.5,broad:104,bench:null,arm:33.25,threeCone:null,shuttle:null},
+  'Connor Lew':          {games:7,ht:'6-3',wt:310,fortyYd:null,vertical:null,broad:null,bench:31,arm:32.375,threeCone:null,shuttle:null},
+  'Sam Hecht':           {games:12,ht:'6-4',wt:303,fortyYd:5.10,vertical:28.0,broad:101,bench:null,arm:31.625,threeCone:null,shuttle:null},
+  // EDGE: tackles, sacks, tfl, hurries, ff, fortyYd, vertical
+  'Rueben Bain':         {tkl:54,sacks:9.5,tfl:null,hurries:null,ff:1,ht:'6-2',wt:263,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'David Bailey':        {tkl:52,sacks:14.5,tfl:3,hurries:null,ff:3,ht:'6-3',wt:251,fortyYd:4.50,vertical:35.0,broad:129,bench:null,threeCone:null,shuttle:null},
+  'Keldric Faulk':       {tkl:29,sacks:2.0,tfl:4,hurries:null,ff:0,ht:'6-6',wt:276,fortyYd:null,vertical:35.0,broad:117,bench:null,threeCone:null,shuttle:null},
+  'Akheem Mesidor':      {tkl:63,sacks:12.5,tfl:0,hurries:null,ff:4,ht:'6-3',wt:259,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'T.J. Parker':         {tkl:37,sacks:5.0,tfl:1,hurries:null,ff:0,ht:'6-3',wt:263,fortyYd:4.68,vertical:34.0,broad:120,bench:null,threeCone:null,shuttle:null},
+  'Cashius Howell':      {tkl:31,sacks:11.5,tfl:6,hurries:null,ff:1,ht:'6-2',wt:253,fortyYd:4.59,vertical:32.5,broad:115,bench:null,threeCone:null,shuttle:null},
+  'Zion Young':          {tkl:42,sacks:6.5,tfl:2,hurries:null,ff:2,ht:'6-6',wt:262,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Malachi Lawrence':    {tkl:28,sacks:7.0,tfl:3,hurries:null,ff:2,ht:'6-4',wt:253,fortyYd:4.52,vertical:40.0,broad:130,bench:null,threeCone:null,shuttle:null},
+  'R Mason Thomas':      {tkl:26,sacks:6.5,tfl:1,hurries:null,ff:2,ht:'6-2',wt:241,fortyYd:4.67,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Gabe Jacas':          {tkl:43,sacks:11.0,tfl:1,hurries:null,ff:3,ht:'6-3',wt:260,fortyYd:null,vertical:null,broad:null,bench:30,threeCone:null,shuttle:null},
+  'Derrick Moore':       {tkl:30,sacks:10.0,tfl:3,hurries:null,ff:2,ht:'6-4',wt:255,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Dani Dennis-Sutton':  {tkl:42,sacks:8.5,tfl:3,hurries:null,ff:3,ht:'6-5',wt:256,fortyYd:4.63,vertical:39.5,broad:131,bench:null,threeCone:6.90,shuttle:null},
+  'Romello Height':      {tkl:38,sacks:10.0,tfl:1,hurries:null,ff:2,ht:'6-3',wt:239,fortyYd:4.64,vertical:39.0,broad:125,bench:null,threeCone:null,shuttle:null},
+  'Joshua Josephs':      {tkl:33,sacks:4.0,tfl:3,hurries:null,ff:3,ht:'6-3',wt:242,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'L.T. Overton':        {tkl:42,sacks:4.0,tfl:1,hurries:null,ff:0,ht:'6-3',wt:274,fortyYd:4.87,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Keyron Crawford':     {tkl:36,sacks:5.0,tfl:0,hurries:null,ff:1,ht:'6-4',wt:253,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  // DL: tackles, sacks, tfl, fortyYd
+  'Peter Woods':         {tkl:30,sacks:2.0,tfl:1,hurries:29,ff:0,ht:'6-2',wt:298,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Kayden McDonald':     {tkl:65,sacks:3.0,tfl:1,hurries:null,ff:2,ht:'6-2',wt:326,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Caleb Banks':         {tkl:6,sacks:0.0,tfl:0,hurries:null,ff:0,ht:'6-6',wt:327,fortyYd:5.04,vertical:32.0,broad:114,bench:null,threeCone:null,shuttle:null},
+  'Lee Hunter':          {tkl:41,sacks:2.5,tfl:0,hurries:null,ff:1,ht:'6-3',wt:318,fortyYd:5.18,vertical:21.5,broad:100,bench:null,threeCone:null,shuttle:null},
+  'Christen Miller':     {tkl:23,sacks:1.5,tfl:0,hurries:null,ff:0,ht:'6-4',wt:321,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Domonique Orange':    {tkl:18,sacks:0.0,tfl:1,hurries:null,ff:0,ht:'6-2',wt:322,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Darrell Jackson Jr.': {tkl:45,sacks:1.0,tfl:0,hurries:null,ff:0,ht:'6-5',wt:315,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Gracen Halton':       {tkl:33,sacks:3.5,tfl:2,hurries:null,ff:1,ht:'6-2',wt:293,fortyYd:4.82,vertical:36.5,broad:114,bench:null,threeCone:8.09,shuttle:null},
+  // LB: tackles, sacks, tfl, ints, ff, fortyYd, vertical
+  'Arvell Reese':        {tkl:69,sacks:6.5,tfl:2,ints:0,ff:0,passdef:2,ht:'6-4',wt:241,fortyYd:4.46,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Sonny Styles':        {tkl:82,sacks:1.0,tfl:3,ints:1,ff:1,passdef:3,ht:'6-5',wt:244,fortyYd:4.46,vertical:43.5,broad:134,bench:null,threeCone:7.09,shuttle:4.26},
+  'C.J. Allen':          {tkl:88,sacks:3.5,tfl:4,ints:0,ff:2,passdef:4,ht:'6-1',wt:230,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Anthony Hill Jr.':    {tkl:69,sacks:4.0,tfl:1,ints:2,ff:3,passdef:1,ht:'6-2',wt:238,fortyYd:4.51,vertical:37.0,broad:125,bench:null,threeCone:null,shuttle:null},
+  'Jacob Rodriguez':     {tkl:128,sacks:1.0,tfl:6,ints:4,ff:7,passdef:6,ht:'6-1',wt:231,fortyYd:4.57,vertical:38.5,broad:121,bench:null,threeCone:6.90,shuttle:4.19},
+  'Jake Golday':         {tkl:105,sacks:3.5,tfl:3,ints:0,ff:1,passdef:3,ht:'6-4',wt:239,fortyYd:4.62,vertical:39.0,broad:125,bench:null,threeCone:7.02,shuttle:4.34},
+  'Kyle Louis':          {tkl:81,sacks:3.0,tfl:3,ints:2,ff:1,passdef:3,ht:'6-0',wt:220,fortyYd:4.53,vertical:39.5,broad:129,bench:null,threeCone:6.97,shuttle:4.26},
+  'Josiah Trotter':      {tkl:84,sacks:2.0,tfl:1,ints:0,ff:0,passdef:1,ht:'6-2',wt:237,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Jaishawn Barham':     {tkl:32,sacks:4.0,tfl:3,ints:0,ff:1,passdef:3,ht:'6-3',wt:240,fortyYd:4.64,vertical:33.0,broad:123,bench:null,threeCone:null,shuttle:null},
+  // CB: tackles, passdef, ints, fortyYd
+  'Mansoor Delane':      {tkl:45,passdef:11,ints:2,sacks:0,tfl:null,ff:0,ht:'6-0',wt:187,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Jermod McCoy':        {tkl:44,passdef:9,ints:4,sacks:0,tfl:null,ff:0,ht:'6-1',wt:188,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Avieon Terrell':      {tkl:48,passdef:9,ints:0,sacks:3,tfl:null,ff:5,ht:'5-11',wt:186,fortyYd:null,vertical:34.0,broad:123,bench:null,threeCone:null,shuttle:null},
+  'Colton Hood':         {tkl:50,passdef:8,ints:1,sacks:0,tfl:null,ff:1,ht:'5-11',wt:193,fortyYd:4.44,vertical:40.5,broad:125,bench:null,threeCone:null,shuttle:null},
+  'Brandon Cisse':       {tkl:27,passdef:5,ints:1,sacks:0,tfl:null,ff:1,ht:'6-0',wt:189,fortyYd:null,vertical:41.0,broad:131,bench:null,threeCone:null,shuttle:null},
+  'Chris Johnson':       {tkl:49,passdef:9,ints:4,sacks:1,tfl:null,ff:1,ht:'6-0',wt:193,fortyYd:4.40,vertical:38.0,broad:126,bench:null,threeCone:null,shuttle:null},
+  "D'angelo Ponds":      {tkl:61,passdef:11,ints:2,sacks:0,tfl:null,ff:1,ht:'5-8',wt:182,fortyYd:null,vertical:43.5,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Keionte Scott':       {tkl:64,passdef:5,ints:2,sacks:5,tfl:null,ff:2,ht:'5-11',wt:193,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Keith Abney II':      {tkl:44,passdef:12,ints:2,sacks:1,tfl:null,ff:2,ht:'5-10',wt:187,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Treydan Stukes':      {tkl:52,passdef:6,ints:4,sacks:1,tfl:null,ff:0,ht:'6-0',wt:190,fortyYd:4.33,vertical:38.0,broad:130,bench:null,threeCone:null,shuttle:null},
+  'Davison Igbinosun':   {tkl:53,passdef:8,ints:2,sacks:0,tfl:null,ff:0,ht:'6-2',wt:189,fortyYd:4.45,vertical:34.0,broad:120,bench:null,threeCone:null,shuttle:null},
+  'Julian Neal':         {tkl:55,passdef:10,ints:2,sacks:0,tfl:null,ff:0,ht:'6-1',wt:203,fortyYd:4.49,vertical:40.0,broad:134,bench:null,threeCone:7.13,shuttle:4.20},
+  'Chandler Rivers':     {tkl:59,passdef:8,ints:2,sacks:0,tfl:null,ff:1,ht:'5-9',wt:185,fortyYd:4.40,vertical:39.0,broad:130,bench:null,threeCone:null,shuttle:null},
+  'Devin Moore':         {tkl:35,passdef:4,ints:2,sacks:1,tfl:null,ff:1,ht:'6-3',wt:198,fortyYd:4.50,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Malik Muhammad':      {tkl:30,passdef:4,ints:2,sacks:1,tfl:null,ff:0,ht:'6-0',wt:182,fortyYd:4.42,vertical:39.0,broad:130,bench:null,threeCone:null,shuttle:null},
+  // S: tackles, ints, pbu, fortyYd
+  'Caleb Downs':         {tkl:68,ints:2,pbu:6,sacks:0.5,passdef:2,ff:0,ht:'5-11',wt:206,fortyYd:4.35,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Dillon Thieneman':    {tkl:96,ints:2,pbu:5,sacks:1,passdef:5,ff:0,ht:'6-0',wt:201,fortyYd:4.35,vertical:41.0,broad:125,bench:null,threeCone:null,shuttle:null},
+  'Emmanuel McNeil-Warren':{tkl:77,ints:2,pbu:5,sacks:0.5,passdef:5,ff:3,ht:'6-3',wt:201,fortyYd:4.52,vertical:35.5,broad:122,bench:null,threeCone:null,shuttle:null},
+  'A.J. Haulcy':         {tkl:88,ints:3,pbu:4,sacks:0,passdef:4,ff:1,ht:'5-11',wt:215,fortyYd:4.52,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Kamari Ramsey':       {tkl:27,ints:0,pbu:2,sacks:0,passdef:2,ff:0,ht:'6-0',wt:202,fortyYd:4.47,vertical:36.0,broad:120,bench:null,threeCone:null,shuttle:null},
+  'Genesis Smith':       {tkl:77,ints:1,pbu:8,sacks:0,passdef:8,ff:2,ht:'6-2',wt:202,fortyYd:null,vertical:42.5,broad:128,bench:null,threeCone:null,shuttle:4.18},
+  'Zakee Wheatley':      {tkl:74,ints:1,pbu:1,sacks:0,passdef:1,ff:0,ht:'6-3',wt:203,fortyYd:null,vertical:32.5,broad:122,bench:null,threeCone:null,shuttle:null},
+  'Jalon Kilgore':       {tkl:54,ints:2,pbu:10,sacks:0,passdef:10,ff:0,ht:'6-1',wt:210,fortyYd:4.40,vertical:37.0,broad:130,bench:null,threeCone:null,shuttle:4.32},
+  'Bud Clark':           {tkl:56,ints:4,pbu:7,sacks:1,passdef:7,ff:0,ht:'6-1',wt:188,fortyYd:4.41,vertical:38.0,broad:127,bench:null,threeCone:null,shuttle:null},
+};const FBS_RECORDS = {
+  QB:   {passYds:6055,passTD:65,comp:82,passINT:1,att:719,rushYds:1000,rushTD:15,rating:210},
+  RB:   {rushYds:2850,rushTD:39,ypc:9.9,rushAtt:403,recYds:1000,recTD:10,rec:60},
+  WR:   {recYds:1947,recTD:27,rec:142,ypr:30,tgts:180,rushYds:300},
+  TE:   {recYds:1500,recTD:20,rec:110,ypr:20},
+  OT:   {games:15,fortyYd:4.70,vertical:38,broad:120,bench:35,arm:36},
+  IOL:  {games:15,fortyYd:4.85,vertical:36,broad:115,bench:40,arm:35},
+  EDGE: {tkl:100,sacks:20,tfl:29,hurries:50,ff:8,fortyYd:4.35,vertical:42,broad:135},
+  DL:   {tkl:100,sacks:15,tfl:22,hurries:40,ff:5,fortyYd:4.60,vertical:38,broad:120},
+  LB:   {tkl:215,sacks:15,tfl:25,ints:9,ff:8,passdef:15,fortyYd:4.38,vertical:42,broad:130},
+  CB:   {tkl:100,passdef:24,ints:14,sacks:5,ff:6,fortyYd:4.28,vertical:45,broad:135},
+  S:    {tkl:215,ints:14,pbu:24,sacks:5,passdef:24,ff:8,fortyYd:4.27,vertical:44,broad:133},
+};
+
+// ── STAT DEFINITIONS PER POSITION ─────────────────────────────────────────
+const POS_STATS_DEF = {
+  QB:   [{k:'passYds',l:'Pass. yards'},{k:'passTD',l:'TDs'},{k:'passINT',l:'INTs'},{k:'comp',l:'Comp%'},{k:'rating',l:'Rating'}],
+  RB:   [{k:'rushYds',l:'Rush. yards'},{k:'rushTD',l:'TDs'},{k:'ypc',l:'Avg'},{k:'recYds',l:'Rec. yards'},{k:'recTD',l:'Rec. TDs'}],
+  WR:   [{k:'rec',l:'Receptions'},{k:'recYds',l:'Rec. yards'},{k:'recTD',l:'TDs'},{k:'ypr',l:'Avg'},{k:'rushYds',l:'Rush. yards'}],
+  TE:   [{k:'rec',l:'Receptions'},{k:'recYds',l:'Rec. yards'},{k:'recTD',l:'TDs'},{k:'ypr',l:'Avg'},{k:'rushYds',l:'Rush. yards'}],
+  LB:   [{k:'tkl',l:'Tackles'},{k:'sacks',l:'Sacks'},{k:'passdef',l:'Pass Def'},{k:'ints',l:'INTs'},{k:'ff',l:'FF'}],
+  EDGE: [{k:'tkl',l:'Tackles'},{k:'sacks',l:'Sacks'},{k:'passdef',l:'Pass Def'},{k:'ints',l:'INTs'},{k:'ff',l:'FF'}],
+  DL:   [{k:'tkl',l:'Tackles'},{k:'sacks',l:'Sacks'},{k:'passdef',l:'Pass Def'},{k:'ints',l:'INTs'},{k:'ff',l:'FF'}],
+  CB:   [{k:'tkl',l:'Tackles'},{k:'sacks',l:'Sacks'},{k:'passdef',l:'Pass Def'},{k:'ints',l:'INTs'},{k:'ff',l:'FF'}],
+  S:    [{k:'tkl',l:'Tackles'},{k:'sacks',l:'Sacks'},{k:'passdef',l:'Pass Def'},{k:'ints',l:'INTs'},{k:'ff',l:'FF'}],
+  OT:   [{k:'games',l:'Partits'},{k:'fortyYd',l:'40-yd'},{k:'vertical',l:'Vertical'},{k:'broad',l:'Broad'},{k:'arm',l:'Arm'}],
+  IOL:  [{k:'games',l:'Partits'},{k:'fortyYd',l:'40-yd'},{k:'vertical',l:'Vertical'},{k:'broad',l:'Broad'},{k:'bench',l:'Bench'}],
+};
+
+// Build FBS_RECORDS updated with correct keys
+const FBS_RECORDS_NEW = {
+  QB:   {passYds:6055,passTD:65,passINT:1,comp:82,rating:210},
+  RB:   {rushYds:2850,rushTD:39,ypc:9.9,recYds:1200,recTD:10},
+  WR:   {rec:142,recYds:1947,recTD:27,ypr:30,rushYds:400},
+  TE:   {rec:110,recYds:1500,recTD:20,ypr:20,rushYds:100},
+  LB:   {tkl:215,sacks:20,passdef:24,ints:14,ff:8},
+  EDGE: {tkl:100,sacks:20,passdef:10,ints:5,ff:8},
+  DL:   {tkl:100,sacks:20,passdef:10,ints:5,ff:8},
+  CB:   {tkl:100,sacks:5,passdef:24,ints:14,ff:6},
+  S:    {tkl:215,sacks:5,passdef:24,ints:14,ff:8},
+  OT:   {games:15,fortyYd:0,vertical:40,broad:125,arm:38},
+  IOL:  {games:15,fortyYd:0,vertical:38,broad:118,bench:49},
+};
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+const POS_COLORS = {QB:'#00d4a0',RB:'#ff9a00',WR:'#c87cff',TE:'#ff7a4a',OT:'#5bb8ff',IOL:'#5bb8ff',EDGE:'#ff4a6e',DL:'#ff6b35',LB:'#ffd700',CB:'#00cfff',S:'#a8ff6e'};
+const POS_FULL = {QB:'Quarterback',RB:'Running Back',WR:'Wide Receiver',TE:'Tight End',OT:'Offensive Tackle',IOL:'Interior O-Line',EDGE:'Edge Rusher',DL:'Defensive Lineman',LB:'Linebacker',CB:'Cornerback',S:'Safety'};
+const POSITIONS = ['QB','RB','WR','TE','OT','IOL','EDGE','DL','LB','CB','S'];
+
+function fmtHt(h){if(!h)return'—';return h.replace(/-(\d+)$/,(m,i)=>"'"+i+'"');}
+function rasCol(r){if(r==null)return'rgba(255,255,255,0.35)';if(r>=8)return'#00d4a0';if(r>=6)return'#ffd700';if(r>=4)return'#ff9a00';return'#ff4a6e';}
+function rasClass(r){if(r==null)return'';if(r>=8)return'ras-hi';if(r>=6)return'ras-md';if(r>=4)return'ras-lo';return'ras-bd';}
+
+// Get stat value for a player from extStats
+function getStat(name, key) {
+  const s = extStats[name];
+  if (!s) return null;
+  // Handle aliased keys
+  const aliases = {passdef:'passdef',ints:'ints',ff:'ff'};
+  return s[key] !== undefined ? s[key] : null;
+}
+
+// Build stat values array for a player given POS_STATS_DEF keys
+function getStatValues(name, pos) {
+  const defs = POS_STATS_DEF[pos] || [];
+  const ps = playerStats[name];  // basic stats array (legacy)
+  const es = extStats[name] || {};
+  return defs.map(d => {
+    // Try extStats first, fallback to legacy playerStats
+    if (es[d.k] !== undefined && es[d.k] !== null) return es[d.k];
+    return null;
+  });
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────
+function goScreen(s) {
+  document.querySelectorAll('.screen').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('active'));
+  document.getElementById('s-'+s).classList.add('active');
+  const nb = document.getElementById('nav-'+s);
+  if(nb) nb.classList.add('active');
+  if(s==='stats' && !statsInited){initStats();statsInited=true;}
+  if(s==='cmp' && !cmpInited){initCmp();cmpInited=true;}
+}
+
+// ── BIG BOARD ─────────────────────────────────────────────────────────────
+let bbFilter='ALL';
+function initBoard(){
+  const fc=document.getElementById('bb-filters');
+  ['ALL',...POSITIONS].forEach(p=>{
+    const b=document.createElement('button');
+    b.className='fc'+(p==='ALL'?' on':'');
+    b.textContent=p==='ALL'?'Tots':p;
+    b.onclick=()=>{bbFilter=p;fc.querySelectorAll('.fc').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderBoard();};
+    fc.appendChild(b);
+  });
+  document.getElementById('bb-search').addEventListener('input',renderBoard);
+  renderBoard();
+}
+
+function renderBoard(){
+  const q=document.getElementById('bb-search').value.toLowerCase();
+  const filtered=bigBoard.filter(p=>(bbFilter==='ALL'||p.p===bbFilter)&&(p.n.toLowerCase().includes(q)||p.u.toLowerCase().includes(q)));
+  document.getElementById('bb-count').textContent=filtered.length+' jugadors';
+  document.getElementById('bb-list').innerHTML=filtered.map(p=>{
+    const rk=p.r<=10?'ras-hi':p.r<=25?'c-OT':'';
+    const col=POS_COLORS[p.p]||'#888';
+    const rc=p.ras!=null?rasClass(p.ras):'';
+    const rs=p.ras!=null?p.ras.toFixed(2):'—';
+    return `<div class="pr" onclick="openSheet(${p.r-1})">
+      <span class="pr-rank ${rk}" style="color:${p.r<=10?'#00d4a0':p.r<=25?'#5bb8ff':'rgba(255,255,255,0.25)'}">${p.r}</span>
+      <div class="pr-info"><div class="pr-name">${p.n}</div><div class="pr-uni">${p.u}</div></div>
+      <span class="pr-pos" style="color:${col};background:${col}18;border:1px solid ${col}28">${p.p}</span>
+      <span class="pr-ras ${rc}">${rs}</span>
+    </div>`;
+  }).join('');
+}
+
+function openSheet(idx){
+  const p=bigBoard[idx];
+  const col=POS_COLORS[p.p]||'#888';
+  const defs=POS_STATS_DEF[p.p]||[];
+  const vals=getStatValues(p.n,p.p);
+  const statsHTML=defs.map((d,i)=>`<div class="s-stat"><span class="s-sv" style="color:${col}">${vals[i]!=null?vals[i]:'—'}</span><span class="s-sl">${d.l}</span></div>`).join('');
+  const parts=p.n.split(' ');
+  document.getElementById('sheet-body').innerHTML=`
+    <div class="s-ptag" style="color:${col}">${POS_FULL[p.p]||p.p}</div>
+    <div class="s-name">${parts[0]}<br>${parts.slice(1).join(' ')}</div>
+    <div class="s-meta">${p.u} · ${fmtHt(p.ht)} · ${p.wt||'—'} lbs</div>
+    <div class="s-bdg">
+      <div class="bdg"><span style="color:var(--acc);font-weight:800">#${p.r}</span><span style="color:var(--muted);font-size:11px">Big board</span></div>
+      <div class="bdg bdg-ras"><span style="color:${rasCol(p.ras)};font-weight:800">${p.ras!=null?p.ras.toFixed(2):'—'}</span><span style="color:var(--muted);font-size:11px">RAS</span></div>
+    </div>
+    <div class="s-stats">${statsHTML}</div>`;
+  document.getElementById('sheet-ov').classList.add('open');
+  document.getElementById('player-sheet').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSheet(){
+  document.getElementById('sheet-ov').classList.remove('open');
+  document.getElementById('player-sheet').classList.remove('open');
+  document.body.style.overflow='';
+}
+let sy0=0;
+document.getElementById('player-sheet').addEventListener('touchstart',e=>{sy0=e.touches[0].clientY;},{passive:true});
+document.getElementById('player-sheet').addEventListener('touchend',e=>{if(e.changedTouches[0].clientY-sy0>80)closeSheet();},{passive:true});
+
+// ── STATS SCREEN ──────────────────────────────────────────────────────────
+let statsInited=false, statsCurPos='QB', statsCurCat=0;
+
+function initStats(){
+  const sel=document.getElementById('stats-pos');
+  POSITIONS.forEach(p=>{
+    const o=document.createElement('option');
+    o.value=p; o.textContent=POS_FULL[p]||p;
+    sel.appendChild(o);
+  });
+  sel.value='QB';
+  renderStatCats('QB');
+}
+
+function onStatsPosChange(){
+  const pos=document.getElementById('stats-pos').value;
+  statsCurPos=pos; statsCurCat=0;
+  renderStatCats(pos);
+}
+
+function renderStatCats(pos){
+  const defs=POS_STATS_DEF[pos]||[];
+  const tc=document.getElementById('stats-cats');
+  tc.innerHTML=defs.map((d,i)=>`<button class="stab${i===0?' on':''}" onclick="selectStatCat(${i},this)">${d.l}</button>`).join('');
+  renderStatBars(pos,0);
+}
+
+function selectStatCat(i,btn){
+  statsCurCat=i;
+  document.querySelectorAll('.stab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderStatBars(statsCurPos,i);
+}
+
+function renderStatBars(pos,catIdx){
+  const defs=POS_STATS_DEF[pos]||[];
+  const def=defs[catIdx];
+  if(!def)return;
+  const col=POS_COLORS[pos]||'#00d4a0';
+  const players=bigBoard.filter(p=>p.p===pos);
+  const rows=players.map(p=>{
+    const v=getStat(p.n,def.k);
+    const num=v!=null?parseFloat(String(v).replace(',','.')):null;
+    return{name:p.n,rank:p.r,v:num};
+  }).filter(r=>r.v!=null&&!isNaN(r.v)).sort((a,b)=>b.v-a.v);
+  if(!rows.length){document.getElementById('stats-bars').innerHTML='<div style="color:var(--muted);font-size:13px;padding:20px 0">Sense dades disponibles per a aquesta categoria.</div>';return;}
+  const max=rows[0].v||1;
+  document.getElementById('stats-bars').innerHTML=rows.map(r=>{
+    const pct=Math.round(r.v/max*100);
+    const last=r.name.split(' ').slice(-1)[0];
+    return`<div class="rk-row"><div class="rk-lbl">#${r.rank} ${last}</div><div class="rk-bw"><div class="rk-b" style="width:${pct}%;background:${col}">${r.v}</div></div></div>`;
+  }).join('');
+}
+
+// ── COMPARATIVA ───────────────────────────────────────────────────────────
+let cmpInited=false, cmpChart=null;
+
+function initCmp(){
+  const posEl=document.getElementById('cmp-pos');
+  POSITIONS.forEach(p=>{
+    const o=document.createElement('option');
+    o.value=p; o.textContent=POS_FULL[p]||p;
+    posEl.appendChild(o);
+  });
+  posEl.value='QB';
+  populateCmpPlayers('QB');
+}
+
+function onCmpPosChange(){
+  const pos=document.getElementById('cmp-pos').value;
+  populateCmpPlayers(pos);
+}
+
+function populateCmpPlayers(pos){
+  const s1=document.getElementById('cmp-p1'), s2=document.getElementById('cmp-p2');
+  s1.innerHTML=''; s2.innerHTML='';
+  const players=bigBoard.filter(p=>p.p===pos);
+  players.forEach((p,i)=>{
+    s1.appendChild(new Option('#'+p.r+' '+p.n,i));
+    s2.appendChild(new Option('#'+p.r+' '+p.n,i));
+  });
+  if(players.length>1){s1.value=0;s2.value=1;}
+  renderCmp();
+}
+
+function renderCmp(){
+  const pos=document.getElementById('cmp-pos').value;
+  const players=bigBoard.filter(p=>p.p===pos);
+  const i1=parseInt(document.getElementById('cmp-p1').value);
+  const i2=parseInt(document.getElementById('cmp-p2').value);
+  if(isNaN(i1)||isNaN(i2)||!players[i1]||!players[i2])return;
+  const p1=players[i1], p2=players[i2];
+  const col1=POS_COLORS[p1.p]||'#00d4a0';
+  const col2='#5bb8ff';
+  const defs=POS_STATS_DEF[pos]||[];
+  const vals1=getStatValues(p1.n,pos);
+  const vals2=getStatValues(p2.n,pos);
+  const rec=FBS_RECORDS_NEW[pos]||{};
+
+  // Table
+  const tableRows=defs.map((d,i)=>{
+    const v1=vals1[i], v2=vals2[i];
+    const n1=v1!=null?parseFloat(String(v1).replace(',','.')):null;
+    const n2=v2!=null?parseFloat(String(v2).replace(',','.')):null;
+    const b1=n1!=null&&n2!=null&&n1>n2;
+    const b2=n1!=null&&n2!=null&&n2>n1;
+    return`<tr>
+      <td>${d.l}</td>
+      <td class="${b1?'best':''}" style="color:${b1?col1:'var(--text)'}">${v1!=null?v1:'—'}</td>
+      <td class="${b2?'best':''}" style="color:${b2?col2:'var(--text)'}">${v2!=null?v2:'—'}</td>
+    </tr>`;
+  }).join('');
+
+  // Physical comparison
+  const physRows=[
+    {l:'Alçada',k:'ht',fmt:v=>fmtHt(v)},
+    {l:'Pes (lbs)',k:'wt'},
+    {l:'RAS',k:'ras',src:'board'},
+    {l:'40-yd dash',k:'fortyYd'},
+    {l:'Vertical (in)',k:'vertical'},
+    {l:'Broad (in)',k:'broad'},
+    {l:'Bench press',k:'bench'},
+    {l:'3-Cone',k:'threeCone'},
+  ].map(row=>{
+    let v1,v2;
+    if(row.src==='board'){v1=p1.ras;v2=p2.ras;}
+    else if(row.k==='ht'||row.k==='wt'){v1=p1[row.k];v2=p2[row.k];}
+    else{const e1=extStats[p1.n]||{},e2=extStats[p2.n]||{};v1=e1[row.k];v2=e2[row.k];}
+    const fmt=row.fmt||((v)=>v!=null?v:'—');
+    const n1=parseFloat(v1),n2=parseFloat(v2);
+    let b1=false,b2=false;
+    // For 40yd and 3-cone, lower is better
+    if(row.k==='fortyYd'||row.k==='threeCone'){b1=!isNaN(n1)&&!isNaN(n2)&&n1<n2;b2=!isNaN(n1)&&!isNaN(n2)&&n2<n1;}
+    else{b1=!isNaN(n1)&&!isNaN(n2)&&n1>n2;b2=!isNaN(n1)&&!isNaN(n2)&&n2>n1;}
+    if(v1==null&&v2==null)return'';
+    return`<tr>
+      <td>${row.l}</td>
+      <td class="${b1?'best':''}" style="color:${b1?col1:'var(--text)'}">${fmt(v1)}</td>
+      <td class="${b2?'best':''}" style="color:${b2?col2:'var(--text)'}">${fmt(v2)}</td>
+    </tr>`;
+  }).filter(r=>r).join('');
+
+  // Spider pct
+  const maxes=defs.map(d=>rec[d.k]||1);
+  const pct1=vals1.map((v,i)=>{const n=parseFloat(v);return!isNaN(n)&&maxes[i]?Math.min(100,Math.round(n/maxes[i]*100)):0;});
+  const pct2=vals2.map((v,i)=>{const n=parseFloat(v);return!isNaN(n)&&maxes[i]?Math.min(100,Math.round(n/maxes[i]*100)):0;});
+
+  document.getElementById('cmp-content').innerHTML=`
+    <div style="display:flex;gap:16px;margin-bottom:14px;align-items:center">
+      <div style="flex:1;background:${col1}15;border:1px solid ${col1}30;border-radius:10px;padding:10px 12px">
+        <div style="font-size:9px;color:${col1};font-weight:700;letter-spacing:0.1em;text-transform:uppercase">#${p1.r} ${p1.p}</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:${col1};line-height:1.1;margin-top:2px">${p1.n}</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px">${p1.u}</div>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted)">VS</div>
+      <div style="flex:1;background:${col2}15;border:1px solid ${col2}30;border-radius:10px;padding:10px 12px">
+        <div style="font-size:9px;color:${col2};font-weight:700;letter-spacing:0.1em;text-transform:uppercase">#${p2.r} ${p2.p}</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:${col2};line-height:1.1;margin-top:2px">${p2.n}</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px">${p2.u}</div>
+      </div>
+    </div>
+    <div class="cmp-section">
+      <div class="cmp-stitle">Estadístiques</div>
+      <table class="cmp-table">
+        <thead><tr><th></th><th style="color:${col1}">${p1.n.split(' ').slice(-1)[0]}</th><th style="color:${col2}">${p2.n.split(' ').slice(-1)[0]}</th></tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>
+    ${physRows?`<div class="cmp-section"><div class="cmp-stitle">Físic & Combine</div><table class="cmp-table"><thead><tr><th></th><th style="color:${col1}">${p1.n.split(' ').slice(-1)[0]}</th><th style="color:${col2}">${p2.n.split(' ').slice(-1)[0]}</th></tr></thead><tbody>${physRows}</tbody></table></div>`:''}
+    <div class="cmp-section">
+      <div class="cmp-stitle">Spider Chart — % del rècord FBS</div>
+      <canvas id="cmp-spider" height="280"></canvas>
+      <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:8px">100% = rècord absolut FBS single season</div>
+    </div>`;
+
+  // Render spider
+  setTimeout(()=>{
+    const canvas=document.getElementById('cmp-spider');
+    if(!canvas)return;
+    if(cmpChart){cmpChart.destroy();cmpChart=null;}
+    cmpChart=new Chart(canvas.getContext('2d'),{
+      type:'radar',
+      data:{
+        labels:defs.map(d=>d.l),
+        datasets:[
+          {label:p1.n,data:pct1,backgroundColor:col1+'33',borderColor:col1,borderWidth:2,pointBackgroundColor:col1,pointRadius:4},
+          {label:p2.n,data:pct2,backgroundColor:col2+'22',borderColor:col2,borderWidth:2,pointBackgroundColor:col2,pointRadius:4,borderDash:[5,3]}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{r:{
+          min:0,max:100,
+          ticks:{display:true,stepSize:25,color:'rgba(255,255,255,0.3)',font:{size:9},backdropColor:'transparent',callback:v=>v+'%'},
+          grid:{color:'rgba(255,255,255,0.08)'},
+          angleLines:{color:'rgba(255,255,255,0.08)'},
+          pointLabels:{color:'rgba(255,255,255,0.65)',font:{size:10,family:'Barlow,sans-serif'}}
+        }}
+      }
+    });
+  },50);
+}
+
+// ── PWA ───────────────────────────────────────────────────────────────────
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}
+initBoard();
+</script>
+</body>
+</html>
