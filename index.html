@@ -8,6 +8,10 @@
 <meta name="theme-color" content="#080c10">
 <title>Tots al Blitz! — Draft 2026</title>
 <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<meta name="apple-mobile-web-app-title" content="Draft 2026">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -31,13 +35,16 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-
 .home-logo{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
 .home-title{font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:800;text-transform:uppercase;line-height:1;text-align:center}
 .home-sub{font-size:13px;color:var(--muted);letter-spacing:0.04em;text-align:center;margin-top:4px}
-.home-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:400px;margin-top:16px}
+.home-cards{display:flex;flex-direction:column;gap:12px;width:100%;max-width:420px;margin-top:16px}
 .home-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:16px;padding:24px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;overflow:hidden}
 .home-card:active{background:var(--bg3)}
 .home-card.full{grid-column:1/-1}
-.home-card-title{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;text-transform:uppercase;letter-spacing:0.04em}
-.home-card-desc{font-size:13px;color:var(--muted);line-height:1.4}
+.home-card-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:0.03em}
+.home-card-desc{font-size:12px;color:var(--muted);line-height:1.4}
 .home-card-accent{position:absolute;bottom:0;left:0;right:0;height:3px}
+.install-btn{display:none;margin-top:8px;background:rgba(0,212,160,0.12);border:1px solid rgba(0,212,160,0.4);color:var(--acc);font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:10px 24px;border-radius:30px;cursor:pointer;transition:all 0.2s}
+.install-btn:active{background:rgba(0,212,160,0.25)}
+.install-ios{display:none;font-size:11px;color:var(--muted);text-align:center;line-height:1.6;padding:8px 16px;background:rgba(255,255,255,0.04);border-radius:10px;margin-top:4px}
 
 /* SCREEN HEADERS */
 .sh{padding:52px 0 16px;display:flex;align-items:flex-end;justify-content:space-between}
@@ -112,35 +119,60 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-
 .c-OT,.c-IOL{color:#5bb8ff}.c-EDGE{color:#ff4a6e}.c-DL{color:#ff6b35}
 .c-LB{color:#ffd700}.c-CB{color:#00cfff}.c-S{color:#a8ff6e}
 .ras-hi{color:#00d4a0}.ras-md{color:#ffd700}.ras-lo{color:#ff9a00}.ras-bd{color:#ff4a6e}
+
+.mock-rs{flex:1;background:var(--bg2);border:2px solid var(--bdr);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:all 0.15s}
+.mock-rs.on{border-color:var(--acc);background:rgba(0,212,160,0.08)}
+.mock-cff{flex:1;background:var(--bg2);border:1px solid var(--bdr);color:var(--muted);padding:8px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s}
+.mock-cff.on{background:var(--acc);color:#051a12;border-color:var(--acc)}
+.mock-team-card{background:var(--bg2);border:2px solid var(--bdr);border-radius:12px;padding:11px 10px;cursor:pointer;transition:all 0.15s;text-align:left}
+.mock-team-card:active,.mock-team-card.sel{border-color:var(--acc);background:rgba(0,212,160,0.08)}
+.mock-pf{flex-shrink:0;background:var(--bg2);border:1px solid var(--bdr);color:var(--muted);padding:4px 10px;border-radius:16px;font-size:10px;font-weight:700;cursor:pointer;letter-spacing:0.05em;transition:all 0.15s}
+.mock-pf.on{background:var(--acc);border-color:var(--acc);color:#051a12}
+.mock-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--acc);margin:0 3px;animation:mpulse 1.2s ease-in-out infinite}
+.mock-dot:nth-child(2){animation-delay:0.2s}.mock-dot:nth-child(3){animation-delay:0.4s}
+@keyframes mpulse{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+.mock-ltab{background:var(--bg2);border:1px solid var(--bdr);color:var(--muted);padding:8px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s}
+.mock-ltab.on{background:var(--acc);color:#051a12;border-color:var(--acc)}
+.mock-pick-card{background:var(--bg2);border-radius:12px;padding:13px;margin-bottom:8px;border:1px solid var(--bdr)}
+.mock-my-card{border-left:3px solid var(--acc)}
+.log-row{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.log-row.mine{padding-left:8px;border-left:2px solid var(--acc);margin-left:-2px}
+
 </style>
 </head>
 <body>
 
 <!-- HOME -->
 <div class="screen active" id="s-home" style="display:flex;flex-direction:column;justify-content:center;align-items:center;gap:20px;padding:80px 24px 40px;">
-  <div class="home-logo">Tots al Blitz!</div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:4px">
+    <img src="https://media.canva.com/v2/image-resize/format:PNG/height:200/quality:100/uri:ifs%3A%2F%2FM%2F1a67411a-73bc-496b-88e3-b5f1f2be990f/watermark:F/width:200?csig=AAAAAAAAAAAAAAAAAAAAAPyI2Gn8HT7FHWyYPk4KvxvHk0qbpVPPh0V5YEAjucMg&exp=1774916698&osig=AAAAAAAAAAAAAAAAAAAAAF3KnKt80YVHAIptnehA_DPOV6VlRfFT3i3H7Dykb_9h&signer=media-rpc&x-canva-quality=thumbnail" alt="Tots al Blitz!" style="width:80px;height:80px;border-radius:16px;object-fit:cover;box-shadow:0 4px 24px rgba(0,212,160,0.2)">
+    <div class="home-logo" style="margin-bottom:0">Tots al Blitz!</div>
+  </div>
   <div>
     <div class="home-title">NFL Draft<br>2026</div>
     <div class="home-sub">Pittsburgh · Abril 23–25</div>
   </div>
   <div class="home-cards">
-    <div class="home-card" onclick="goScreen('board')">
-      
+    <div class="home-card" onclick="goScreen('board')" style="width:100%">
       <div class="home-card-title">Big Board</div>
-      <div class="home-card-desc">100 jugadors ordenats per rank</div>
+      <div class="home-card-desc">Els nostres 100 millors jugadors d'aquesta classe del draft</div>
       <div class="home-card-accent" style="background:linear-gradient(90deg,#00d4a0,#00ff88)"></div>
     </div>
-    <div class="home-card" onclick="goScreen('stats')">
-      
+    <div class="home-card" onclick="goScreen('stats')" style="width:100%">
       <div class="home-card-title">Estadístiques</div>
-      <div class="home-card-desc">Ranking per posició i categoria</div>
+      <div class="home-card-desc">Totes les dades que necessites</div>
       <div class="home-card-accent" style="background:linear-gradient(90deg,#5bb8ff,#c87cff)"></div>
     </div>
     <div class="home-card full" onclick="goScreen('cmp')">
       
       <div class="home-card-title">Comparativa</div>
-      <div class="home-card-desc">Compara dos jugadors cara a cara amb taula de stats i spider chart</div>
+      <div class="home-card-desc">Cara a cara estadístic entre els jugadors de la classe</div>
       <div class="home-card-accent" style="background:linear-gradient(90deg,#ff4a6e,#ff9a00,#ffd700)"></div>
+    </div>
+    <div class="home-card full" onclick="goScreen('mock')">
+      <div class="home-card-title">Mock Draft</div>
+      <div class="home-card-desc">Converteix-te en GM i simula les tres primeres rondes del Draft!</div>
+      <div class="home-card-accent" style="background:linear-gradient(90deg,#5bb8ff,#00d4a0)"></div>
     </div>
   </div>
 </div>
@@ -190,6 +222,90 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-
   <div id="cmp-content" style="margin-top:14px"></div>
 </div>
 
+<!-- MOCK DRAFT SCREEN -->
+<div class="screen" id="s-mock">
+
+  <!-- SETUP -->
+  <div id="mock-setup" style="padding:0 16px 40px;max-width:520px;margin:0 auto">
+    <div class="sh"><div class="sh-title">Mock Draft</div><div class="sh-sub">Pittsburgh · Abril 23–25</div></div>
+
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Rondes</div>
+    <div style="display:flex;gap:8px;margin-bottom:22px" id="mock-rounds-sel">
+      <div class="mock-rs on" data-r="1" onclick="mockSelectRounds(1,this)"><span style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--acc)">1</span><div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em">Ronda</div></div>
+      <div class="mock-rs" data-r="2" onclick="mockSelectRounds(2,this)"><span style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--acc)">2</span><div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em">Rondes</div></div>
+      <div class="mock-rs" data-r="3" onclick="mockSelectRounds(3,this)"><span style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--acc)">3</span><div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em">Rondes</div></div>
+    </div>
+
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Tria el teu equip</div>
+    <div style="display:flex;gap:8px;margin-bottom:14px" id="mock-conf-filter">
+      <button class="mock-cff on" onclick="mockFilterConf('ALL',this)">Tots</button>
+      <button class="mock-cff" onclick="mockFilterConf('AFC',this)">AFC</button>
+      <button class="mock-cff" onclick="mockFilterConf('NFC',this)">NFC</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px" id="mock-team-grid"></div>
+    <button id="mock-start-btn" onclick="mockStart()" style="width:100%;background:var(--acc);color:#051a12;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;padding:16px;border-radius:14px;border:none;cursor:pointer;opacity:0.4;transition:opacity 0.2s" disabled>
+      Comença el mock draft →
+    </button>
+  </div>
+
+  <!-- DRAFT UI -->
+  <div id="mock-draft-ui" style="display:none">
+    <div id="mock-header" style="position:sticky;top:0;z-index:50;background:rgba(8,12,16,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--bdr);padding:10px 16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+        <div>
+          <div id="mock-pick-label" style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--acc)">Pick #1 · Ronda 1</div>
+          <div id="mock-team-label" style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;text-transform:uppercase"></div>
+        </div>
+        <button onclick="mockOpenLog()" style="background:rgba(0,212,160,0.1);border:1px solid rgba(0,212,160,0.3);color:var(--acc);padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:0.06em">LOG</button>
+      </div>
+      <div id="mock-needs-bar" style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px"></div>
+      <div style="height:3px;background:var(--bg3);border-radius:2px"><div id="mock-prog" style="height:100%;border-radius:2px;background:var(--acc);transition:width 0.4s;width:0%"></div></div>
+    </div>
+
+    <!-- CPU thinking -->
+    <div id="mock-cpu" style="display:none;text-align:center;padding:50px 20px">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:14px;letter-spacing:0.08em;text-transform:uppercase">La CPU tria...</div>
+      <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+    </div>
+
+    <!-- Your turn -->
+    <div id="mock-your-turn" style="display:none;padding:0 16px">
+      <div style="font-size:10px;color:var(--acc);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:10px 0 6px">És el teu torn</div>
+      <div style="display:flex;gap:5px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;margin-bottom:4px" id="mock-pos-filters"></div>
+      <input id="mock-search" type="text" placeholder="Cerca jugador…" oninput="mockRenderList()"
+        style="width:100%;background:var(--bg2);border:1px solid var(--bdr);border-radius:8px;color:var(--text);padding:9px 12px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;margin-bottom:8px">
+      <div id="mock-player-list"></div>
+    </div>
+  </div>
+
+  <!-- LOG OVERLAY -->
+  <div id="mock-log-ov" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.65);backdrop-filter:blur(5px)" onclick="mockCloseLog()">
+    <div onclick="event.stopPropagation()" style="position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-radius:20px 20px 0 0;padding:20px 16px 40px;max-height:88dvh;overflow-y:auto">
+      <div style="width:36px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin:0 auto 16px"></div>
+      <div id="mock-log-tabs" style="display:flex;gap:8px;margin-bottom:14px">
+        <button class="mock-ltab on" onclick="mockShowLogTab('mine',this)" style="flex:1">Els meus picks</button>
+        <button class="mock-ltab" onclick="mockShowLogTab('all',this)" style="flex:1">Tot el draft</button>
+      </div>
+      <div id="mock-log-content"></div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="mock-result" style="display:none;padding:0 16px 100px">
+    <div class="sh"><div class="sh-title" id="mock-result-title">Draft complet</div></div>
+    <div id="mock-result-tabs" style="display:flex;gap:8px;margin-bottom:16px">
+      <button class="mock-ltab on" onclick="mockResultTab('mine',this)" style="flex:1">Els meus picks</button>
+      <button class="mock-ltab" onclick="mockResultTab('all',this)" style="flex:1">Tot el draft</button>
+    </div>
+    <div id="mock-result-content"></div>
+    <button onclick="mockRestart()" style="width:100%;background:var(--bg2);border:1px solid var(--acc);color:var(--acc);font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;padding:14px;border-radius:14px;cursor:pointer;margin-top:16px">
+      ↺ Nou mock draft
+    </button>
+  </div>
+
+</div>
+
+
 <!-- BOTTOM NAV -->
 <nav class="nav" style="display:none">
 
@@ -204,6 +320,10 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-
   <button class="nav-btn" id="nav-cmp" onclick="goScreen('cmp')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="12" r="7"/><circle cx="15" cy="12" r="7"/></svg>
     Comparativa
+  </button>
+  <button class="nav-btn" id="nav-mock" onclick="goScreen('mock')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><circle cx="12" cy="14" r="3"/><path d="M12 11v-1M12 17v1M9 14H8M16 14h-1"/></svg>
+    Mock Draft
   </button>
 </nav>
 
@@ -629,6 +749,7 @@ function goScreen(s) {
   document.querySelector('.nav').style.display = s==='home' ? 'none' : 'flex';
   if(s==='stats' && !statsInited){initStats();statsInited=true;}
   if(s==='cmp' && !cmpInited){initCmp();cmpInited=true;}
+  if(s==='mock'){initMockSetup();}
 }
 
 // ── BIG BOARD ─────────────────────────────────────────────────────────────
@@ -951,8 +1072,383 @@ function renderCmp(){
   }));
 }
 
+
+const TEAMS = [
+  {id:'LV',  name:'Las Vegas Raiders',       city:'Las Vegas',     abbr:'Raiders',   r1:[1],      r2:[36],     r3:[67],        needs:['QB','WR','OT','DL','CB'],      conf:'AFC'},
+  {id:'NYJ', name:'New York Jets',            city:'New York',      abbr:'Jets',      r1:[2,16],   r2:[33,44],  r3:[68],        needs:['QB','EDGE','WR','CB','IOL'],   conf:'AFC'},
+  {id:'ARI', name:'Arizona Cardinals',        city:'Arizona',       abbr:'Cardinals', r1:[3],      r2:[34],     r3:[65],        needs:['QB','IOL','EDGE','DL','LB'],   conf:'NFC'},
+  {id:'TEN', name:'Tennessee Titans',         city:'Tennessee',     abbr:'Titans',    r1:[4],      r2:[35],     r3:[66,101],    needs:['IOL','EDGE','WR','RB','LB'],   conf:'AFC'},
+  {id:'NYG', name:'New York Giants',          city:'New York',      abbr:'Giants',    r1:[5],      r2:[37],     r3:[],          needs:['IOL','DL','WR','LB','CB'],     conf:'NFC'},
+  {id:'CLE', name:'Cleveland Browns',         city:'Cleveland',     abbr:'Browns',    r1:[6,24],   r2:[39],     r3:[70],        needs:['QB','OT','WR','CB','EDGE'],    conf:'AFC'},
+  {id:'WAS', name:'Washington Commanders',    city:'Washington',    abbr:'Commanders',r1:[7],      r2:[],       r3:[71],        needs:['WR','CB','EDGE','OT','RB'],    conf:'NFC'},
+  {id:'NO',  name:'New Orleans Saints',       city:'New Orleans',   abbr:'Saints',    r1:[8],      r2:[42],     r3:[73],        needs:['WR','EDGE','CB','DL','OT'],    conf:'NFC'},
+  {id:'KC',  name:'Kansas City Chiefs',       city:'Kansas City',   abbr:'Chiefs',    r1:[9,29],   r2:[40],     r3:[74],        needs:['CB','WR','EDGE','DL','LB'],    conf:'AFC'},
+  {id:'CIN', name:'Cincinnati Bengals',       city:'Cincinnati',    abbr:'Bengals',   r1:[10],     r2:[41],     r3:[72],        needs:['DL','LB','IOL','S','EDGE'],    conf:'AFC'},
+  {id:'MIA', name:'Miami Dolphins',           city:'Miami',         abbr:'Dolphins',  r1:[11,30],  r2:[43],     r3:[75,87,90,94], needs:['WR','CB','EDGE','OT','S'],  conf:'AFC'},
+  {id:'DAL', name:'Dallas Cowboys',           city:'Dallas',        abbr:'Cowboys',   r1:[12,20],  r2:[],       r3:[92],        needs:['EDGE','LB','CB','DL','IOL'],   conf:'NFC'},
+  {id:'LAR', name:'Los Angeles Rams',         city:'Los Angeles',   abbr:'Rams',      r1:[13],     r2:[61],     r3:[93],        needs:['WR','OT','EDGE','LB','S'],     conf:'NFC'},
+  {id:'BAL', name:'Baltimore Ravens',         city:'Baltimore',     abbr:'Ravens',    r1:[14],     r2:[45],     r3:[80],        needs:['WR','EDGE','OT','S','CB'],     conf:'AFC'},
+  {id:'TB',  name:'Tampa Bay Buccaneers',     city:'Tampa Bay',     abbr:'Buccaneers',r1:[15],     r2:[46],     r3:[77],        needs:['EDGE','WR','IOL','CB','LB'],   conf:'NFC'},
+  {id:'DET', name:'Detroit Lions',            city:'Detroit',       abbr:'Lions',     r1:[17],     r2:[50],     r3:[],          needs:['OT','IOL','CB','S','EDGE'],    conf:'NFC'},
+  {id:'MIN', name:'Minnesota Vikings',        city:'Minnesota',     abbr:'Vikings',   r1:[18],     r2:[49],     r3:[82],        needs:['IOL','S','EDGE','CB','DL'],    conf:'NFC'},
+  {id:'CAR', name:'Carolina Panthers',        city:'Carolina',      abbr:'Panthers',  r1:[19],     r2:[51],     r3:[83],        needs:['EDGE','QB','WR','CB','LB'],    conf:'NFC'},
+  {id:'PIT', name:'Pittsburgh Steelers',      city:'Pittsburgh',    abbr:'Steelers',  r1:[21],     r2:[53],     r3:[76],        needs:['QB','WR','IOL','TE','EDGE'],   conf:'AFC'},
+  {id:'LAC', name:'Los Angeles Chargers',     city:'Los Angeles',   abbr:'Chargers',  r1:[22],     r2:[55],     r3:[86],        needs:['IOL','DL','CB','EDGE','LB'],   conf:'AFC'},
+  {id:'PHI', name:'Philadelphia Eagles',      city:'Philadelphia',  abbr:'Eagles',    r1:[23],     r2:[54],     r3:[68,98],     needs:['S','EDGE','WR','TE','OT'],     conf:'NFC'},
+  {id:'CHI', name:'Chicago Bears',            city:'Chicago',       abbr:'Bears',     r1:[25],     r2:[57,60],  r3:[89],        needs:['OT','CB','WR','LB','S'],       conf:'NFC'},
+  {id:'BUF', name:'Buffalo Bills',            city:'Buffalo',       abbr:'Bills',     r1:[26],     r2:[],       r3:[91],        needs:['WR','OT','CB','LB','DL'],      conf:'AFC'},
+  {id:'SF',  name:'San Francisco 49ers',      city:'San Francisco', abbr:'49ers',     r1:[27],     r2:[58],     r3:[],          needs:['EDGE','WR','OT','CB','LB'],    conf:'NFC'},
+  {id:'HOU', name:'Houston Texans',           city:'Houston',       abbr:'Texans',    r1:[28],     r2:[38,59],  r3:[69],        needs:['EDGE','CB','OT','LB','DL'],    conf:'AFC'},
+  {id:'NE',  name:'New England Patriots',     city:'New England',   abbr:'Patriots',  r1:[31],     r2:[63],     r3:[95],        needs:['EDGE','WR','TE','IOL','OT'],   conf:'AFC'},
+  {id:'SEA', name:'Seattle Seahawks',         city:'Seattle',       abbr:'Seahawks',  r1:[32],     r2:[64],     r3:[96],        needs:['IOL','WR','CB','S','LB'],      conf:'NFC'},
+  {id:'IND', name:'Indianapolis Colts',       city:'Indianapolis',  abbr:'Colts',     r1:[],       r2:[47],     r3:[78],        needs:['QB','WR','EDGE','DL','S'],     conf:'AFC'},
+  {id:'ATL', name:'Atlanta Falcons',          city:'Atlanta',       abbr:'Falcons',   r1:[],       r2:[48],     r3:[79],        needs:['WR','CB','EDGE','IOL','S'],    conf:'NFC'},
+  {id:'GB',  name:'Green Bay Packers',        city:'Green Bay',     abbr:'Packers',   r1:[],       r2:[52],     r3:[84],        needs:['CB','S','EDGE','WR','DL'],     conf:'NFC'},
+  {id:'DEN', name:'Denver Broncos',           city:'Denver',        abbr:'Broncos',   r1:[],       r2:[62],     r3:[],          needs:['TE','LB','DL','S','EDGE'],     conf:'AFC'},
+  {id:'JAX', name:'Jacksonville Jaguars',     city:'Jacksonville',  abbr:'Jaguars',   r1:[],       r2:[56],     r3:[81,88,100], needs:['WR','CB','LB','IOL','S'],      conf:'AFC'},
+];
+
+// ── MOCK DRAFT STATE ──────────────────────────────────────────────────────
+let mdTeam=null, mdRounds=1, mdAvail=[], mdSchedule=[], mdPickIdx=0, mdLog=[], mdConf='ALL', mdPosFilter='ALL';
+
+// ── SETUP ─────────────────────────────────────────────────────────────────
+function mockRenderTeams() {
+  const grid = document.getElementById('mock-team-grid');
+  grid.innerHTML = TEAMS
+    .filter(t => mdConf==='ALL' || t.conf===mdConf)
+    .map(t => {
+      const p1 = t.r1.length ? 'R1: #'+t.r1.join(', #') : '';
+      const p2 = t.r2.length ? 'R2: #'+t.r2[0] : '';
+      const picks = [p1,p2].filter(Boolean).join(' · ');
+      return `<div class="mock-team-card${mdTeam===t.id?' sel':''}" onclick="mockSelectTeam('${t.id}',this)">
+        <div style="font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px">${t.conf}</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase;line-height:1.1;color:${mdTeam===t.id?'var(--acc)':'var(--text)'}">${t.city}</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:3px">${picks||'Cap pick R1/R2'}</div>
+      </div>`;
+    }).join('');
+}
+
+function mockFilterConf(c, btn) {
+  mdConf=c;
+  document.querySelectorAll('.mock-cff').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  mockRenderTeams();
+}
+
+function mockSelectRounds(n, el) {
+  mdRounds=n;
+  document.querySelectorAll('.mock-rs').forEach(r=>r.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function mockSelectTeam(id, el) {
+  mdTeam=id;
+  mockRenderTeams();
+  const btn=document.getElementById('mock-start-btn');
+  btn.disabled=false; btn.style.opacity='1';
+}
+
+// Init setup when entering screen
+function initMockSetup() {
+  mockRenderTeams();
+}
+
+// ── BUILD SCHEDULE ─────────────────────────────────────────────────────────
+function mockBuildSchedule() {
+  const rks=['r1','r2','r3'].slice(0,mdRounds);
+  const sched=[];
+  rks.forEach((rk,ri) => {
+    const picks=[];
+    TEAMS.forEach(t=>(t[rk]||[]).forEach(n=>picks.push({pickNum:n,round:ri+1,teamId:t.id})));
+    picks.sort((a,b)=>a.pickNum-b.pickNum);
+    sched.push(...picks);
+  });
+  return sched;
+}
+
+// ── AI PICK — controlled reach ─────────────────────────────────────────────
+// Round windows: picks ~1-32 = R1 talent (rank 1-40), picks 33-64 = R2 (rank 15-80), 65-100 = R3 (rank 40-100+)
+// Variance capped at ±10 ranks from expected range for this pick slot
+function mockAiPick(team, pickNum) {
+  const needs = team.needs;
+  // Determine expected rank window based on pick number
+  let winMin, winMax;
+  if (pickNum <= 32)       { winMin=1;   winMax=42;  }   // R1: ranks 1-42 realistic
+  else if (pickNum <= 64)  { winMin=18;  winMax=75;  }   // R2: ranks 18-75
+  else                     { winMin=45;  winMax=105; }   // R3: ranks 45-105
+
+  // Filter available players to those in (or near) the realistic window
+  const inWindow = mdAvail.filter(idx => {
+    const r = bigBoard[idx].r;
+    return r >= winMin && r <= winMax;
+  });
+  const pool = inWindow.length >= 3 ? inWindow : mdAvail.slice(0, Math.min(15, mdAvail.length));
+
+  // Score: need match × base quality × small random
+  const scored = pool.map(idx => {
+    const p = bigBoard[idx];
+    const ni = needs.indexOf(p.p);
+    const needMult = ni===0 ? 2.8 : ni===1 ? 2.1 : ni===2 ? 1.6 : ni>=3 ? 1.2 : 1.0;
+    const baseScore = (winMax - p.r + 1);  // better rank = higher base
+    const rand = 0.88 + Math.random() * 0.24;  // ±12% variance only
+    return {idx, score: baseScore * needMult * rand};
+  });
+  scored.sort((a,b)=>b.score-a.score);
+  return scored[0].idx;
+}
+
+// ── START ──────────────────────────────────────────────────────────────────
+function mockStart() {
+  if (!mdTeam) return;
+  mdAvail = bigBoard.map((p,i)=>i);
+  mdSchedule = mockBuildSchedule();
+  mdLog = [];
+  mdPickIdx = 0;
+  mdPosFilter = 'ALL';
+
+  document.getElementById('mock-setup').style.display='none';
+  document.getElementById('mock-result').style.display='none';
+  document.getElementById('mock-draft-ui').style.display='block';
+
+  // Build pos filters
+  const pf=document.getElementById('mock-pos-filters');
+  const poses=['ALL','QB','RB','WR','TE','OT','IOL','EDGE','DL','LB','CB','S'];
+  pf.innerHTML=poses.map(p=>`<button class="mock-pf${p==='ALL'?' on':''}" onclick="mockSetPos('${p}',this)">${p==='ALL'?'Tots':p}</button>`).join('');
+
+  mockAdvance();
+}
+
+function mockAdvance() {
+  if (mdPickIdx >= mdSchedule.length) { mockShowResult(); return; }
+  const pick = mdSchedule[mdPickIdx];
+  mockUpdateHeader(pick);
+  document.getElementById('mock-prog').style.width = (mdPickIdx/mdSchedule.length*100).toFixed(1)+'%';
+  if (pick.teamId===mdTeam) mockShowYourTurn();
+  else mockRunCPU(pick);
+}
+
+function mockUpdateHeader(pick) {
+  const t=TEAMS.find(x=>x.id===pick.teamId);
+  document.getElementById('mock-pick-label').textContent=`Pick #${pick.pickNum} · Ronda ${pick.round}`;
+  document.getElementById('mock-team-label').textContent=t?t.name:'';
+  const nb=document.getElementById('mock-needs-bar');
+  if(t) nb.innerHTML=t.needs.slice(0,5).map((n,i)=>{
+    const col=POS_COLORS[n]||'#888';
+    return `<span style="font-size:9px;font-weight:${i===0?'800':'600'};padding:2px 7px;border-radius:5px;background:${col}20;color:${col};border:1px solid ${col}30">${n}</span>`;
+  }).join('');
+}
+
+function mockRunCPU(pick) {
+  document.getElementById('mock-your-turn').style.display='none';
+  document.getElementById('mock-cpu').style.display='block';
+  setTimeout(()=>{
+    const t=TEAMS.find(x=>x.id===pick.teamId);
+    const idx=mockAiPick(t, pick.pickNum);
+    mockRecord(pick,idx);
+  }, 120 + Math.random()*280);
+}
+
+function mockShowYourTurn() {
+  document.getElementById('mock-cpu').style.display='none';
+  document.getElementById('mock-your-turn').style.display='block';
+  document.getElementById('mock-search').value='';
+  mdPosFilter='ALL';
+  document.querySelectorAll('.mock-pf').forEach(b=>b.classList.toggle('on',b.textContent==='Tots'));
+  mockRenderList();
+}
+
+function mockSetPos(p,btn) {
+  mdPosFilter=p;
+  document.querySelectorAll('.mock-pf').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  mockRenderList();
+}
+
+function mockRenderList() {
+  const q=document.getElementById('mock-search').value.toLowerCase();
+  const pick=mdSchedule[mdPickIdx];
+  const team=TEAMS.find(t=>t.id===pick.teamId);
+  const filtered=mdAvail.filter(idx=>{
+    const p=bigBoard[idx];
+    if(mdPosFilter!=='ALL' && p.p!==mdPosFilter) return false;
+    if(q && !p.n.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  document.getElementById('mock-player-list').innerHTML=filtered.map(idx=>{
+    const p=bigBoard[idx];
+    const col=POS_COLORS[p.p]||'#888';
+    const isNeed=team&&team.needs.includes(p.p);
+    const rkCol=p.r<=10?'#00d4a0':p.r<=25?'#5bb8ff':'rgba(255,255,255,0.25)';
+    const rasCol=p.ras>=8?'#00d4a0':p.ras>=6?'#ffd700':'#ff9a00';
+    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border-radius:10px;margin-bottom:6px;cursor:pointer;border:1px solid ${isNeed?'rgba(0,212,160,0.3)':'var(--bdr)'};background:${isNeed?'rgba(0,212,160,0.04)':'var(--bg2)'}" onclick="mockHumanPick(${idx})">
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;min-width:24px;text-align:center;color:${rkCol}">${p.r}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.n}</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:1px">${p.u}</div>
+      </div>
+      ${isNeed?`<span style="font-size:9px;color:var(--acc);font-weight:700;letter-spacing:0.05em">NEED</span>`:''}
+      <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;color:${col};background:${col}18;border:1px solid ${col}28;flex-shrink:0">${p.p}</span>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;min-width:32px;text-align:right;flex-shrink:0;color:${p.ras!=null?rasCol:'var(--muted)'}">${p.ras!=null?p.ras.toFixed(2):'—'}</span>
+    </div>`;
+  }).join('')||'<div style="color:var(--muted);font-size:13px;padding:20px;text-align:center">Cap jugador disponible.</div>';
+}
+
+function mockHumanPick(idx) {
+  const pick=mdSchedule[mdPickIdx];
+  mockRecord(pick,idx);
+}
+
+function mockRecord(pick,playerIdx) {
+  mdLog.push({pick,playerIdx});
+  mdAvail=mdAvail.filter(i=>i!==playerIdx);
+  mdPickIdx++;
+  mockAdvance();
+}
+
+// ── LOG ────────────────────────────────────────────────────────────────────
+let mdLogTab='mine';
+function mockOpenLog() {
+  mockRenderLog(mdLogTab);
+  document.getElementById('mock-log-ov').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function mockCloseLog() {
+  document.getElementById('mock-log-ov').style.display='none';
+  document.body.style.overflow='';
+}
+function mockShowLogTab(tab,btn) {
+  mdLogTab=tab;
+  document.querySelectorAll('.mock-ltab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  mockRenderLog(tab);
+}
+function mockRenderLog(tab) {
+  const entries = tab==='mine' ? mdLog.filter(e=>e.pick.teamId===mdTeam) : [...mdLog].reverse();
+  document.getElementById('mock-log-content').innerHTML = entries.map(e=>{
+    const p=bigBoard[e.playerIdx];
+    const t=TEAMS.find(x=>x.id===e.pick.teamId);
+    const col=POS_COLORS[p.p]||'#888';
+    const isMine=e.pick.teamId===mdTeam;
+    return `<div class="log-row${isMine?' mine':''}">
+      <div style="font-size:10px;color:${isMine?'var(--acc)':'var(--muted)'};min-width:44px">#${e.pick.pickNum}<br>R${e.pick.round}</div>
+      <div style="font-size:10px;font-weight:700;color:${isMine?'var(--acc)':'var(--muted)'};min-width:36px">${e.pick.teamId}</div>
+      <div style="flex:1">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700">${p.n}</div>
+        <span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;background:${col}20;color:${col}">${p.p} · #${p.r} BB</span>
+      </div>
+    </div>`;
+  }).join('')||'<div style="color:var(--muted);font-size:13px;padding:16px 0">Cap pick enregistrat.</div>';
+}
+
+// ── RESULT ─────────────────────────────────────────────────────────────────
+let mdResultTab='mine';
+function mockShowResult() {
+  document.getElementById('mock-draft-ui').style.display='none';
+  document.getElementById('mock-result').style.display='block';
+  const myT=TEAMS.find(t=>t.id===mdTeam);
+  document.getElementById('mock-result-title').textContent='Draft complet — '+myT.city;
+  mockResultTab('mine', document.querySelector('#mock-result-tabs .mock-ltab'));
+}
+
+function mockResultTab(tab, btn) {
+  mdResultTab=tab;
+  document.querySelectorAll('#mock-result-tabs .mock-ltab').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  const myPicks=mdLog.filter(e=>e.pick.teamId===mdTeam);
+  const rndNames={1:'R1',2:'R2',3:'R3'};
+  const POS_FULL_L={QB:'Quarterback',RB:'Running Back',WR:'Wide Receiver',TE:'Tight End',OT:'Offensive Tackle',IOL:'Interior O-Line',EDGE:'Edge Rusher',DL:'Defensive Lineman',LB:'Linebacker',CB:'Cornerback',S:'Safety'};
+
+  if(tab==='mine') {
+    document.getElementById('mock-result-content').innerHTML = myPicks.length ?
+      myPicks.map(e=>{
+        const p=bigBoard[e.playerIdx];
+        const col=POS_COLORS[p.p]||'#888';
+        return `<div class="mock-pick-card mock-my-card">
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--acc);margin-bottom:4px">${rndNames[e.pick.round]} · Pick #${e.pick.pickNum}</div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:2px">
+            <span style="font-size:11px;font-weight:800;color:${col};font-family:'Barlow Condensed',sans-serif">BB #${p.r}</span>
+            <span style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;text-transform:uppercase;line-height:1">${p.n}</span>
+          </div>
+          <div style="font-size:11px;color:var(--muted)"><span style="color:${col};font-weight:700">${POS_FULL_L[p.p]||p.p}</span> · ${p.u}${p.ras?' · RAS <span style="color:'+(p.ras>=8?'#00d4a0':'#ffd700')+';font-weight:700">'+p.ras.toFixed(2)+'</span>':''}</div>
+          ${p.desc?`<div style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.45;margin-top:8px;font-style:italic;border-top:1px solid rgba(255,255,255,0.06);padding-top:8px">${p.desc}</div>`:''}
+        </div>`;
+      }).join('') : '<div style="color:var(--muted);font-size:13px;padding:20px 0">No has realitzat cap selecció.</div>';
+  } else {
+    // Full draft by round
+    const byRound={};
+    mdLog.forEach(e=>{
+      if(!byRound[e.pick.round]) byRound[e.pick.round]=[];
+      byRound[e.pick.round].push(e);
+    });
+    document.getElementById('mock-result-content').innerHTML = Object.entries(byRound).map(([rnd,entries])=>{
+      const rows=entries.sort((a,b)=>a.pick.pickNum-b.pick.pickNum).map(e=>{
+        const p=bigBoard[e.playerIdx];
+        const col=POS_COLORS[p.p]||'#888';
+        const isMine=e.pick.teamId===mdTeam;
+        const t=TEAMS.find(x=>x.id===e.pick.teamId);
+        return `<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:${isMine?'rgba(0,212,160,0.06)':'var(--bg2)'};border-radius:8px;margin-bottom:4px;border:1px solid ${isMine?'rgba(0,212,160,0.25)':'var(--bdr)'}">
+          <span style="font-size:10px;color:${isMine?'var(--acc)':'var(--muted)'};min-width:28px;font-weight:${isMine?'700':'400'}">#${e.pick.pickNum}</span>
+          <span style="font-size:10px;font-weight:700;color:${isMine?'var(--acc)':'var(--muted)'};min-width:32px">${e.pick.teamId}</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:${isMine?'var(--text)':'rgba(255,255,255,0.7)'}">${p.n}</div>
+          </div>
+          <span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;background:${col}18;color:${col};flex-shrink:0">${p.p}</span>
+        </div>`;
+      }).join('');
+      const rndLabel=['Primera Ronda','Segona Ronda','Tercera Ronda'][parseInt(rnd)-1]||'Ronda '+rnd;
+      return `<div style="margin-bottom:16px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--acc);margin-bottom:8px">${rndLabel}</div>
+        ${rows}
+      </div>`;
+    }).join('');
+  }
+}
+
+function mockRestart() {
+  mdTeam=null;
+  document.getElementById('mock-result').style.display='none';
+  document.getElementById('mock-setup').style.display='block';
+  const btn=document.getElementById('mock-start-btn');
+  btn.disabled=true; btn.style.opacity='0.4';
+  mockRenderTeams();
+}
+
 // ── PWA ───────────────────────────────────────────────────────────────────
 if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}
+// ── PWA INSTALL ──────────────────────────────────────────────────
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.getElementById('install-btn');
+  if (btn) btn.style.display = 'block';
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredPrompt = null;
+  const btn = document.getElementById('install-btn');
+  if (btn) btn.style.display = 'none';
+});
+
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+  }
+}
+
+// Show iOS instructions on iOS Safari (not standalone)
+(function() {
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isStandalone = window.navigator.standalone;
+  if (isIOS && !isStandalone) {
+    const el = document.getElementById('install-ios');
+    if (el) el.style.display = 'block';
+  }
+})();
+
+
 initBoard();
 </script>
 </body>

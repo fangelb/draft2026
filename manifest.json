@@ -1,24 +1,45 @@
 {
   "name": "Tots al Blitz! Draft 2026",
   "short_name": "Draft 2026",
-  "description": "NFL Draft 2026 — Big Board, Stats i Fitxes de Prospects",
+  "description": "El Big Board del NFL Draft 2026 per Tots al Blitz!",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#080c10",
-  "theme_color": "#00d4a0",
+  "theme_color": "#080c10",
   "orientation": "portrait-primary",
+  "lang": "ca",
   "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
+    }
+  ],
+  "categories": [
+    "sports",
+    "entertainment"
+  ],
+  "shortcuts": [
+    {
+      "name": "Big Board",
+      "url": "./index.html#board",
+      "description": "Els 100 millors prospects"
+    },
+    {
+      "name": "Comparativa",
+      "url": "./index.html#cmp",
+      "description": "Compara jugadors"
     }
   ]
 }
