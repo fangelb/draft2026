@@ -226,7 +226,7 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-
 <div class="screen" id="s-mock">
 
   <!-- SETUP -->
-  <div id="mock-setup" style="padding:0 16px 40px;max-width:520px;margin:0 auto">
+  <div id="mock-setup" style="padding:0 16px 40px;max-width:520px;margin:0 auto;box-sizing:border-box;width:100%">
     <div class="sh"><div class="sh-title">Mock Draft</div><div class="sh-sub">Pittsburgh · Abril 23–25</div></div>
 
     <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Rondes</div>
@@ -243,7 +243,7 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-
       <button class="mock-cff" onclick="mockFilterConf('NFC',this)">NFC</button>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px" id="mock-team-grid"></div>
-    <button id="mock-start-btn" onclick="mockStart()" style="width:100%;background:var(--acc);color:#051a12;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;padding:16px;border-radius:14px;border:none;cursor:pointer;opacity:0.4;transition:opacity 0.2s" disabled>
+    <button id="mock-start-btn" onclick="mockStart()" style="width:100%;background:var(--acc);color:#051a12;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;padding:14px 8px;border-radius:14px;border:none;cursor:pointer;opacity:0.4;transition:opacity 0.2s;box-sizing:border-box" disabled>
       Comença el mock draft →
     </button>
   </div>
@@ -1121,8 +1121,8 @@ function mockRenderTeams() {
       const p2 = t.r2.length ? 'R2: #'+t.r2[0] : '';
       const picks = [p1,p2].filter(Boolean).join(' · ');
       return `<div class="mock-team-card${mdTeam===t.id?' sel':''}" onclick="mockSelectTeam('${t.id}',this)">
-        <div style="font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px">${t.conf}</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase;line-height:1.1;color:${mdTeam===t.id?'var(--acc)':'var(--text)'}">${t.city}</div>
+        <div style="font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1px">${t.conf} · ${t.city}</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;text-transform:uppercase;line-height:1.1;color:${mdTeam===t.id?'var(--acc)':'var(--text)'}">${t.abbr}</div>
         <div style="font-size:10px;color:var(--muted);margin-top:3px">${picks||'Cap pick R1/R2'}</div>
       </div>`;
     }).join('');
@@ -1145,7 +1145,7 @@ function mockSelectTeam(id, el) {
   mdTeam=id;
   mockRenderTeams();
   const btn=document.getElementById('mock-start-btn');
-  btn.disabled=false; btn.style.opacity='1';
+  btn.disabled=false; btn.style.opacity='1'; btn.style.boxSizing='border-box';
 }
 
 // Init setup when entering screen
