@@ -1,6 +1,6 @@
 {
-  "name": "Tots al Blitz! Draft 2026",
-  "short_name": "Draft 2026",
+  "name": "TAB! Draft 2026",
+  "short_name": "TAB! Draft 2026",
   "description": "El Big Board del NFL Draft 2026 per Tots al Blitz!",
   "start_url": "./index.html",
   "display": "standalone",
