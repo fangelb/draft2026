@@ -1,4 +1,4 @@
-const CACHE = 'tab-draft-2026-v4';
+const CACHE = 'tab-draft-2026-v7';
 const ASSETS = [
   './',
   './index.html',

@@ -335,19 +335,19 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-
 
 <script>
 const bigBoard = [
-  {r:1,n:'Caleb Downs',p:'S',u:'Ohio State Buckeyes',ht:'5-11',wt:'206',desc:'El millor jugador del draft. Molt més que un safety, és un jugador que et millora tots els seus companys de la defensa automàticament.'},
-  {r:2,n:'Arvell Reese',p:'LB',u:'Ohio State Buckeyes',ht:'6-4',wt:'241',desc:'Molt més que un edge, és capaç de pressionar el QB, aturar la cursa i caure en cobertura sense perdre qualitat.'},
+  {r:1,n:'Caleb Downs',p:'S',u:'Ohio State Buckeyes',ht:'6-0',wt:'206',desc:'El millor jugador del draft. Molt més que un safety, és un jugador que et millora tots els seus companys de la defensa automàticament.'},
+  {r:2,n:'Arvell Reese',p:'LB',p2:'EDGE',u:'Ohio State Buckeyes',ht:'6-4',wt:'241',desc:'Molt més que un edge, és capaç de pressionar el QB, aturar la cursa i caure en cobertura sense perdre qualitat.'},
   {r:3,n:'Rueben Bain',p:'EDGE',u:'Miami Hurricanes',ht:'6-2',wt:'263',desc:'Rusher molt explosiu amb un centre de gravetat baixíssim que es fa molt difícil d\'aturar pels tackles rivals. Potencial altíssim.'},
-  {r:4,n:'David Bailey',p:'EDGE',u:'Texas Tech Red Raiders',ht:'6-3',wt:'251',ras:9.65,desc:'Segurament el millor rusher pur de tota la classe. Els seus 14,5 sacks així ho acrediten.'},
+  {r:4,n:'David Bailey',p:'EDGE',u:'Texas Tech Red Raiders',ht:'6-4',wt:'251',ras:9.65,desc:'Segurament el millor rusher pur de tota la classe. Els seus 14,5 sacks així ho acrediten.'},
   {r:5,n:'Jeremiyah Love',p:'RB',u:'Notre Dame Fighting Irish',ht:'6-0',wt:'212',desc:'El millor running back de la classe. Explosiu, ràpid i elusiu, també té unes mans molt fiables que el fan una amenaça com a receptor.'},
   {r:6,n:'Sonny Styles',p:'LB',u:'Ohio State Buckeyes',ht:'6-5',wt:'244',ras:9.99,desc:'Perfil físic espectacular (RAS de 10), és un linebacker intel·ligent, completíssim i capaç de defensar qualsevol situació amb una tècnica de placatge espectacular.'},
   {r:7,n:'Olaivavega Ioane',p:'IOL',u:'Penn State Nittany Lions',ht:'6-4',wt:'320',desc:'El millor projecte de guard sortint de college des de Quenton Nelson. Ha de millorar en la interpretació de fintes defensives.'},
   {r:8,n:'Fernando Mendoza',p:'QB',u:'Indiana Hoosiers',ht:'6-5',wt:'236',desc:'Guanyador del Heisman. Molt competitiu i un grandíssim líder, capaç de córrer i fer qualsevol llançament, però acostumat a un sistema d\'una sola lectura molt poc "pro-ready".'},
-  {r:9,n:'Francis Mauigoa',ras:8.75,p:'OT',u:'Miami Hurricanes',ht:'6-5',wt:'329',desc:'Tackle dret amb sostre d\'All-Pro; destaca pels seus bloquejos per la cursa i permet certa polivalència per jugar també a l\'interior de la línia.'},
+  {r:9,n:'Francis Mauigoa',ras:8.75,p:'OT',u:'Miami Hurricanes',ht:'6-6',wt:'329',desc:'Tackle dret amb sostre d\'All-Pro; destaca pels seus bloquejos per la cursa i permet certa polivalència per jugar també a l\'interior de la línia.'},
   {r:10,n:'Jordyn Tyson',p:'WR',u:'Arizona State Sun Devils',ht:'6-2',wt:'203',desc:'Receptor exterior físic i gran amb grandíssima capacitat de separació. Projecció de WR1 tot i que acumula un perillós historial de lesions.'},
   {r:11,n:'Carnell Tate',p:'WR',u:'Ohio State Buckeyes',ht:'6-2',wt:'192',desc:'Grandíssim route runner, amb unes mans molt i molt fiables. Pot jugar tant a l\'interior com per fora.'},
   {r:12,n:'Mansoor Delane',p:'CB',u:'LSU Tigers',ht:'6-0',wt:'187',desc:'El cornerback més fiable de la classe: fluid, intel·ligent i instintiu tant en cobertura a l\'home com en zona.'},
-  {r:13,n:'Spencer Fano',p:'OT',u:'Utah Utes',ht:'6-5',wt:'311',ras:9.8,desc:'Físic espectacular per la posició. També pot afegir versatilitat jugant de guard fins assumir la posició de tackle a l\'NFL.'},
+  {r:13,n:'Spencer Fano',p:'OT',u:'Utah Utes',ht:'6-6',wt:'311',ras:9.8,desc:'Físic espectacular per la posició. També pot afegir versatilitat jugant de guard fins assumir la posició de tackle a l\'NFL.'},
   {r:14,n:'Monroe Freeling',p:'OT',u:'Georgia Bulldogs',ht:'6-7',wt:'315',ras:9.99,desc:'Combine espectacular amb mida prototípica i fluïdesa; necessita millorar tècnicament, però amb potencial per ancorar-se com a "franchise LT".'},
   {r:15,n:'Makai Lemon',p:'WR',u:'USC Trojans',ht:'5-11',wt:'192',desc:'Receptor completíssim partint de l\'slot. Determinant, amb gran capacitat de generar separació i de guanyar iardes després de la recepció.'},
   {r:16,n:'Jermod McCoy',ras:9.67,p:'CB',u:'Tennessee Volunteers',ht:'6-1',wt:'188',desc:'Talent de nivell estrella que torna d\'un trencament de LCA. El seu pro day (4.38, 38 vert) va confirmar que està al cent per cent.'},
@@ -355,22 +355,22 @@ const bigBoard = [
   {r:18,n:'Dillon Thieneman',p:'S',u:'Oregon Ducks',ht:'6-0',wt:'201',ras:9.71,desc:'Safety completíssim que pot jugar en qualsevol posició; llegeix el passador tan bé com tanca la distància per avançar-se al receptor.'},
   {r:19,n:'Keldric Faulk',p:'EDGE',u:'Auburn Tigers',ht:'6-6',wt:'276',desc:'Jove (21 anys) amb un físic impressionant (6\'6", 276 lliures). Amb potencial per acabar sent el millor rusher pur de la classe.',ras:9.11},
   {r:20,n:'Akheem Mesidor',p:'EDGE',u:'Miami Hurricanes',ht:'6-3',wt:'259',desc:'12,5 sacks i 17,5 TFLs el 2025. Pro ready i efectiu, tot i que la seva edat (25 anys en el draft) genera dubtes sobre el seu marge de millora.'},
-  {r:21,n:'Kadyn Proctor',p:'OT',u:'Alabama Crimson Tide',ht:'6-6',wt:'352',ras:8.79,desc:'Projecte d\'OT espectacular amb un físic extraordinari (9.28 RAS, 352 lliures) que necessita temps per acabar de desenvolupar-se.'},
+  {r:21,n:'Kadyn Proctor',p:'OT',u:'Alabama Crimson Tide',ht:'6-7',wt:'352',ras:8.79,desc:'Projecte d\'OT espectacular amb un físic extraordinari (9.28 RAS, 352 lliures) que necessita temps per acabar de desenvolupar-se.'},
   {r:22,n:'Caleb Lomu',p:'OT',u:'Utah Utes',ht:'6-6',wt:'313',ras:9.77,desc:'9.88 de RAS confirma una mobilitat excepcional per la posició. Amb capacitat per acabar jugant de LT a l\'NFL.'},
   {r:23,n:'Avieon Terrell',p:'CB',u:'Clemson Tigers',ht:'5-11',wt:'186',desc:'Dues temporades i mitja de titular a Clemson com a CB exterior. Molt agressiu, excel·leix en cobertura en zona i és capaç de pressionar el QB des de la seva posició.',ras:4.94},
   {r:24,n:'Peter Woods',p:'DL',u:'Clemson Tigers',ht:'6-2',wt:'298',desc:'Defensor de cursa d\'elit amb potencial de rusher; talent de primera ronda, però el seu rendiment a la combine va decebre generant dubtes en la seva transició a l\'NFL.',ras:7.59},
-  {r:25,n:'Emmanuel McNeil-Warren',p:'S',u:'Toledo Rockets',ht:'6-3',wt:'201',desc:'Safety imponent amb físic i versatilitat notables, tot i que els seus números no són espectaculars tractant-se d\'una conferència més fluixa.',ras:9.01},
-  {r:26,n:'Omar Cooper Jr.',p:'WR',u:'Indiana Hoosiers',ht:'6-0',wt:'199',desc:'Receptor molt hàbil amb la pilota a les mans amb gran capacitat de "yards after catch". Projecta com un receptor slot-exterior.',ras:9.15},
+  {r:25,n:'Emmanuel McNeil-Warren',p:'S',u:'Toledo Rockets',ht:'6-4',wt:'201',desc:'Safety imponent amb físic i versatilitat notables, tot i que els seus números no són espectaculars tractant-se d\'una conferència més fluixa.',ras:9.01},
+  {r:26,n:'Omar Cooper Jr.',p:'WR',u:'Indiana Hoosiers',ht:'6-0',wt:'196',desc:'Receptor molt hàbil amb la pilota a les mans amb gran capacitat de "yards after catch". Projecta com un receptor slot-exterior.',ras:9.15},
   {r:27,n:'C.J. Allen',p:'LB',u:'Georgia Bulldogs',ht:'6-1',wt:'230',desc:'Té problemes de fiabilitat en cobertura de zona, però és un linebacker veloç i agressiu que ataca ràpid i apareix sempre a prop de la pilota.'},
-  {r:28,n:'T.J. Parker',p:'EDGE',u:'Clemson Tigers',ht:'6-3',wt:'263',desc:'Encara ha d\'aprendre a deslliurar-se de bloquejos i contraatacar, però ofereix una base fiable, poderós i un "motor" constant.',ras:9.39},
-  {r:29,n:'Denzel Boston',p:'WR',u:'Washington Huskies',ht:'6-3',wt:'212',desc:'Velocitat i fluïdesa per guanyar sepració, gran capacitat per ajustar-se a les recepcions. Es pot imposar tant per dins com per fora, el seu joc recorda al de Jayden Higgins.'},
-  {r:30,n:'Kevin Concepcion',p:'WR',u:'Texas A&M Aggies',ht:'5-11',wt:'196',desc:'Ha de reduir les errades i polir aspectes del seu joc, però és un playmaker versàtil amb instint per desmarcar-se i crear després de la recepció. Slot o Z titular i afegeix valor com a retornador.'},
+  {r:28,n:'T.J. Parker',p:'EDGE',u:'Clemson Tigers',ht:'6-4',wt:'263',desc:'Encara ha d\'aprendre a deslliurar-se de bloquejos i contraatacar, però ofereix una base fiable, poderós i un "motor" constant.',ras:9.39},
+  {r:29,n:'Denzel Boston',p:'WR',u:'Washington Huskies',ht:'6-4',wt:'212',desc:'Velocitat i fluïdesa per guanyar sepració, gran capacitat per ajustar-se a les recepcions. Es pot imposar tant per dins com per fora, el seu joc recorda al de Jayden Higgins.'},
+  {r:30,n:'Kevin Concepcion',p:'WR',u:'Texas A&M Aggies',ht:'6-0',wt:'196',desc:'Ha de reduir les errades i polir aspectes del seu joc, però és un playmaker versàtil amb instint per desmarcar-se i crear després de la recepció. Slot o Z titular i afegeix valor com a retornador.'},
   {r:31,n:'Blake Miller',p:'OT',u:'Clemson Tigers',ht:'6-7',wt:'317',ras:9.9,desc:'Té un estil de joc massa vertical que podria generar problemes a l\'NFL, però té el perfil (físic, IQ, duresa competitiva) que agrada a tots els equips.'},
   {r:32,n:'Kayden McDonald',p:'DL',u:'Ohio State Buckeyes',ht:'6-2',wt:'326',desc:'Dominant aturant el joc de cursa que el farà immediatament útil, però encara ha de desenvolupar rush interiror.'},
   {r:33,n:'Caleb Banks',p:'DL',u:'Florida Gators',ht:'6-6',wt:'327',desc:'Té una combinació poc habitual de mida, potència bruta i agilitat d\'home gran que porta a flaixos del que pot ser el seu sostre. L\'absència d\'una temporada sènior saludable complica la projecció.',ras:9.83},
-  {r:34,n:'Cashius Howell',p:'EDGE',u:'Texas A&M Aggies',ht:'6-2',wt:'253',desc:'Necessita ser més consistent en el seu joc, però la seva agilitat, velocitat de joc i violència el fan un pack en el qual es pot apostar.',ras:8.11},
+  {r:34,n:'Cashius Howell',p:'EDGE',u:'Texas A&M Aggies',ht:'6-3',wt:'253',desc:'Necessita ser més consistent en el seu joc, però la seva agilitat, velocitat de joc i violència el fan un pack en el qual es pot apostar.',ras:8.11},
   {r:35,n:'Anthony Hill Jr.',p:'LB',u:'Texas Longhorns',ht:'6-2',wt:'238',ras:9.81,desc:'Ha de millorar el control en els seus moviments, però és un gran atleta i dinàmic amb velocitat de tancament. Potencial de titular de tres downs.'},
-  {r:36,n:'Colton Hood',p:'CB',u:'Tennessee Volunteers',ht:'5-11',wt:'193',desc:'Bon atleta que excel·leix en cobertura press. Té el talent i la mentalitat per ser un titular bastant aviat a l\'NFL.',ras:9.66},
+  {r:36,n:'Colton Hood',p:'CB',u:'Tennessee Volunteers',ht:'6-0',wt:'193',desc:'Bon atleta que excel·leix en cobertura press. Té el talent i la mentalitat per ser un titular bastant aviat a l\'NFL.',ras:9.66},
   {r:37,n:'Zion Young',p:'EDGE',u:'Missouri Tigers',ht:'6-6',wt:'262',desc:'Defensor gran que destaca pel seu bull rush i la capacitat per aturar la cursa, malgrat li falti velocitat i altres recursos per superar els tackles rivals.',ras:7.68},
   {r:38,n:'Max Iheanachor',p:'OT',u:'Arizona State Sun Devils',ht:'6-6',wt:'321',desc:'Segueix aprenent a refinar el talent de manera consistent, però amb tot elq ue es busca a un tackle titular a l\'NFL. Un any de "redshirt" és més que fractible.',ras:9.86},
   {r:39,n:'Brandon Cisse',p:'CB',u:'South Carolina Gamecocks',ht:'6-0',wt:'189',desc:'Molt bon atleta amb grans capacitats físiques amb gran potencial però que encara està bastant verd. El seu desenvolupament marcarà quin serà el seu sostre real a la lliga.',ras:9.24},
@@ -386,9 +386,9 @@ const bigBoard = [
   {r:49,n:'Jadarian Price',p:'RB',u:'Notre Dame Fighting Irish',ht:'5-10',wt:'203',desc:'El suplent de Love com a segon millor RB de la classe després del propi Love. Instintiu amb gran equilibri al contacte. El seu temps de joc el penalitza, així com algun problema amb els fumbles.',ras:8.58},
   {r:50,n:'Chris Bell',p:'WR',u:'Louisville Cardinals',ht:'6-2',wt:'222',desc:'Receptor gran, fort i explosiu. És difícil trobar algú altre amb el talent de jugador de Bell. Una lesió de lligaments complica la seva posició al draft.'},
   {r:51,n:'Chris Brazzell',p:'WR',u:'Tennessee Volunteers',ht:'6-4',wt:'198',desc:'Receptor que encara ha de desenvolupar moltes fases del seu joc, però que pot entrar a la lliga com amença en profund, fet poc habitual sent tan alt.'},
-  {r:52,n:'Jake Golday',p:'LB',u:'Cincinnati Bearcats',ht:'6-4',wt:'239',desc:'Aposta clara de LB físic que encara no ha demostrat el seu potencial al terreny de joc. Sostre molt alt a l\'espera que desenvolupi el seu potencial.',ras:9.85},
-  {r:53,n:'D\'angelo Ponds',p:'CB',u:'Indiana Hoosiers',ht:'5-8',wt:'182',desc:'CB físic molt fiable en cobertura press. 39 PBUs en la seva carrera avalen la producció; la mida petita (5\'10") serà l\'obstacle principal per a molts equips.',ras:8.25},
-  {r:54,n:'Gabe Jacas',p:'EDGE',u:'Illinois Fighting Illini',ht:'6-3',wt:'260',desc:'No guanyarà per velocitat a cap tackle de l\'NFL però la tècnica, la potència i la mentalitat agressiva es tradueixen bé a l\'NFL. Projecta com a EDGE rotacional amb opció de créixer a titular.',ras:9.59},
+  {r:52,n:'Jake Golday',p:'LB',u:'Cincinnati Bearcats',ht:'6-5',wt:'239',desc:'Aposta clara de LB físic que encara no ha demostrat el seu potencial al terreny de joc. Sostre molt alt a l\'espera que desenvolupi el seu potencial.',ras:9.85},
+  {r:53,n:'D\'Angelo Ponds',p:'CB',u:'Indiana Hoosiers',ht:'5-9',wt:'182',desc:'CB físic molt fiable en cobertura press. 39 PBUs en la seva carrera avalen la producció; la mida petita (5\'10") serà l\'obstacle principal per a molts equips.',ras:8.25},
+  {r:54,n:'Gabe Jacas',p:'EDGE',u:'Illinois Fighting Illini',ht:'6-4',wt:'260',desc:'No guanyarà per velocitat a cap tackle de l\'NFL però la tècnica, la potència i la mentalitat agressiva es tradueixen bé a l\'NFL. Projecta com a EDGE rotacional amb opció de créixer a titular.',ras:9.59},
   {r:55,n:'Eli Stowers',p:'TE',u:'Vanderbilt Commodores',ht:'6-4',wt:'239',desc:'Rècord de salt vertical entre els TEs de la combine (45.5"). Potencial de matchup molt interessant, però ha de millorar com a l\'hora de bloquejar si vol veure el camp en tots els downs.',ras:9.42},
   {r:56,n:'Germie Bernard',p:'WR',u:'Alabama Crimson Tide',ht:'6-1',wt:'206',desc:'Receptor pro-ready, amb físic, mans i fluïdesa. Serà una opció WR2-3 fiable per a qualsevol ofensiva sent titular des de la seva temporada rookie.',ras:9.06},
   {r:57,n:'A.J. Haulcy',p:'S',u:'LSU Tigers',ht:'5-11',wt:'215',desc:'Tendeix a passar-se de frenada, però el rang, la velocitat i la capacitat de llegir el QB faran que els equips apostin per ell.'},
@@ -397,22 +397,22 @@ const bigBoard = [
   {r:60,n:'Josiah Trotter',p:'LB',u:'Missouri Tigers',ht:'6-2',wt:'237',desc:'Instint per aturar la cursa d\'elit, però sense caure en cobertura. Si desenvolupa aquesta faceta, pot ser un mike linebacker titular fiable a l\'NFL.'},
   {r:61,n:'Keionte Scott',ras:8.97,p:'CB',u:'Miami Hurricanes',ht:'5-11',wt:'193',desc:'4.33 al pro day i gran instint atacant des del nickel. Combinació d\'IQ i velocitat que el fa difícil d\'atacar; projecta com a nickel-CB de tres downs.'},
   {r:62,n:'Keith Abney II',p:'CB',u:'Arizona State Sun Devils',ht:'5-10',wt:'187',desc:'Tendència a utilitzar massa les mans però té instint i és molt competitiu. Pot guanyar un rol de titular interior-exterior si millora la seva disciplina.',ras:6.51},
-  {r:63,n:'Zachariah Branch',p:'WR',u:'Georgia Bulldogs',ht:'5-8',wt:'177',desc:'Velocitat dinàmica i agilitat explosiva però amb problemes per mantenir-se saludable. Quan està sa, és una arma per fora o des de l\'slot amb valor com a retornador.',ras:9.12},
-  {r:64,n:'Malachi Fields',p:'WR',u:'Notre Dame Fighting Irish',ht:'6-4',wt:'218',desc:'Receptor corpulent (6\'3") que domina el punt de recepció. Opció sòlida com a segon receptor des de la seva arribada a l\'NFL.',ras:7.49},
+  {r:63,n:'Zachariah Branch',p:'WR',u:'Georgia Bulldogs',ht:'5-9',wt:'177',desc:'Velocitat dinàmica i agilitat explosiva però amb problemes per mantenir-se saludable. Quan està sa, és una arma per fora o des de l\'slot amb valor com a retornador.',ras:9.12},
+  {r:64,n:'Malachi Fields',p:'WR',u:'Notre Dame Fighting Irish',ht:'6-5',wt:'218',desc:'Receptor corpulent (6\'3") que domina el punt de recepció. Opció sòlida com a segon receptor des de la seva arribada a l\'NFL.',ras:7.49},
   {r:65,n:'Mike Washington Jr.',p:'RB',u:'Arkansas Razorbacks',ht:'6-1',wt:'223',ras:9.88,desc:'RAS 10.0, el més ràpid dels RBs al combine (4.33). Capacitat per penetrar entre tackles gràcies també a la seva mida. També afegeix la dimensió com a receptor.'},
   {r:66,n:'Treydan Stukes',p:'CB',u:'Arizona Wildcats',ht:'6-0',wt:'190',desc:'Un altre 4.33 al combine i quatre INTs el 2025. La confiança en les seves capacitats i la versatilitat el fan un bon CB exterior, tot i les tendències a reaccionar massa aviat.',ras:9.95},
-  {r:67,n:'Dani Dennis-Sutton',p:'EDGE',u:'Penn State Nittany Lions',ht:'6-5',wt:'256',ras:9.96,desc:'Millors mesures atlètiques de la seva posició al combine (9.96 RAS). La seva producció de sacks a college serà difícil de traslladar a l\'NFL, però té un sostre molt alt.'},
+  {r:67,n:'Dani Dennis-Sutton',p:'EDGE',u:'Penn State Nittany Lions',ht:'6-6',wt:'256',ras:9.96,desc:'Millors mesures atlètiques de la seva posició al combine (9.96 RAS). La seva producció de sacks a college serà difícil de traslladar a l\'NFL, però té un sostre molt alt.'},
   {r:68,n:'Domonique Orange',p:'DL',u:'Iowa State Cyclones',ht:'6-2',wt:'322',desc:'Rusher poc efectiu però enorme i sòlid aturant la cursa. Projecta com a 1-technique en un esquema de 4-3; sempre hi ha lloc per a un nose tackle a l\'NFL.'},
-  {r:69,n:'Caleb Tiernan',p:'OT',u:'Northwestern Wildcats',ht:'6-7',wt:'323',desc:'43 titularitats consecutives a Northwestern. Es recolza en una gran tècnica per compensar la mida justa; pot competir per ser swing tackle o guard a la llarga a l\'NFL.',ras:9.37},
-  {r:70,n:'Antonio Williams',p:'WR',u:'Clemson Tigers',ht:'5-11',wt:'187',desc:'Més versàtil del que sembla. Receptor interior de Clemson amb  4 anys de titular amb ritme i fluïdesa; projecta com WR3 amb potencial per arribar ser WR2.',ras:8.58},
-  {r:71,n:'Keylan Rutledge',p:'IOL',u:'Georgia Tech Yellow Jackets',ht:'6-3',wt:'316',desc:'9.52 de RAS i mentalitat de "psicòpata" al bloquejar. Mé spotencial que joc demostrat al "tape". Competirà per la titularitat des del primer any.',ras:9.53},
+  {r:69,n:'Caleb Tiernan',p:'OT',u:'Northwestern Wildcats',ht:'6-8',wt:'323',desc:'43 titularitats consecutives a Northwestern. Es recolza en una gran tècnica per compensar la mida justa; pot competir per ser swing tackle o guard a la llarga a l\'NFL.',ras:9.37},
+  {r:70,n:'Antonio Williams',p:'WR',u:'Clemson Tigers',ht:'6-0',wt:'187',desc:'Més versàtil del que sembla. Receptor interior de Clemson amb  4 anys de titular amb ritme i fluïdesa; projecta com WR3 amb potencial per arribar ser WR2.',ras:8.58},
+  {r:71,n:'Keylan Rutledge',p:'IOL',u:'Georgia Tech Yellow Jackets',ht:'6-4',wt:'316',desc:'9.52 de RAS i mentalitat de "psicòpata" al bloquejar. Mé spotencial que joc demostrat al "tape". Competirà per la titularitat des del primer any.',ras:9.53},
   {r:72,n:'Connor Lew',p:'IOL',u:'Auburn Tigers',ht:'6-3',wt:'310',desc:'No és un tractor però té mobilitat i instint per fer la feina. Si es recupera del LCA, les habilitats de moviment avalen que pot ser titular a l\'NFL.'},
   {r:73,n:'Kamari Ramsey',p:'S',u:'USC Trojans',ht:'6-0',wt:'202',desc:'Cap atribut excepcional però sòlid en tot. Físic, intel·ligència i duresa formen un safety fiable; la salut serà el factor clau per consolidar un rol regular.',ras:8.48},
   {r:74,n:'Sam Hecht',p:'IOL',u:'Kansas State Wildcats',ht:'6-4',wt:'303',desc:'Center walk-on de Kansas State que no va cedir cap sack en dos anys de titular. Sòlid en totes les àrees però sense cap atribut d\'elit.',ras:7.76},
   {r:75,n:'Garrett Nussmeier',p:'QB',u:'LSU Tigers',ht:'6-1',wt:'203',desc:'Després d\'un bon 2024 esperàvem veure\'l acabar d\'eclosionar aquest 2025, però s\'ha estancat. De totes formes, té talent de braç i el lideratge que solen traduir-se bé a la NFL.'},
   {r:76,n:'Gracen Halton',p:'DL',u:'Oklahoma Sooners',ht:'6-2',wt:'293',desc:'DL interior centrat en snaps de rush, molt ràpid però més aviat petit, que a vegades provoca que s\'ensorri contra OLs poderosos.',ras:8.44},
   {r:77,n:'Max Klare',p:'TE',u:'Ohio State Buckeyes',ht:'6-4',wt:'246',desc:'No és el millor tight end bloquejant i necessita continuar refinant el seu arbre de rutes però la seva combinació de físic, duresa i habilitat amb la pilota li donen unes aptituds molt interessants com a receptor.'},
-  {r:78,n:'Elijah Sarratt',p:'WR',u:'Indiana Hoosiers',ht:'6-2',wt:'210',desc:'Entrarà a la lliga amb l\'etiqueta de "receptor de possessió" però és molt més que això. Té les eines per convertir-se en titular a la NFL, per fora o com a "big slot".',ras:6.3},
+  {r:78,n:'Elijah Sarratt',p:'WR',u:'Indiana Hoosiers',ht:'6-3',wt:'210',desc:'Entrarà a la lliga amb l\'etiqueta de "receptor de possessió" però és molt més que això. Té les eines per convertir-se en titular a la NFL, per fora o com a "big slot".',ras:6.3},
   {r:79,n:'Kyle Louis',p:'LB',u:'Pittsburgh Panthers',ht:'6-0',wt:'220',desc:'Linebacker amb un rang enorme, grans instints i molt bo en cobertura. El penalitza que no s\'adapta al perfil més tradicional de LB i ja sabem que això no agrada a les franquícies.',ras:8.83},
   {r:80,n:'Davison Igbinosun',p:'CB',u:'Ohio State Buckeyes',ht:'6-2',wt:'189',desc:'CB alt i esvelt amb la velocitat i les característiques que els entrenadors de l\'NFL busquen en esquemes de press-man. Patirà a l\'NFL per la seva tendència a agafar el WR.',ras:6.89},
   {r:81,n:'Genesis Smith',p:'S',u:'Arizona Wildcats',ht:'6-2',wt:'202',desc:'Té un set d\'habilitats natural per llegir el QB i arribar a la pilota. Ha de polir bastant la seva tècnina de placatges.',ras:9.76},
@@ -422,14 +422,14 @@ const bigBoard = [
   {r:85,n:'Joshua Josephs',p:'EDGE',u:'Tennessee Volunteers',ht:'6-3',wt:'242',desc:'Rusher encara en desenvolupament però que ha de guanyar molta consistència si vol convertir-se en un titular complet i no en un jugador de rol.',ras:8.54},
   {r:86,n:'Darrell Jackson Jr.',p:'DL',u:'Florida State Seminoles',ht:'6-5',wt:'315',desc:'Línia defensiu molt gros, que pot trobar a lloc a l\'NFL com a nose tackle fent d\'àncora contra la cursa, però amb flaixos de capacitat per arribar al QB.'},
   {r:87,n:'Bryce Lance',p:'WR',u:'North Dakota State Bison',ht:'6-3',wt:'204',desc:'Receptor alt, molt ràpid i amb mans molt segures que necessita polir les seves rutes però s\'ajusta bé a la pilota amb el seu físic i control corporal.',ras:9.95},
-  {r:88,n:'Skyler Bell',p:'WR',u:'UConn Huskies',ht:'5-11',wt:'192',desc:'Un dels millors receptors en producció aquest 2025. A l\'NFL segurament projecta com a recpetor d\'slot i existeixen dubtes sobre el seu sostre, començant la temporada amb 24 anys.',ras:9.83},
+  {r:88,n:'Skyler Bell',p:'WR',u:'UConn Huskies',ht:'6-0',wt:'192',desc:'Un dels millors receptors en producció aquest 2025. A l\'NFL segurament projecta com a recpetor d\'slot i existeixen dubtes sobre el seu sostre, començant la temporada amb 24 anys.',ras:9.83},
   {r:89,n:'Jalon Kilgore',p:'S',u:'South Carolina Gamecocks',ht:'6-1',wt:'210',ras:9.6,desc:'La seva mida, el talent atlètic i les habilitats de "caçador de pilota" haurien de donar confiança als equips per apostar per ell. Jugador d\'alt risc, alta recompensa.'},
-  {r:90,n:'Julian Neal',p:'CB',u:'Arkansas Razorbacks',ht:'6-1',wt:'203',desc:'Malgrat li falta velocitat punta per recuperar-se amb receptors ràpids, destaca per la seva longitud, el talent de cobertura en ascens i la capacitat de jugar la pilota des de diferents angles.',ras:9.27},
+  {r:90,n:'Julian Neal',p:'CB',u:'Arkansas Razorbacks',ht:'6-2',wt:'203',desc:'Malgrat li falta velocitat punta per recuperar-se amb receptors ràpids, destaca per la seva longitud, el talent de cobertura en ascens i la capacitat de jugar la pilota des de diferents angles.',ras:9.27},
   {r:91,n:'Jonah Coleman',p:'RB',u:'Washington Huskies',ht:'5-8',wt:'220',desc:'Sense capacitat de "home run", tot i la seva mida és capaç de veure bé els forats de manera instintiva, afegint valor com a receptor molt segur.'},
   {r:92,n:'Deion Burks',p:'WR',u:'Oklahoma Sooners',ht:'5-10',wt:'180',desc:'Receptor molt ràpid i dinàmic, però amb limitacions per la seva alçada. Pot entrar a la lliga com a jugador de rol.',ras:9.11},
-  {r:93,n:'Bud Clark',p:'S',u:'TCU Horned Frogs',ht:'6-1',wt:'188',desc:'A vegades peca de massa reactiu quan cau en cobertura, però aporta rang i capacitat de caçar la pilota. Potencial titular com a safety però amb sostre limitat després de 6 temporades a college.',ras:8.89},
-  {r:94,n:'Jaishawn Barham',p:'LB',u:'Michigan Wolverines',ht:'6-3',wt:'240',desc:'Jugador en desenvolupament que ha de refinar moltíssim el seu joc, però té un potencial físic que el pot fer determinant a la lliga.',ras:8.82},
-  {r:95,n:'Chandler Rivers',p:'CB',u:'Duke Blue Devils',ht:'5-9',wt:'185',desc:'CB petit però ràpid i fluïd de de peus per caure en cobertura i competir les recepcions. L\'alçada el perjudicarà però té el talent per fer carrera a l\'NFL.',ras:8.99},
+  {r:93,n:'Bud Clark',p:'S',u:'TCU Horned Frogs',ht:'6-0',wt:'188',desc:'A vegades peca de massa reactiu quan cau en cobertura, però aporta rang i capacitat de caçar la pilota. Potencial titular com a safety però amb sostre limitat després de 6 temporades a college.',ras:8.89},
+  {r:94,n:'Jaishawn Barham',p:'LB',u:'Michigan Wolverines',ht:'6-4',wt:'240',desc:'Jugador en desenvolupament que ha de refinar moltíssim el seu joc, però té un potencial físic que el pot fer determinant a la lliga.',ras:8.82},
+  {r:95,n:'Chandler Rivers',p:'CB',u:'Duke Blue Devils',ht:'5-10',wt:'185',desc:'CB petit però ràpid i fluïd de de peus per caure en cobertura i competir les recepcions. L\'alçada el perjudicarà però té el talent per fer carrera a l\'NFL.',ras:8.99},
   {r:96,n:'L.T. Overton',p:'EDGE',u:'Alabama Crimson Tide',ht:'6-3',wt:'274',desc:'Rusher en desenvolupament, té flaixos del què podria arribar a ser, però els seus pobres resultats físics, tampoc l\'ajuden.',ras:2.47},
   {r:97,n:'Devin Moore',p:'CB',u:'Florida Gators',ht:'6-3',wt:'198',desc:'L\'historial de lesions és una gran "red flag", però és cobreix bé, amb velocitat i nas per la pilota. Projecte d\'alt risc, alta recompensa a causa dels dubtes sobre la seva durabilitat.',ras:8.52},
   {r:98,n:'Keyron Crawford',p:'EDGE',u:'Auburn Tigers',ht:'6-4',wt:'253',desc:'Tècnica deficient però molt àgil i competitiu que le pot ajudar a tenir snaps des de novell. Ofereix versatilitat de rol i encaixarà en defenses de 3-4 o 4-3.'},
@@ -544,7 +544,7 @@ const bigBoard = [
   'Drew Allar':          {passYds:1100,passTD:8,comp:64.8,passINT:3,att:80,ypAtt:7.3,rushYds:22,rushTD:0,rating:135.7,ht:'6-5',wt:228,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
   // RB: rush yds, rush TD, ypc, att, rec yds, rec TD, rec, fortyYd
   'Jeremiyah Love':      {rushYds:1372,rushTD:18,ypc:6.9,rushAtt:199,recYds:280,recTD:3,rec:27,ht:'6-0',wt:212,fortyYd:4.36,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
-  'Jadarian Price':      {rushYds:674,rushTD:11,ypc:6.0,rushAtt:112,recYds:87,recTD:2,rec:12,ht:'5-10',wt:203,fortyYd:4.49,vertical:35.0,broad:124,bench:null,threeCone:null,shuttle:null},
+  'Jadarian Price':      {rushYds:674,rushTD:11,ypc:6.0,rushAtt:113,recYds:87,recTD:2,rec:12,ht:'5-10',wt:203,fortyYd:4.49,vertical:35.0,broad:124,bench:null,threeCone:null,shuttle:null},
   'Mike Washington Jr.': {rushYds:1070,rushTD:8,ypc:6.4,rushAtt:167,recYds:226,recTD:1,rec:22,ht:'6-1',wt:223,fortyYd:4.33,vertical:39.0,broad:128,bench:null,threeCone:null,shuttle:null},
   'Jonah Coleman':       {rushYds:758,rushTD:15,ypc:4.9,rushAtt:155,recYds:354,recTD:2,rec:36,ht:'5-8',wt:220,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
   // WR: rec yds, rec TD, rec, ypr, targets, fortyYd
@@ -586,12 +586,12 @@ const bigBoard = [
   'Connor Lew':          {games:7,ht:'6-3',wt:310,fortyYd:null,vertical:null,broad:null,bench:31,arm:32.375,threeCone:null,shuttle:null},
   'Sam Hecht':           {games:12,ht:'6-4',wt:303,fortyYd:5.10,vertical:28.0,broad:101,bench:null,arm:31.625,threeCone:null,shuttle:null},
   // EDGE: tackles, sacks, tfl, hurries, ff, fortyYd, vertical
-  'Rueben Bain':         {tkl:54,sacks:9.5,tfl:null,hurries:null,ff:1,ht:'6-2',wt:263,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
-  'David Bailey':        {tkl:52,sacks:14.5,tfl:3,hurries:null,ff:3,ht:'6-3',wt:251,fortyYd:4.50,vertical:35.0,broad:129,bench:null,threeCone:null,shuttle:null},
+  'Rueben Bain':         {tkl:54,sacks:9.5,tfl:15,hurries:null,ff:1,ht:'6-2',wt:263,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'David Bailey':        {tkl:52,sacks:14.5,tfl:17,hurries:null,ff:3,ht:'6-3',wt:251,fortyYd:4.50,vertical:35.0,broad:129,bench:null,threeCone:null,shuttle:null},
   'Keldric Faulk':       {tkl:29,sacks:2.0,tfl:4,hurries:null,ff:0,ht:'6-6',wt:276,fortyYd:null,vertical:35.0,broad:117,bench:null,threeCone:null,shuttle:null},
-  'Akheem Mesidor':      {tkl:63,sacks:12.5,tfl:0,hurries:null,ff:4,ht:'6-3',wt:259,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Akheem Mesidor':      {tkl:63,sacks:12.5,tfl:17,hurries:null,ff:4,ht:'6-3',wt:259,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
   'T.J. Parker':         {tkl:37,sacks:5.0,tfl:1,hurries:null,ff:0,ht:'6-3',wt:263,fortyYd:4.68,vertical:34.0,broad:120,bench:null,threeCone:null,shuttle:null},
-  'Cashius Howell':      {tkl:31,sacks:11.5,tfl:6,hurries:null,ff:1,ht:'6-2',wt:253,fortyYd:4.59,vertical:32.5,broad:115,bench:null,threeCone:null,shuttle:null},
+  'Cashius Howell':      {tkl:31,sacks:11.5,tfl:14,hurries:null,ff:1,ht:'6-2',wt:253,fortyYd:4.59,vertical:32.5,broad:115,bench:null,threeCone:null,shuttle:null},
   'Zion Young':          {tkl:42,sacks:6.5,tfl:2,hurries:null,ff:2,ht:'6-6',wt:262,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
   'Malachi Lawrence':    {tkl:28,sacks:7.0,tfl:3,hurries:null,ff:2,ht:'6-4',wt:253,fortyYd:4.52,vertical:40.0,broad:130,bench:null,threeCone:null,shuttle:null},
   'R Mason Thomas':      {tkl:26,sacks:6.5,tfl:1,hurries:null,ff:2,ht:'6-2',wt:241,fortyYd:4.67,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
@@ -612,11 +612,11 @@ const bigBoard = [
   'Darrell Jackson Jr.': {tkl:45,sacks:1.0,tfl:0,hurries:null,ff:0,ht:'6-5',wt:315,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
   'Gracen Halton':       {tkl:33,sacks:3.5,tfl:2,hurries:null,ff:1,ht:'6-2',wt:293,fortyYd:4.82,vertical:36.5,broad:114,bench:null,threeCone:8.09,shuttle:null},
   // LB: tackles, sacks, tfl, ints, ff, fortyYd, vertical
-  'Arvell Reese':        {tkl:69,sacks:6.5,tfl:2,ints:0,ff:0,passdef:2,ht:'6-4',wt:241,fortyYd:4.46,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
-  'Sonny Styles':        {tkl:82,sacks:1.0,tfl:3,ints:1,ff:1,passdef:3,ht:'6-5',wt:244,fortyYd:4.46,vertical:43.5,broad:134,bench:null,threeCone:7.09,shuttle:4.26},
-  'C.J. Allen':          {tkl:88,sacks:3.5,tfl:4,ints:0,ff:2,passdef:4,ht:'6-1',wt:230,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
-  'Anthony Hill Jr.':    {tkl:69,sacks:4.0,tfl:1,ints:2,ff:3,passdef:1,ht:'6-2',wt:238,fortyYd:4.51,vertical:37.0,broad:125,bench:null,threeCone:null,shuttle:null},
-  'Jacob Rodriguez':     {tkl:128,sacks:1.0,tfl:6,ints:4,ff:7,passdef:6,ht:'6-1',wt:231,fortyYd:4.57,vertical:38.5,broad:121,bench:null,threeCone:6.90,shuttle:4.19},
+  'Arvell Reese':        {tkl:69,sacks:6.5,tfl:10,ints:0,ff:0,passdef:2,ht:'6-4',wt:241,fortyYd:4.46,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Sonny Styles':        {tkl:82,sacks:1.0,tfl:7,ints:1,ff:1,passdef:3,ht:'6-5',wt:244,fortyYd:4.46,vertical:43.5,broad:134,bench:null,threeCone:7.09,shuttle:4.26},
+  'C.J. Allen':          {tkl:88,sacks:3.5,tfl:8,ints:0,ff:2,passdef:4,ht:'6-1',wt:230,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
+  'Anthony Hill Jr.':    {tkl:69,sacks:4.0,tfl:7,ints:2,ff:3,passdef:1,ht:'6-2',wt:238,fortyYd:4.51,vertical:37.0,broad:125,bench:null,threeCone:null,shuttle:null},
+  'Jacob Rodriguez':     {tkl:128,sacks:1.0,tfl:11,ints:4,ff:7,passdef:6,ht:'6-1',wt:231,fortyYd:4.57,vertical:38.5,broad:121,bench:null,threeCone:6.90,shuttle:4.19},
   'Jake Golday':         {tkl:105,sacks:3.5,tfl:3,ints:0,ff:1,passdef:3,ht:'6-4',wt:239,fortyYd:4.62,vertical:39.0,broad:125,bench:null,threeCone:7.02,shuttle:4.34},
   'Kyle Louis':          {tkl:81,sacks:3.0,tfl:3,ints:2,ff:1,passdef:3,ht:'6-0',wt:220,fortyYd:4.53,vertical:39.5,broad:129,bench:null,threeCone:6.97,shuttle:4.26},
   'Josiah Trotter':      {tkl:84,sacks:2.0,tfl:1,ints:0,ff:0,passdef:1,ht:'6-2',wt:237,fortyYd:null,vertical:null,broad:null,bench:null,threeCone:null,shuttle:null},
@@ -768,7 +768,7 @@ function initBoard(){
 
 function renderBoard(){
   const q=document.getElementById('bb-search').value.toLowerCase();
-  const filtered=bigBoard.filter(p=>(bbFilter==='ALL'||p.p===bbFilter)&&(p.n.toLowerCase().includes(q)||p.u.toLowerCase().includes(q)));
+  const filtered=bigBoard.filter(p=>(bbFilter==='ALL'||p.p===bbFilter||(p.p2&&p.p2===bbFilter))&&(p.n.toLowerCase().includes(q)||p.u.toLowerCase().includes(q)));
   document.getElementById('bb-count').textContent=filtered.length+' jugadors';
   document.getElementById('bb-list').innerHTML=filtered.map(p=>{
     const rk=p.r<=10?'ras-hi':p.r<=25?'c-OT':'';
@@ -778,7 +778,7 @@ function renderBoard(){
     return `<div class="pr" onclick="openSheet(${p.r-1})">
       <span class="pr-rank ${rk}" style="color:${p.r<=10?'#00d4a0':p.r<=25?'#5bb8ff':'rgba(255,255,255,0.25)'}">${p.r}</span>
       <div class="pr-info"><div class="pr-name">${p.n}</div><div class="pr-uni">${p.u}</div></div>
-      <span class="pr-pos" style="color:${col};background:${col}18;border:1px solid ${col}28">${p.p}</span>
+      <span class="pr-pos" style="color:${col};background:${col}18;border:1px solid ${col}28">${p.p2?p.p+"/"+p.p2:p.p}</span>
       <span class="pr-ras ${rc}">${rs}</span>
     </div>`;
   }).join('');
@@ -1286,7 +1286,7 @@ function mockRenderList() {
         <div style="font-size:10px;color:var(--muted);margin-top:1px">${p.u}</div>
       </div>
       ${isNeed?`<span style="font-size:9px;color:var(--acc);font-weight:700;letter-spacing:0.05em">NEED</span>`:''}
-      <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;color:${col};background:${col}18;border:1px solid ${col}28;flex-shrink:0">${p.p}</span>
+      <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;color:${col};background:${col}18;border:1px solid ${col}28;flex-shrink:0">${p.p2?p.p+"/"+p.p2:p.p}</span>
       <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;min-width:32px;text-align:right;flex-shrink:0;color:${p.ras!=null?rasCol:'var(--muted)'}">${p.ras!=null?p.ras.toFixed(2):'—'}</span>
     </div>`;
   }).join('')||'<div style="color:var(--muted);font-size:13px;padding:20px;text-align:center">Cap jugador disponible.</div>';
@@ -1333,7 +1333,7 @@ function mockRenderLog(tab) {
       <div style="font-size:10px;font-weight:700;color:${isMine?'var(--acc)':'var(--muted)'};min-width:36px">${e.pick.teamId}</div>
       <div style="flex:1">
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700">${p.n}</div>
-        <span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;background:${col}20;color:${col}">${p.p} · #${p.r} BB</span>
+        <span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;background:${col}20;color:${col}">${p.p2?p.p+"/"+p.p2:p.p} · #${p.r} BB</span>
       </div>
     </div>`;
   }).join('')||'<div style="color:var(--muted);font-size:13px;padding:16px 0">Cap pick enregistrat.</div>';
