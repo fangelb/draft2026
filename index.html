@@ -1085,12 +1085,12 @@ const TEAMS = [
   {id:'NYJ', name:'New York Jets',            city:'New York',      abbr:'Jets',      r1:[2,16],   r2:[33,44],  r3:[68],        needs:['QB','EDGE','WR','CB','IOL'],   conf:'AFC'},
   {id:'ARI', name:'Arizona Cardinals',        city:'Arizona',       abbr:'Cardinals', r1:[3],      r2:[34],     r3:[65],        needs:['QB','IOL','EDGE','DL','LB'],   conf:'NFC'},
   {id:'TEN', name:'Tennessee Titans',         city:'Tennessee',     abbr:'Titans',    r1:[4],      r2:[35],     r3:[66,101],    needs:['IOL','EDGE','WR','RB','LB'],   conf:'AFC'},
-  {id:'NYG', name:'New York Giants',          city:'New York',      abbr:'Giants',    r1:[5],      r2:[37],     r3:[],          needs:['IOL','DL','WR','LB','CB'],     conf:'NFC'},
+  {id:'NYG', name:'New York Giants',          city:'New York',      abbr:'Giants',    r1:[5,10],   r2:[37],     r3:[],          needs:['WR','IOL','DL','LB','CB'],     conf:'NFC'},
   {id:'CLE', name:'Cleveland Browns',         city:'Cleveland',     abbr:'Browns',    r1:[6,24],   r2:[39],     r3:[70],        needs:['QB','OT','WR','CB','EDGE'],    conf:'AFC'},
   {id:'WAS', name:'Washington Commanders',    city:'Washington',    abbr:'Commanders',r1:[7],      r2:[],       r3:[71],        needs:['WR','CB','EDGE','OT','RB'],    conf:'NFC'},
   {id:'NO',  name:'New Orleans Saints',       city:'New Orleans',   abbr:'Saints',    r1:[8],      r2:[42],     r3:[73],        needs:['WR','EDGE','CB','DL','OT'],    conf:'NFC'},
   {id:'KC',  name:'Kansas City Chiefs',       city:'Kansas City',   abbr:'Chiefs',    r1:[9,29],   r2:[40],     r3:[74],        needs:['CB','WR','EDGE','DL','LB'],    conf:'AFC'},
-  {id:'CIN', name:'Cincinnati Bengals',       city:'Cincinnati',    abbr:'Bengals',   r1:[10],     r2:[41],     r3:[72],        needs:['DL','LB','IOL','S','EDGE'],    conf:'AFC'},
+  {id:'CIN', name:'Cincinnati Bengals',       city:'Cincinnati',    abbr:'Bengals',   r1:[],       r2:[41],     r3:[72],        needs:['EDGE','WR','CB','LB','IOL'],   conf:'AFC'},
   {id:'MIA', name:'Miami Dolphins',           city:'Miami',         abbr:'Dolphins',  r1:[11,30],  r2:[43],     r3:[75,87,90,94], needs:['WR','CB','EDGE','OT','S'],  conf:'AFC'},
   {id:'DAL', name:'Dallas Cowboys',           city:'Dallas',        abbr:'Cowboys',   r1:[12,20],  r2:[],       r3:[92],        needs:['EDGE','LB','CB','DL','IOL'],   conf:'NFC'},
   {id:'LAR', name:'Los Angeles Rams',         city:'Los Angeles',   abbr:'Rams',      r1:[13],     r2:[61],     r3:[93],        needs:['WR','OT','EDGE','LB','S'],     conf:'NFC'},
@@ -1214,7 +1214,9 @@ function mockAiPick(team, pickNum) {
   const scored = pool.map(idx => {
     const p = bigBoard[idx];
     const ni = needs.indexOf(p.p);
-    const needMult = ni===0 ? 2.8 : ni===1 ? 2.1 : ni===2 ? 1.6 : ni>=3 ? 1.2 : 1.0;
+    const ni2 = p.p2 ? needs.indexOf(p.p2) : -1;
+    const bestNi = (ni2 >= 0 && (ni < 0 || ni2 < ni)) ? ni2 : ni;
+    const needMult = bestNi===0 ? 2.8 : bestNi===1 ? 2.1 : bestNi===2 ? 1.6 : bestNi>=3 ? 1.2 : 1.0;
     const baseScore = (winMax - p.r + 1);  // better rank = higher base
     const rand = 0.88 + Math.random() * 0.24;  // ±12% variance only
     return {idx, score: baseScore * needMult * rand};
